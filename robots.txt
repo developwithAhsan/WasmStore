@@ -1,0 +1,1 @@
+User-agent: *\nAllow: /\nSitemap: https://wasmstore.vercel.app/sitemap.xml\n
