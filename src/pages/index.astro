@@ -3,16 +3,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import GameCard from '../components/GameCard.astro';
 import { games } from '../lib/games';
 import site from '../data/site.json';
-const featured = games;
+const collections = [
+ {slug:'grand-theft-auto',title:'Grand Theft Auto',description:'Open worlds and stories on the edge.',matches:g=>g.tags.includes('gta')},
+ {slug:'open-world',title:'Open World',description:'Explore beyond the main mission.',matches:g=>g.tags.includes('open-world')},
+ {slug:'sandbox',title:'Sandbox',description:'Build, explore, and make your own fun.',matches:g=>g.tags.includes('sandbox')},
+ {slug:'action-adventure',title:'Action & Adventure',description:'Story-led action and classic adventures.',matches:g=>g.tags.includes('action-adventure')},
+ {slug:'coming-soon',title:'Coming Soon',description:'Curated titles awaiting a verified port.',matches:g=>g.status==='coming-soon'}
+].map(c=>({...c,games:games.filter(c.matches)})).filter(c=>c.games.length);
+const searchText = g => [g.name,g.category,g.tags.join(' '),g.slug].join(' ').toLowerCase();
 ---
-<BaseLayout title="WasmStore — Six Games. One Browser Arcade" description="Explore six curated browser-game listings: GTA 5, GTA 3, GTA Vice City, GTA: Chinatown Wars, Minecraft, and The Simpsons: Hit & Run." path="/" schema={[{ '@context':'https://schema.org','@type':'WebSite',name:'WasmStore',url:site.url,potentialAction:{'@type':'SearchAction',target:site.url+'/games?q={search_term_string}', 'query-input':'required name=search_term_string'}}]}>
-  <section class="hero wrap">
-    <div class="hero-copy"><div class="eyebrow"><span class="live-dot"></span> A LIBRARY FOR THE WEB GAMING ERA</div><h1>Big worlds.<br /><span class="gradient-text">One browser.</span></h1><p>Explore a focused collection of six requested classics, with demo links and clear availability notes for each title.</p>
-      <div class="hero-actions"><a class="button button-primary" href="/games">Explore all games <span>→</span></a><a class="button button-quiet" href="#featured">Choose a game ↓</a></div>
-      <div class="hero-stats"><div><strong>{games.length}</strong><span>catalog listings</span></div><div><strong>6</strong><span>curated titles</span></div><div><strong>1</strong><span>arcade collection</span></div></div>
-    </div>
-    <div class="hero-visual" aria-label="Abstract WasmStore gaming artwork"><div class="hero-glow"></div><div class="hero-console"><div class="console-top"><span class="console-led"></span><span>WASMSTORE / LIBRARY</span><span>01—06</span></div><div class="console-screen"><div class="screen-grid"></div><div class="screen-symbol">W<span>+</span></div><div class="screen-caption">DISCOVER YOUR NEXT PLAY</div></div><div class="console-bottom"><span>WEB · WASM · HTML5</span><span class="console-pill">PRESS START ↗</span></div></div><div class="floating-chip chip-a">⌘  Keyboard & mouse</div><div class="floating-chip chip-b">◉ Community ports</div></div>
+<BaseLayout title="WasmStore — Classic Games in Your Browser" description="Explore a curated collection of classic browser-game projects. Browse six selected titles, check availability, and discover browser ports without installing a desktop launcher." path="/" schema={[{'@context':'https://schema.org','@type':'WebSite',name:site.name,url:site.url,potentialAction:{'@type':'SearchAction',target:site.url+'/games?q={search_term_string}','query-input':'required name=search_term_string'}}]}>
+ <div class="archive-main">
+  <section class="archive-hero"><div class="eyebrow">A SMALL, HANDPICKED BROWSER ARCADE</div><h1>Play classic games<br/>in your browser</h1><p>Six curated titles to explore. No launcher required for this library — actual playability depends on each linked browser port.</p><a class="about-project-link" href="/about">About the project <span aria-hidden="true">↗</span></a></section>
+  <section class="archive-section" aria-labelledby="collections-title"><div class="archive-section-head"><div><h2 id="collections-title">Browse collections</h2><p>Explore the library by theme.</p></div><span class="category-count">{collections.length{'}'} collections</span></div><div class="category-grid">
+   {collections.map(c=><a class="archive-category" href={'/games?q='+encodeURIComponent(c.title)}><div class="archive-category-copy"><h3>{c.title}</h3><p>{c.description}</p><span class="category-count">{c.games.length} {c.games.length===1?'game':'games'}</span></div><div class="cover-stack" aria-hidden="true">{c.games.slice(0,3).map(g=><span class="stack-cover">{g.name}</span>)}</div></a>)}
+  </div></section>
+  <section class="archive-section" aria-labelledby="start-title" data-library-section><div class="archive-section-head"><div><h2 id="start-title">Start here</h2><p>Handpicked titles from the current WasmStore collection.</p></div><span class="category-count" data-search-count>All {games.length} games</span></div>
+   <div class="game-grid start-grid">{games.map(g=><div data-library-game data-search={searchText(g)}><GameCard game={g}/></div>)}</div><p class="empty-state" data-no-results hidden>No games match that search. Try another title or tag.</p>
   </section>
-  <section class="section wrap" id="featured"><div class="section-heading"><div><div class="eyebrow">HANDPICKED STARTING POINTS</div><h2>Pick your game</h2><p>Six handpicked titles. Pick one and jump in.</p></div><a class="text-link" href="/games">All six games <span>→</span></a></div><div class="game-grid">{featured.map((game) => <GameCard game={game} />)}</div></section>
-  <section class="section wrap" id="recently-played" data-recent-section hidden><div class="section-heading"><div><div class="eyebrow">PICK UP WHERE YOU LEFT OFF</div><h2>Recently played on this device</h2><p>Your recent list stays in this browser only.</p></div><button class="text-button" type="button" data-clear-recent>Clear history</button></div><div class="compact-list" data-recent-list></div></section>
+  {collections.map(c=><section class="archive-section" id={'collection-'+c.slug} aria-labelledby={'heading-'+c.slug} data-library-section><div class="archive-section-head"><div><h2 id={'heading-'+c.slug}>{c.title}</h2><p>{c.description}</p></div><a href={'/games?q='+encodeURIComponent(c.title)}>See all {c.games.length} <span aria-hidden="true">→</span></a></div><div class="horizontal-row">{c.games.map(g=><div data-library-game data-search={searchText(g)}><GameCard game={g} compact/></div>)}</div></section>)}
+ </div>
 </BaseLayout>
