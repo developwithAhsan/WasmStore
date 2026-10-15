@@ -3,12 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import GameCard from '../components/GameCard.astro';
 import { games, playableGames, categories } from '../lib/games';
 import blog from '../data/blog.json';
+import site from '../data/site.json';
 const pick = (terms: string[]) => terms.map((term) => games.find((g) => g.name.toLowerCase().includes(term.toLowerCase()))).filter((g): g is NonNullable<typeof g> => Boolean(g));
 const featured = [...pick(['Grand Theft Auto III','Doom 3','Celeste','Balatro','Cave Story','Doom']) , ...playableGames].filter((g, i, a) => g && a.findIndex((x) => x.slug === g.slug) === i).slice(0, 6);
 const trending = playableGames.slice(10, 16);
 const recent = [...games].slice(-6).reverse();
 ---
-<BaseLayout title="Play Browser Games Online — Explore WebAssembly Ports" description="Discover 582 community-listed browser game projects, explore playable demos, find source repositories, and read practical guides to WebAssembly gaming." path="/" schema={[{ '@context':'https://schema.org','@type':'WebSite',name:'WasmStore',url:'https://wasmstore.netlify.app',potentialAction:{'@type':'SearchAction',target:'https://wasmstore.netlify.app/games?q={search_term_string}', 'query-input':'required name=search_term_string'}}]}>
+<BaseLayout title="Play Browser Games Online — Explore WebAssembly Ports" description="Discover 582 community-listed browser game projects, explore playable demos, find source repositories, and read practical guides to WebAssembly gaming." path="/" schema={[{ '@context':'https://schema.org','@type':'WebSite',name:'WasmStore',url:site.url,potentialAction:{'@type':'SearchAction',target:site.url+'/games?q={search_term_string}', 'query-input':'required name=search_term_string'}}]}>
   <section class="hero wrap">
     <div class="hero-copy"><div class="eyebrow"><span class="live-dot"></span> A LIBRARY FOR THE WEB GAMING ERA</div><h1>Big worlds.<br /><span class="gradient-text">One browser.</span></h1><p>Find browser-playable classics, community game ports, indie experiments, and useful guides—all in one organized discovery library.</p>
       <div class="hero-actions"><a class="button button-primary" href="/games">Explore all games <span>→</span></a><a class="button button-quiet" href="/categories">Browse categories</a></div>
