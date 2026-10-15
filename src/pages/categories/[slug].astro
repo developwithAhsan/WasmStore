@@ -7,7 +7,7 @@ import { breadcrumbs } from '../../lib/seo';
 export function getStaticPaths() { const slugify = (s:string) => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); return categories.map((category) => ({ params:{slug:slugify(category)}, props:{category} })); }
 const {category} = Astro.props;
 const list = games.filter(g=>g.category===category);
-const path = `/categories/${slugify(category)}`;
+const path = `/categories/${category.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}`;
 ---
 <BaseLayout title={`${category} Browser Games`} description={`Browse ${list.length} ${category.toLowerCase()} game listings, demo links, and upstream source projects in the WasmStore directory.`} path={path} schema={breadcrumbs([{name:'Home',path:'/'},{name:'Categories',path:'/categories'},{name:category,path}])}>
   <Breadcrumbs items={[{name:'Home',path:'/'},{name:'Categories',path:'/categories'},{name:category,path}]} />
