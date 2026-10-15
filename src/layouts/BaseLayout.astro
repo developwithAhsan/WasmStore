@@ -33,14 +33,14 @@ const schemas = schema ? [defaultSchema, ...(Array.isArray(schema) ? schema : [s
     <link rel="stylesheet" href="/styles/portal.css" />
     <script is:inline src="/scripts/site.js" defer></script>
   </head>
-  <body>
+  <body data-disqus-shortname={site.disqusShortname}>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="header-inner">
         <a class="brand" href="/" aria-label="WasmStore home"><span class="brand-icon">W</span><span class="brand-copy">Wasm<span>Store</span><small>PLAY · DISCOVER · REPEAT</small></span></a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation">☰</button>
         <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
-          <a href="/games">Games</a><a href="/categories">Categories</a><a href="/blog">Blog</a><a href="/guides">Guides</a><a href="/about">About</a>
+          <a href="/games">Games</a><a href="/categories">Categories</a><a href="/favorites">Saved</a><a href="/blog">Blog</a><a href="/guides">Guides</a><a href="/about">About</a>
         </nav>
         <a class="header-cta" href="/games">Explore library <span>↗</span></a>
       </div>
