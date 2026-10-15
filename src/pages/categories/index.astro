@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { categories, games } from '../../lib/games';
+---
+<BaseLayout title="Browse Game Categories" description="Explore the WasmStore browser game directory by genre and category." path="/categories">
+  <section class="page-hero"><div class="wrap"><div class="eyebrow">EXPLORE BY GENRE</div><h1>Game <span class="gradient-text">categories</span></h1><p>Choose a category to narrow the directory. Each listing includes the available demo and source information.</p></div></section>
+  <section class="wrap section"><div class="category-grid archive-category-grid">{categories.map((category,i)=><a class="category-tile" href={`/categories/${category.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}`}><span class="category-number">{String(i+1).padStart(2,'0')}</span><strong>{category}</strong><span>{games.filter(g=>g.category===category).length} listings <b>↗</b></span></a>)}</div></section>
+</BaseLayout>
