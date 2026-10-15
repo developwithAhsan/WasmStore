@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GameCard from '../../components/GameCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { tags, games } from '../../lib/games';
+import { breadcrumbs } from '../../lib/seo';
+export function getStaticPaths() { return tags.map(tag=>({params:{slug:tag},props:{tag}})); }
+const {tag}=Astro.props;
+const list=games.filter(g=>g.tags.includes(tag));
+const path=`/tags/${encodeURIComponent(tag)}`;
+---
+<BaseLayout title={`Games tagged ${tag}`} description={`Browse ${list.length} WasmStore catalog entries tagged ${tag}.`} path={path} schema={breadcrumbs([{name:'Home',path:'/'},{name:'Tags',path:'/tags'},{name:tag,path}])}>
+  <Breadcrumbs items={[{name:'Home',path:'/'},{name:'Tags',path:'/tags'},{name:tag,path}]} />
+  <section class="page-hero"><div class="wrap"><div class="eyebrow">TAG ARCHIVE</div><h1>#{tag}</h1><p>{list.length} matching game listings.</p></div></section>
+  <section class="wrap directory-section"><div class="game-grid">{list.map(game=><GameCard game={game}/>)}</div></section>
+</BaseLayout>
