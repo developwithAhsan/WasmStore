@@ -4,10 +4,7 @@ import GameCard from '../components/GameCard.astro';
 import { games, playableGames, categories } from '../lib/games';
 import blog from '../data/blog.json';
 import site from '../data/site.json';
-const pick = (terms: string[]) => terms.map((term) => games.find((g) => g.name.toLowerCase().includes(term.toLowerCase()))).filter((g): g is NonNullable<typeof g> => Boolean(g));
 const featured = games;
-const trending = playableGames;
-const recent = [...games].slice(-6).reverse();
 ---
 <BaseLayout title="Play Browser Games Online — Explore WebAssembly Ports" description="Explore six curated browser-game listings: GTA 5, GTA 3, GTA Vice City, GTA: Chinatown Wars, Minecraft, and The Simpsons: Hit & Run." path="/" schema={[{ '@context':'https://schema.org','@type':'WebSite',name:'WasmStore',url:site.url,potentialAction:{'@type':'SearchAction',target:site.url+'/games?q={search_term_string}', 'query-input':'required name=search_term_string'}}]}>
   <section class="hero wrap">
