@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import posts from '../data/blog.json';
+---
+<BaseLayout title="Browser Gaming Guides" description="Practical guides to browser game compatibility, performance, touch controls, privacy, and WebAssembly." path="/guides">
+  <section class="page-hero"><div class="wrap"><div class="eyebrow">PLAY WITH CONTEXT</div><h1>Browser gaming <span class="gradient-text">guides</span></h1><p>Quick, actionable help for getting games running and understanding the technology behind them.</p></div></section>
+  <section class="wrap section"><div class="guide-list">{posts.map((post,i)=><a class="guide-row" href={`/blog/${post.slug}`}><span class="guide-index">{String(i+1).padStart(2,'0')}</span><span><small>{post.category} · {post.readTime} MIN READ</small><strong>{post.title}</strong><p>{post.description}</p></span><b>↗</b></a>)}</div></section>
+</BaseLayout>
