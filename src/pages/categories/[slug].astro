@@ -4,8 +4,7 @@ import GameCard from '../../components/GameCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { categories, games } from '../../lib/games';
 import { breadcrumbs } from '../../lib/seo';
-const slugify = (s:string) => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-export function getStaticPaths() { return categories.map((category) => ({ params:{slug:slugify(category)}, props:{category} })); }
+export function getStaticPaths() { const slugify = (s:string) => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); return categories.map((category) => ({ params:{slug:slugify(category)}, props:{category} })); }
 const {category} = Astro.props;
 const list = games.filter(g=>g.category===category);
 const path = `/categories/${slugify(category)}`;
