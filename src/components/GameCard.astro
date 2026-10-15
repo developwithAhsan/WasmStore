@@ -13,6 +13,6 @@ const playable = Boolean(game.demoUrl);
     <div class="game-card-meta"><span>{game.category}</span><span class:list={['availability', { 'available': playable }]}>{playable ? 'Demo listed' : 'Catalog entry'}</span></div>
     <h3><a href={`/games/${game.slug}`}>{game.name}</a></h3>
     <p>{game.description}</p>
-    <div class="card-actions"><a class="button button-small button-primary" href={`/games/${game.slug}`}>{playable ? 'View & play' : 'View details'} <span>→</span></a><button class="icon-button" type="button" data-favorite={game.slug} aria-label={`Add ${game.name} to favorites`} aria-pressed="false" title="Save to favorites">♡</button></div>
+    <div class="card-actions"><a class="button button-small button-primary" href={`/games/${game.slug}`}>{playable ? 'View & play' : 'View details'} <span>→</span></a><button class="icon-button" type="button" data-favorite={game.slug} data-favorite-title={game.name} data-favorite-url={`/games/${game.slug}`} aria-label={`Add ${game.name} to favorites`} aria-pressed="false" title="Save to favorites">♡</button></div>
   </div>
 </article>
