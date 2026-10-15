@@ -5,8 +5,7 @@ const playable = Boolean(game.demoUrl);
 ---
 <article class:list={['game-card', { compact }]}>
   <a class="game-art" href={`/games/${game.slug}`} aria-label={`View ${game.name} game details`}>
-    <span class="art-orbit orbit-one"></span><span class="art-orbit orbit-two"></span>
-    <span class="art-initial" aria-hidden="true">{game.name.slice(0, 1).toUpperCase()}</span>
+    {game.thumbnailUrl ? <img class="game-thumbnail" src={game.thumbnailUrl} alt={`${game.name} game thumbnail`} loading="lazy" decoding="async" width="640" height="360" /> : <><span class="art-orbit orbit-one"></span><span class="art-orbit orbit-two"></span><span class="art-initial" aria-hidden="true">{game.name.slice(0, 1).toUpperCase()}</span></>}
     <span class="art-category">{game.category}</span>
   </a>
   <div class="game-card-body">
