@@ -18,7 +18,7 @@ const schema = [
 <BaseLayout title={game.keywords?.length ? game.keywords[0] : `${game.name} — Browser Game & Source Details`} description={game.description} path={`/games/${game.slug}`} keywords={game.keywords} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <section class="game-detail wrap">
-    <div class="game-detail-heading"><div><div class="eyebrow">{game.category.toUpperCase()} · COMMUNITY CATALOG</div><h1>{game.name}</h1><p>{game.description}</p><div class="tag-row">{game.tags.map(tag=><a class="tag-chip" href={`/tags/${encodeURIComponent(tag)}`}>#{tag}</a>)}</div></div><button class="button button-quiet favorite-large" data-favorite={game.slug} aria-pressed="false">♡ Save game</button></div>
+    <div class="game-detail-heading"><div><div class="eyebrow">{game.category.toUpperCase()} · COMMUNITY CATALOG</div><h1>{game.name}</h1><p>{game.description}</p><div class="tag-row">{game.tags.map(tag=><a class="tag-chip" href={`/tags/${encodeURIComponent(tag)}`}>#{tag}</a>)}</div></div><button class="button button-quiet favorite-large" data-favorite={game.slug} data-favorite-title={game.name} data-favorite-url={`/games/${game.slug}`} aria-pressed="false">♡ Save game</button></div>
     <section class="player-panel" aria-label="Game player">
       <div class="player-toolbar"><span><i class:list={['status-dot',{good:hasDemo}]}></i>{hasDemo ? 'External demo link found' : 'No demo link in source catalog'}</span><span class="player-toolbar-note">Third-party game · Availability may change</span></div>
       <div class="player-stage" id="player-stage" data-demo-url={game.demoUrl || ''}>
