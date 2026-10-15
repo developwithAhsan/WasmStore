@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { tags, games } from '../../lib/games';
+---
+<BaseLayout title="Browse Game Tags" description="Discover browser game listings by tag, technology, and catalog status." path="/tags">
+  <section class="page-hero"><div class="wrap"><div class="eyebrow">FINE-GRAINED DISCOVERY</div><h1>Game <span class="gradient-text">tags</span></h1><p>Explore cross-category tags used to organize the WasmStore catalog.</p></div></section>
+  <section class="wrap section"><div class="tag-cloud">{tags.map(tag=><a class="tag-chip tag-large" href={`/tags/${encodeURIComponent(tag)}`}>#{tag}<small>{games.filter(g=>g.tags.includes(tag)).length}</small></a>)}</div></section>
+</BaseLayout>

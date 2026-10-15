@@ -1,0 +1,34 @@
+name: Astro build check
+
+on:
+  push:
+    branches: [production-astro-portal]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Summarize dependency advisories
+        run: |
+          npm audit --json > /tmp/npm-audit.json || true
+          node --input-type=module -e "import fs from 'node:fs'; const report=JSON.parse(fs.readFileSync('/tmp/npm-audit.json','utf8')); console.log('Dependency vulnerability summary:', JSON.stringify(report.metadata?.vulnerabilities || {})); for (const [name, item] of Object.entries(report.vulnerabilities || {})) console.log(name + ': severity=' + item.severity + ', range=' + item.range + ', fixAvailable=' + JSON.stringify(item.fixAvailable));"
+      - name: Check Astro and TypeScript
+        run: npm run check
+      - name: Build static site
+        run: npm run build
+      - name: Smoke-test generated routes and SEO
+        run: npm run test:build

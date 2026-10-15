@@ -1,0 +1,93 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Astro generates static HTML for game, category, tag, and article routes.
+# Do not apply COEP globally: many third-party demo hosts cannot be embedded
+# under cross-origin isolation. Add COOP/COEP only to a self-hosted threaded
+# game route after verifying every required asset has CORP/CORS headers.
+
+[[redirects]]
+  from = "/games/"
+  to = "/games"
+  status = 301
+
+[[redirects]]
+  from = "/about.html"
+  to = "/about"
+  status = 301
+
+[[redirects]]
+  from = "/contact.html"
+  to = "/contact"
+  status = 301
+
+[[redirects]]
+  from = "/blog.html"
+  to = "/blog"
+  status = 301
+
+[[redirects]]
+  from = "/guides.html"
+  to = "/guides"
+  status = 301
+
+[[redirects]]
+  from = "/privacy.html"
+  to = "/privacy"
+  status = 301
+
+[[redirects]]
+  from = "/terms.html"
+  to = "/terms"
+  status = 301
+
+[[redirects]]
+  from = "/disclaimer.html"
+  to = "/terms"
+  status = 301
+
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-index.xml"
+  status = 301
+
+[[redirects]]
+  from = "/categories/"
+  to = "/categories"
+  status = 301
+
+[[redirects]]
+  from = "/blog/"
+  to = "/blog"
+  status = 301
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# Enable these headers only for a self-hosted threaded game after its assets
+# have been tested with cross-origin isolation; do not apply them to external demos.
+# [[headers]]
+#   for = "/self-hosted-threaded-game/*"
+#   [headers.values]
+#     Cross-Origin-Opener-Policy = "same-origin"
+#     Cross-Origin-Embedder-Policy = "require-corp"

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GameCard from '../../components/GameCard.astro';
+import { games, categories } from '../../lib/games';
+import { breadcrumbs } from '../../lib/seo';
+const schema = breadcrumbs([{name:'Home',path:'/'},{name:'All Games',path:'/games'}]);
+---
+<BaseLayout title="All Browser Games & Web Ports" description="Search and filter the WasmStore catalog of browser game projects, WebAssembly ports, demo links, and upstream source repositories." path="/games" schema={schema}>
+  <section class="page-hero"><div class="wrap"><div class="eyebrow">THE FULL DIRECTORY</div><h1>All <span class="gradient-text">games</span></h1><p>Search the catalog, filter by genre or demo status, and open each title for controls, credits, and launch options.</p><div class="hero-counts"><span><strong>{games.length}</strong> catalog records</span><span><strong>{games.filter(g=>g.demoUrl).length}</strong> demo links</span><span><strong>{games.filter(g=>g.repositoryUrl).length}</strong> source repositories</span></div></div></section>
+  <section class="wrap directory-section">
+    <div class="filter-panel"><label class="search-field"><span aria-hidden="true">⌕</span><input id="catalog-search" type="search" placeholder="Search game titles, tags, genres…" autocomplete="off" list="game-suggestions" /><kbd>/</kbd></label><datalist id="game-suggestions">{games.slice(0,250).map(game=><option value={game.name}/>)}</datalist><label class="field-label" for="category-filter">Category<select id="category-filter"><option value="">All categories</option>{categories.map(c=><option value={c}>{c}</option>)}</select></label><label class="field-label" for="status-filter">Availability<select id="status-filter"><option value="">All listings</option><option value="demo">Demo link listed</option><option value="source">Source repository listed</option></select></label><label class="field-label" for="sort-filter">Sort by<select id="sort-filter"><option value="name">Name A–Z</option><option value="name-desc">Name Z–A</option><option value="demo">Demo links first</option></select></label></div>
+    <div class="results-bar"><p><strong id="results-count">{games.length}</strong> listings</p><a href="/categories">Browse categories ↗</a></div>
+    <div class="game-grid" id="catalog-grid">{games.map(game => <div class="catalog-item" data-name={game.name.toLowerCase()} data-category={game.category} data-demo={String(Boolean(game.demoUrl))} data-source={String(Boolean(game.repositoryUrl))} data-tags={game.tags.join(' ')} data-slug={game.slug}><GameCard game={game} /></div>)}</div>
+    <div class="empty-state" id="empty-state" hidden><span>⌕</span><h2>No matching games</h2><p>Try a different title, category, or availability filter.</p><button class="button button-quiet" id="clear-filters" type="button">Clear filters</button></div>
+    <noscript><p class="notice">JavaScript is needed for interactive search and sorting. All game detail links remain available below.</p></noscript>
+  </section>
+</BaseLayout>

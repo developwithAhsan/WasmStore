@@ -1,0 +1,59 @@
+---
+import site from '../data/site.json';
+import { canonical, pageSchema } from '../lib/seo';
+const { title, description = site.description, path = Astro.url.pathname, keywords = [], image = site.defaultSocialImage, schema = null, noindex = false } = Astro.props;
+const canonicalUrl = canonical(path);
+const socialImage = new URL(image, site.url).toString();
+const defaultSchema = pageSchema(title, path, description);
+const schemas = schema ? [defaultSchema, ...(Array.isArray(schema) ? schema : [schema])] : [defaultSchema];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} | {site.name}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex,follow' : site.seo.defaultRobots} />
+    {keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+    <meta name="theme-color" content="#080b12" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    {schemas.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
+    <link rel="stylesheet" href="/styles/portal.css" />
+    <script is:inline src="/scripts/site.js" defer></script>
+  </head>
+  <body data-disqus-shortname={site.disqusShortname}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="WasmStore home"><span class="brand-icon">W</span><span class="brand-copy">Wasm<span>Store</span><small>PLAY · DISCOVER · REPEAT</small></span></a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation">☰</button>
+        <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
+          <a href="/games">Games</a><a href="/categories">Categories</a><a href="/favorites">Saved</a><a href="/blog">Blog</a><a href="/guides">Guides</a><a href="/about">About</a>
+        </nav>
+        <a class="header-cta" href="/games">Explore library <span>↗</span></a>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="footer-grid wrap">
+        <div class="footer-about"><a class="brand" href="/"><span class="brand-icon">W</span><span class="brand-copy">Wasm<span>Store</span><small>PLAY · DISCOVER · REPEAT</small></span></a><p>A discovery library for browser games, community ports, and practical gaming guides.</p></div>
+        <div><h2>Explore</h2><a href="/games">All games</a><a href="/categories">Categories</a><a href="/tags">Tags</a><a href="/blog">Blog</a><a href="/guides">Guides</a></div>
+        <div><h2>WasmStore</h2><a href="/about">About</a><a href="/contact">Contact</a><a href="/privacy">Privacy policy</a><a href="/terms">Terms of service</a><a href="/dmca">DMCA / takedowns</a></div>
+        <div><h2>Good to know</h2><p>Game names and trademarks belong to their respective owners. Listings link to third-party projects; availability and rights vary by title.</p></div>
+      </div>
+      <div class="footer-bottom wrap"><span>© <span data-year></span> WasmStore</span><span>Independent game discovery · <a href="/sitemap-index.xml">Sitemap</a></span></div>
+    </footer>
+  </body>
+</html>

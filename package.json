@@ -1,0 +1,20 @@
+{
+  "name": "wasmstore",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "audit:licenses": "node scripts/audit-licenses.mjs",
+    "test:build": "node scripts/smoke-test.mjs"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.8",
+    "typescript": "^5.8.3"
+  }
+}

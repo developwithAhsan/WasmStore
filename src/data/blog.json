@@ -1,0 +1,212 @@
+[
+  {
+    "slug": "how-browser-games-work",
+    "title": "How Browser Games Work: HTML5, WebGL and WebAssembly Explained",
+    "category": "Technology",
+    "readTime": 7,
+    "description": "A practical guide to the technologies behind modern browser games, what WebAssembly does, and why compatibility still varies.",
+    "keywords": [],
+    "sections": [
+      [
+        "The browser is more than a document viewer",
+        "Modern browsers can run interactive games using JavaScript, graphics APIs such as WebGL, audio APIs, and storage APIs. Some titles are built specifically for the web; others are ports of existing game engines."
+      ],
+      [
+        "What WebAssembly does",
+        "WebAssembly (WASM) is a compact instruction format that a browser can execute in a sandbox. Developers often use it to bring code written in languages such as C or C++ to the web. WASM does not automatically provide game assets, input mapping, audio, or graphics; the port still needs a working runtime and compatible files."
+      ],
+      [
+        "Why WebGL matters",
+        "WebGL lets web applications render accelerated 2D and 3D graphics. Performance depends on the game engine, GPU drivers, browser settings, and the amount of work each frame requires."
+      ],
+      [
+        "Why a game may not load",
+        "A port can fail because its demo host is offline, an asset URL has changed, browser storage is blocked, the device lacks memory, or the host disallows embedding. Try the source page directly and check the project's own requirements."
+      ],
+      [
+        "What to check before playing",
+        "Use a current browser, close heavy tabs, allow the first launch time to initialize, and check the source project's instructions. Treat every listing as a pointer to a particular project—not a promise that every build will always work."
+      ]
+    ]
+  },
+  {
+    "slug": "play-games-in-browser-safely",
+    "title": "How to Play Browser Games More Safely",
+    "category": "Safety & Privacy",
+    "readTime": 6,
+    "description": "Simple checks for suspicious redirects, permission requests, downloads, and third-party game embeds before you play.",
+    "keywords": [],
+    "sections": [
+      [
+        "Start with the source",
+        "Prefer a known project page or a reputable host. Check the URL carefully, especially after a game opens a new tab or redirects."
+      ],
+      [
+        "Do not install mystery files",
+        "A browser game should not require an unexpected executable just to load a web demo. Avoid downloads or extensions you did not intentionally seek out."
+      ],
+      [
+        "Review browser permissions",
+        "A game may need keyboard input or fullscreen access, but microphone, camera, notification, and location requests should have a clear reason. Deny permissions that do not make sense for the game."
+      ],
+      [
+        "Understand third-party embeds",
+        "An embedded game is still served by its own host. That provider may have its own cookies, analytics, ads, or privacy policy. Opening the source in a new tab can also help diagnose blocked embeds."
+      ],
+      [
+        "Keep the browser updated",
+        "Security updates and compatibility fixes matter for games using modern browser APIs. Keep your operating system and browser current, and clear site data only when troubleshooting requires it."
+      ]
+    ]
+  },
+  {
+    "slug": "fix-slow-browser-gameplay",
+    "title": "How to Fix Slow or Choppy Browser Gameplay",
+    "category": "Performance",
+    "readTime": 6,
+    "description": "A measured troubleshooting checklist for low frame rates, long loading screens, audio glitches, and browser game crashes.",
+    "keywords": [],
+    "sections": [
+      [
+        "Give the first launch time",
+        "Large game ports may download assets and compile code on the first run. Wait for the host's loading indicator before refreshing; repeated reloads can restart initialization."
+      ],
+      [
+        "Check hardware acceleration",
+        "3D browser games can perform poorly if graphics acceleration is unavailable. Check your browser settings and restart it after changing graphics options."
+      ],
+      [
+        "Free memory and CPU",
+        "Close unused tabs and heavy apps, connect power on laptops, and allow the device to cool if it is throttling. Large games may exceed the memory budget of low-end devices."
+      ],
+      [
+        "Test the connection and source",
+        "A slow asset host can look like a performance problem. If the game stalls at the same point, open the official demo page and check whether the provider reports an outage."
+      ],
+      [
+        "Change one thing at a time",
+        "Lower in-game resolution or graphics settings if available. Record which change helped, and avoid downloading random performance boosters or disabling browser security features."
+      ]
+    ]
+  },
+  {
+    "slug": "touch-controls-for-browser-games",
+    "title": "Touch Controls for Browser Games: What Works on Phones?",
+    "category": "Mobile Gaming",
+    "readTime": 5,
+    "description": "Learn why some web games support touch input, how virtual controls work, and what to check when a game expects a keyboard.",
+    "keywords": [],
+    "sections": [
+      [
+        "Touch support must be implemented",
+        "A website cannot reliably turn every keyboard-controlled game into a touch game with a simple toggle. The game itself or a compatible wrapper must map taps, swipes, and on-screen buttons to its input system."
+      ],
+      [
+        "Check the game page first",
+        "Look for a mobile-support note and use the host's touch-control option if available. Some games are technically loadable on phones but remain difficult to play without a physical keyboard."
+      ],
+      [
+        "Use landscape when appropriate",
+        "Racing and 3D action games often benefit from landscape orientation. Keep rotation controls optional and do not block the browser's normal navigation."
+      ],
+      [
+        "Pair a controller if supported",
+        "Some browser games read gamepads through the Gamepad API. Support varies by browser, controller, and the specific port."
+      ],
+      [
+        "When controls do not respond",
+        "Tap the game area to focus it, check whether a loading overlay is still visible, and confirm the embed is not blocked. On desktop, click inside the player before expecting keyboard input to reach it."
+      ]
+    ]
+  },
+  {
+    "slug": "browser-game-embeds-and-fullscreen",
+    "title": "Browser Game Embeds, Fullscreen and Loading States Explained",
+    "category": "Guides",
+    "readTime": 5,
+    "description": "Understand iframe embeds, fullscreen permissions, loading indicators, and why some game hosts only work in a new tab.",
+    "keywords": [],
+    "sections": [
+      [
+        "Why sites use iframes",
+        "An iframe lets a portal display a game hosted elsewhere without copying its large runtime files. The game remains controlled by its original host."
+      ],
+      [
+        "Why an embed can be blocked",
+        "Some providers send security headers that prevent embedding, require cookies, or expect navigation from their own page. A portal should provide a clear open-at-source fallback rather than pretending every iframe works."
+      ],
+      [
+        "Fullscreen requires permission",
+        "The player needs an appropriate fullscreen permission, and browsers generally require a user gesture to enter fullscreen. A fullscreen button should report or gracefully handle failure."
+      ],
+      [
+        "Use honest loading states",
+        "A spinner can communicate that a game is initializing, but a timer alone cannot prove that it loaded successfully. Provide a way to open the original demo and report a broken link."
+      ],
+      [
+        "Performance and privacy",
+        "Lazy-loading embeds avoids downloading game assets before a player chooses a title. It also delays third-party requests until the user interacts with the game."
+      ]
+    ]
+  },
+  {
+    "slug": "what-to-check-before-playing-wasm",
+    "title": "Before You Play a WebAssembly Game: Compatibility Checklist",
+    "category": "Compatibility",
+    "readTime": 4,
+    "description": "A short preflight checklist for browsers, device memory, controls, storage, and game-specific requirements.",
+    "keywords": [],
+    "sections": [
+      [
+        "Use a supported browser",
+        "Start with a current version of Chrome, Edge, Firefox, or Safari. Exact support depends on the port and APIs it uses."
+      ],
+      [
+        "Check device capability",
+        "3D games may need WebGL 2, graphics acceleration, substantial RAM, or a 64-bit browser. Read the source page if the game fails before the title screen."
+      ],
+      [
+        "Confirm input and audio",
+        "Some games expect keyboard and mouse, others support touch or a gamepad. Browsers often require a click or tap before audio can start."
+      ],
+      [
+        "Understand save storage",
+        "Progress may live in local browser storage and can disappear if site data is cleared. Use export tools when a game offers them and avoid assuming saves synchronize between devices."
+      ],
+      [
+        "Respect the upstream license",
+        "A playable demo does not automatically grant permission to copy its files or redistribute its assets. Follow the upstream project's license and game publisher requirements."
+      ]
+    ]
+  },
+  {
+    "slug": "how-wasmstore-catalog-works",
+    "title": "How WasmStore Curates Its Browser Game Catalog",
+    "category": "WasmStore",
+    "readTime": 4,
+    "description": "How game listings, source links, categories, availability labels, and license reviews help players discover web ports responsibly.",
+    "keywords": [],
+    "sections": [
+      [
+        "A catalog is a discovery layer",
+        "WasmStore organizes community-listed web game projects and links to their demo pages or source repositories. Catalog presence alone does not certify that a title is currently playable."
+      ],
+      [
+        "Demo and source are different",
+        "A demo link points to a possible place to play. A source link helps readers inspect the upstream project. Neither should be treated as proof that every asset is redistributable."
+      ],
+      [
+        "Availability can change",
+        "Third-party demos can move, go offline, or block iframe embedding. Where possible, listings should make the source link visible and offer a clear fallback."
+      ],
+      [
+        "Why licenses are shown honestly",
+        "Each port has its own code license, and game assets may have separate rights. WasmStore flags unknown licenses for review rather than claiming permission it does not have."
+      ],
+      [
+        "How to suggest a correction",
+        "Use the contact page to report a broken demo, an incorrect source link, accessibility issues, or an attribution that needs updating."
+      ]
+    ]
+  }
+]
