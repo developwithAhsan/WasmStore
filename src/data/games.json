@@ -38,7 +38,12 @@
       },
       "title": "GTA 5",
       "system": "PC",
-      "cover": "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/library_600x900.jpg"
+      "cover": "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/library_600x900.jpg",
+      "collections": [
+        "Grand Theft Auto",
+        "Open World",
+        "Browser Ports"
+      ]
     },
     {
       "id": 2,
@@ -75,7 +80,12 @@
       },
       "title": "GTA 3",
       "system": "PC",
-      "cover": "https://cdn.cloudflare.steamstatic.com/steam/apps/12100/library_600x900.jpg"
+      "cover": "https://cdn.cloudflare.steamstatic.com/steam/apps/12100/library_600x900.jpg",
+      "collections": [
+        "Grand Theft Auto",
+        "Open World",
+        "Browser Ports"
+      ]
     },
     {
       "id": 3,
@@ -112,7 +122,12 @@
       },
       "title": "GTA Vice City",
       "system": "PC",
-      "cover": "https://cdn.cloudflare.steamstatic.com/steam/apps/12110/library_600x900.jpg"
+      "cover": "https://cdn.cloudflare.steamstatic.com/steam/apps/12110/library_600x900.jpg",
+      "collections": [
+        "Grand Theft Auto",
+        "Open World",
+        "Browser Ports"
+      ]
     },
     {
       "id": 4,
@@ -147,7 +162,12 @@
       },
       "title": "GTA: Chinatown Wars",
       "system": "Nintendo DS",
-      "cover": null
+      "cover": null,
+      "collections": [
+        "Grand Theft Auto",
+        "Open World",
+        "Coming Soon"
+      ]
     },
     {
       "id": 5,
@@ -183,7 +203,11 @@
       },
       "title": "Minecraft 1.8.8 (EaglercraftX)",
       "system": "PC",
-      "cover": null
+      "cover": null,
+      "collections": [
+        "Sandbox",
+        "Browser Ports"
+      ]
     },
     {
       "id": 6,
@@ -219,7 +243,11 @@
       },
       "title": "The Simpsons: Hit & Run",
       "system": "PlayStation 2",
-      "cover": null
+      "cover": null,
+      "collections": [
+        "Action & Adventure",
+        "Browser Ports"
+      ]
     }
   ]
 }
