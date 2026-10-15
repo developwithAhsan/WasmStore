@@ -1,59 +1,51 @@
 ---
 import site from '../data/site.json';
+import { games } from '../lib/games';
 import { canonical, pageSchema } from '../lib/seo';
 const { title, description = site.description, path = Astro.url.pathname, keywords = [], image = site.defaultSocialImage, schema = null, noindex = false } = Astro.props;
 const canonicalUrl = canonical(path);
 const socialImage = new URL(image, site.url).toString();
 const defaultSchema = pageSchema(title, path, description);
 const schemas = schema ? [defaultSchema, ...(Array.isArray(schema) ? schema : [schema])] : [defaultSchema];
+const drawerCollections = [
+ {title:'Grand Theft Auto',description:'Open worlds and stories on the edge.',count:games.filter(g=>g.tags.includes('gta')).length},
+ {title:'Open World',description:'Explore beyond the main mission.',count:games.filter(g=>g.tags.includes('open-world')).length},
+ {title:'Sandbox',description:'Build, explore, and create.',count:games.filter(g=>g.tags.includes('sandbox')).length},
+ {title:'Action & Adventure',description:'Story-led action and classic adventures.',count:games.filter(g=>g.tags.includes('action-adventure')).length},
+ {title:'Coming Soon',description:'Titles awaiting a verified browser port.',count:games.filter(g=>g.status==='coming-soon').length}
+].filter(c=>c.count>0);
 ---
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} | {site.name}</title>
-    <meta name="description" content={description} />
-    <meta name="robots" content={noindex ? 'noindex,follow' : site.seo.defaultRobots} />
-    {keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
-    <meta name="theme-color" content="#080b12" />
-    <link rel="canonical" href={canonicalUrl} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={site.name} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:image" content={socialImage} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={socialImage} />
-    {schemas.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
-    <link rel="stylesheet" href="/styles/portal.css" />
-    <script is:inline src="/scripts/site.js" defer></script>
-  </head>
-  <body data-disqus-shortname={site.disqusShortname}>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header">
-      <div class="header-inner">
-        <a class="brand" href="/" aria-label="WasmStore home"><span class="brand-icon">W</span><span class="brand-copy">Wasm<span>Store</span><small>PLAY · DISCOVER · REPEAT</small></span></a>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation">☰</button>
-        <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
-          <a href="/games">Games</a><a href="/favorites">Saved</a><a href="/about">About</a>
-        </nav>
-        <a class="header-cta" href="/games">Play games <span>↗</span></a>
-      </div>
-    </header>
-    <main id="main"><slot /></main>
-    <footer class="site-footer">
-      <div class="footer-grid wrap">
-        <div class="footer-about"><a class="brand" href="/"><span class="brand-icon">W</span><span class="brand-copy">Wasm<span>Store</span><small>PLAY · DISCOVER · REPEAT</small></span></a><p>A colourful, curated browser arcade for six selected game titles.</p></div>
-        <div><h2>Play</h2><a href="/games">All six games</a><a href="/favorites">Saved games</a><a href="/about">About WasmStore</a></div>
-        <div><h2>WasmStore</h2><a href="/about">About</a><a href="/contact">Contact</a><a href="/privacy">Privacy policy</a><a href="/terms">Terms of service</a><a href="/dmca">DMCA / takedowns</a></div>
-        <div><h2>Good to know</h2><p>Game names and trademarks belong to their owners. Some demos are loaded from external providers; availability and embedding may vary.</p></div>
-      </div>
-      <div class="footer-bottom wrap"><span>© <span data-year></span> WasmStore</span><span>Independent game discovery · <a href="/sitemap-index.xml">Sitemap</a></span></div>
-    </footer>
-  </body>
-</html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>{title} | {site.name}</title><meta name="description" content={description}/><meta name="robots" content={noindex?'noindex,follow':site.seo.defaultRobots}/>
+{keywords.length>0&&<meta name="keywords" content={keywords.join(', ')}/>}<meta name="theme-color" content="#0f0f14"/>
+<link rel="canonical" href={canonicalUrl}/><link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<meta property="og:type" content="website"/><meta property="og:site_name" content={site.name}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonicalUrl}/><meta property="og:image" content={socialImage}/>
+<meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={description}/><meta name="twitter:image" content={socialImage}/>
+{schemas.map(item=><script type="application/ld+json" set:html={JSON.stringify(item)}/>)}
+<link rel="stylesheet" href="/styles/portal.css"/><link rel="stylesheet" href="/styles/library.css"/>
+<script is:inline src="/scripts/site.js" defer></script><script is:inline src="/scripts/library.js" defer></script>
+</head><body data-disqus-shortname={site.disqusShortname}>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="header-inner">
+<a class="brand" href="/" aria-label="WasmStore home"><span class="brand-icon">W</span><span class="brand-copy">Wasm<span>Store</span><small>PLAY · DISCOVER · REPEAT</small></span></a>
+<label class="archive-search" aria-label="Search games"><span class="search-icon" aria-hidden="true">⌕</span><input id="library-search" type="search" placeholder="Search 6 games" autocomplete="off"/><kbd>/</kbd></label>
+<button class="collection-toggle" type="button" data-drawer-toggle aria-expanded="false" aria-controls="collection-drawer" aria-label="Open The collection menu">☰</button>
+</div></header>
+<div class="collection-drawer-backdrop" aria-hidden="true"></div>
+<aside class="collection-drawer" id="collection-drawer" aria-label="The collection" aria-modal="true">
+<div class="drawer-heading"><h2>The collection</h2><button class="drawer-close" type="button" data-drawer-close aria-label="Close collection menu">✕</button></div>
+<p class="drawer-intro">Browse this curated library by collection.</p>
+<a class="drawer-category" href="/games"><strong>All games</strong><p>See every curated listing.</p><b>{games.length}</b></a>
+{drawerCollections.map(c=><a class="drawer-category" href={'/games?q='+encodeURIComponent(c.title)}><strong>{c.title}</strong><p>{c.description}</p><b>{c.count}</b></a>)}
+<a class="drawer-category" href="/about"><strong>About the project</strong><p>How this archive works.</p><b>↗</b></a>
+</aside>
+<main id="main"><slot/></main>
+<footer class="archive-footer"><div class="archive-footer-grid archive-main">
+<div><a class="brand" href="/"><span class="brand-icon">W</span><span class="brand-copy">Wasm<span>Store</span><small>PLAY · DISCOVER · REPEAT</small></span></a><p class="footer-brand-copy">A compact guide to selected browser-game projects and classic ports.</p><p>Game trademarks and assets belong to their respective owners. WasmStore is an independent discovery project.</p></div>
+<div><h2>Pick a system</h2><div class="footer-links"><a href="/games">All games</a><a href="/categories">Collections</a><a href="/favorites">Saved games</a></div></div>
+<div><h2>About</h2><div class="footer-links"><a href="/about">About the project</a><a href="/contact">Contact</a><a href={'mailto:'+site.contactEmail}>{site.contactEmail}</a></div></div>
+<div><h2>Legal</h2><div class="footer-links"><a href="/privacy">Privacy policy</a><a href="/terms">Terms of service</a><a href="/dmca">DMCA / takedowns</a></div></div>
+</div><div class="footer-bottom archive-main"><span>© <span data-year></span> WasmStore</span><span>Independent game discovery · <a href="/sitemap-index.xml">Sitemap</a></span></div></footer>
+</body></html>
