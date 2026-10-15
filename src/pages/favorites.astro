@@ -1,0 +1,7 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Your Saved Games" description="View the browser game listings you have saved on this device." path="/favorites" noindex={true}>
+  <section class="page-hero"><div class="wrap"><div class="eyebrow">YOUR PERSONAL SHORTLIST</div><h1>Saved <span class="gradient-text">games</span></h1><p>Your favorites are stored locally in this browser. They are not synced between devices.</p></div></section>
+  <section class="wrap section favorites-page"><div class="compact-list" data-favorites-list></div><div class="empty-state" data-favorites-empty><span>♡</span><h2>No saved games yet</h2><p>Tap the heart on a game card to save a title to this device.</p><a class="button button-primary" href="/games">Explore games →</a></div><button class="button button-quiet" type="button" data-clear-favorites hidden>Clear saved games</button></section>
+</BaseLayout>
