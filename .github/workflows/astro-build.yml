@@ -26,3 +26,5 @@ jobs:
         run: npm run check
       - name: Build static site
         run: npm run build
+      - name: Smoke-test generated routes and SEO
+        run: npm run test:build
