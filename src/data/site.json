@@ -1,0 +1,15 @@
+{
+  "name": "WasmStore",
+  "tagline": "Play. Discover. Repeat.",
+  "description": "Discover browser games, classic ports, WebAssembly projects, and practical gaming guides in one carefully curated library.",
+  "url": "https://wasmstore.netlify.app",
+  "defaultSocialImage": "/images/wasmstore-social.svg",
+  "disqusShortname": "REPLACE_WITH_YOUR_DISQUS_SHORTNAME",
+  "contactEmail": "REPLACE_WITH_YOUR_CONTACT_EMAIL",
+  "customDomain": "REPLACE_WITH_YOUR_CUSTOM_DOMAIN",
+  "keywords": [],
+  "seo": {
+    "defaultTitleSuffix": "WasmStore",
+    "defaultRobots": "index,follow,max-image-preview:large"
+  }
+}
