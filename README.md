@@ -33,7 +33,7 @@ Edit `src/data/games.json`. Each record contains a unique `slug`, name, category
 - Update category/tags and title-specific controls when verified.
 - Populate `keywords` only when target terms are supplied and reviewed. The first keyword, if present, is used as the game page title; the rest can be extended through the SEO helpers without editing templates.
 
-The initial discovery records were imported from [Carter54git/Ultimate-Catalog-Of-Web-Game-Ports](https://github.com/Carter54git/Ultimate-Catalog-Of-Web-Game-Ports). The upstream catalog currently lists 582 entries, including entries without demo links. Records are not a grant to copy or redistribute any game. The catalog's `sourceCatalog` and `attribution` fields preserve provenance.
+ The live catalog is intentionally limited to six curated titles. GTA: Chinatown Wars is listed as coming soon because no verified browser demo is currently linked. Records are not a grant to copy or redistribute any game. The catalog's `sourceCatalog` and `attribution` fields preserve provenance.
 
 ## Upstream license audit
 
