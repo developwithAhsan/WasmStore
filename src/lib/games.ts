@@ -1,7 +1,7 @@
 import raw from '../data/games.json';
 
 export type Game = {
-  id: number; slug: string; name: string; category: string; demoUrl: string | null; thumbnailUrl?: string | null;
+  id: number; slug: string; name: string; category: string; system?: string; cover?: string | null; demoUrl: string | null; thumbnailUrl?: string | null;
   repositoryUrl: string | null; status: string; description: string; tags: string[];
   controls: { desktop: string; mobile: string }; license: string; keywords: string[];
   sourceCatalog: string; attribution: string;
