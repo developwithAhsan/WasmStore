@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GameCard from '../../components/GameCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { categories, games } from '../../lib/games';
+import { breadcrumbs } from '../../lib/seo';
+const slugify = (s:string) => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+export function getStaticPaths() { return categories.map((category) => ({ params:{slug:slugify(category)}, props:{category} })); }
+const {category} = Astro.props;
+const list = games.filter(g=>g.category===category);
+const path = `/categories/${slugify(category)}`;
+---
+<BaseLayout title={`${category} Browser Games`} description={`Browse ${list.length} ${category.toLowerCase()} game listings, demo links, and upstream source projects in the WasmStore directory.`} path={path} schema={breadcrumbs([{name:'Home',path:'/'},{name:'Categories',path:'/categories'},{name:category,path}])}>
+  <Breadcrumbs items={[{name:'Home',path:'/'},{name:'Categories',path:'/categories'},{name:category,path}]} />
+  <section class="page-hero"><div class="wrap"><div class="eyebrow">CATEGORY ARCHIVE</div><h1><span class="gradient-text">{category}</span> games</h1><p>{list.length} catalog entries in this category. Check each title for demo availability and upstream credits.</p></div></section>
+  <section class="wrap directory-section"><div class="results-bar"><p><strong>{list.length}</strong> listings</p><a href="/categories">All categories ↗</a></div><div class="game-grid">{list.map(game=><GameCard game={game}/>)}</div></section>
+</BaseLayout>
