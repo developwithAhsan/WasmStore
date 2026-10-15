@@ -2,20 +2,21 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GameCard from '../components/GameCard.astro';
 import { games } from '../lib/games';
+import type { Game } from '../lib/games';
 import site from '../data/site.json';
 const collections = [
- {slug:'grand-theft-auto',title:'Grand Theft Auto',description:'Open worlds and stories on the edge.',matches:g=>g.tags.includes('gta')},
- {slug:'open-world',title:'Open World',description:'Explore beyond the main mission.',matches:g=>g.tags.includes('open-world')},
- {slug:'sandbox',title:'Sandbox',description:'Build, explore, and make your own fun.',matches:g=>g.tags.includes('sandbox')},
- {slug:'action-adventure',title:'Action & Adventure',description:'Story-led action and classic adventures.',matches:g=>g.tags.includes('action-adventure')},
- {slug:'coming-soon',title:'Coming Soon',description:'Curated titles awaiting a verified port.',matches:g=>g.status==='coming-soon'}
+ {slug:'grand-theft-auto',title:'Grand Theft Auto',description:'Open worlds and stories on the edge.',matches:(g: Game)=>g.tags.includes('gta')},
+ {slug:'open-world',title:'Open World',description:'Explore beyond the main mission.',matches:(g: Game)=>g.tags.includes('open-world')},
+ {slug:'sandbox',title:'Sandbox',description:'Build, explore, and make your own fun.',matches:(g: Game)=>g.tags.includes('sandbox')},
+ {slug:'action-adventure',title:'Action & Adventure',description:'Story-led action and classic adventures.',matches:(g: Game)=>g.tags.includes('action-adventure')},
+ {slug:'coming-soon',title:'Coming Soon',description:'Curated titles awaiting a verified port.',matches:(g: Game)=>g.status==='coming-soon'}
 ].map(c=>({...c,games:games.filter(c.matches)})).filter(c=>c.games.length);
-const searchText = g => [g.name,g.category,g.tags.join(' '),g.slug].join(' ').toLowerCase();
+const searchText = (g: Game) => [g.name,g.category,g.tags.join(' '),g.slug].join(' ').toLowerCase();
 ---
 <BaseLayout title="WasmStore — Classic Games in Your Browser" description="Explore a curated collection of classic browser-game projects. Browse six selected titles, check availability, and discover browser ports without installing a desktop launcher." path="/" schema={[{'@context':'https://schema.org','@type':'WebSite',name:site.name,url:site.url,potentialAction:{'@type':'SearchAction',target:site.url+'/games?q={search_term_string}','query-input':'required name=search_term_string'}}]}>
  <div class="archive-main">
   <section class="archive-hero"><div class="eyebrow">A SMALL, HANDPICKED BROWSER ARCADE</div><h1>Play classic games<br/>in your browser</h1><p>Six curated titles to explore. No launcher required for this library — actual playability depends on each linked browser port.</p><a class="about-project-link" href="/about">About the project <span aria-hidden="true">↗</span></a></section>
-  <section class="archive-section" aria-labelledby="collections-title"><div class="archive-section-head"><div><h2 id="collections-title">Browse collections</h2><p>Explore the library by theme.</p></div><span class="category-count">{collections.length{'}'} collections</span></div><div class="category-grid">
+  <section class="archive-section" aria-labelledby="collections-title"><div class="archive-section-head"><div><h2 id="collections-title">Browse collections</h2><p>Explore the library by theme.</p></div><span class="category-count">{collections.length} collections</span></div><div class="category-grid">
    {collections.map(c=><a class="archive-category" href={'#collection-'+c.slug}><div class="archive-category-copy"><h3>{c.title}</h3><p>{c.description}</p><span class="category-count">{c.games.length} {c.games.length===1?'game':'games'}</span></div><div class="cover-stack" aria-hidden="true">{c.games.slice(0,3).map(g=><span class="stack-cover">{g.name}</span>)}</div></a>)}
   </div></section>
   <section class="archive-section" aria-labelledby="start-title" data-library-section><div class="archive-section-head"><div><h2 id="start-title">Start here</h2><p>Handpicked titles from the current WasmStore collection.</p></div><span class="category-count" data-search-count>All {games.length} games</span></div>
