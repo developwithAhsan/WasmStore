@@ -35,6 +35,12 @@ Edit `src/data/games.json`. Each record contains a unique `slug`, name, category
 
 The initial discovery records were imported from [Carter54git/Ultimate-Catalog-Of-Web-Game-Ports](https://github.com/Carter54git/Ultimate-Catalog-Of-Web-Game-Ports). The upstream catalog currently lists 582 entries, including entries without demo links. Records are not a grant to copy or redistribute any game. The catalog's `sourceCatalog` and `attribution` fields preserve provenance.
 
+## Upstream license audit
+
+Run `npm run audit:licenses` to check GitHub repository metadata for declared code licenses and annotate catalog entries with audit status. Set a GitHub personal access token in the `GITHUB_TOKEN` environment variable to avoid unauthenticated API rate limits. The script updates `src/data/games.json`; review the diff before committing it.
+
+This is a first-pass metadata check, not legal clearance. Manually inspect projects with no declared license, non-GitHub source hosts, missing repositories, or failed lookups. Verify game assets, music, trademarks, ROMs, and bundled commercial content separately; a code license does not necessarily cover those assets.
+
 ## Editorial content
 
 Edit `src/data/blog.json` to add articles. Each entry becomes a dedicated `/blog/<slug>` page. The home page automatically shows the first three articles; the full blog and guides pages are data-driven.
