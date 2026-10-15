@@ -35,7 +35,10 @@
         "license": null,
         "checkedAt": null,
         "notes": "Review upstream code license and separate game-asset rights before redistribution."
-      }
+      },
+      "title": "GTA 5",
+      "system": "PC",
+      "cover": "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/library_600x900.jpg"
     },
     {
       "id": 2,
@@ -69,7 +72,10 @@
         "license": null,
         "checkedAt": null,
         "notes": "Review upstream code license and separate game-asset rights before redistribution."
-      }
+      },
+      "title": "GTA 3",
+      "system": "PC",
+      "cover": "https://cdn.cloudflare.steamstatic.com/steam/apps/12100/library_600x900.jpg"
     },
     {
       "id": 3,
@@ -103,7 +109,10 @@
         "license": null,
         "checkedAt": null,
         "notes": "Review upstream code license and separate game-asset rights before redistribution."
-      }
+      },
+      "title": "GTA Vice City",
+      "system": "PC",
+      "cover": "https://cdn.cloudflare.steamstatic.com/steam/apps/12110/library_600x900.jpg"
     },
     {
       "id": 4,
@@ -135,7 +144,10 @@
         "license": null,
         "checkedAt": null,
         "notes": "Do not redistribute game assets or binaries. Verify an upstream project and its license before adding a playable link."
-      }
+      },
+      "title": "GTA: Chinatown Wars",
+      "system": "Nintendo DS",
+      "cover": null
     },
     {
       "id": 5,
@@ -168,7 +180,10 @@
         "license": null,
         "checkedAt": null,
         "notes": "Review upstream code license and separate game-asset rights before redistribution."
-      }
+      },
+      "title": "Minecraft 1.8.8 (EaglercraftX)",
+      "system": "PC",
+      "cover": null
     },
     {
       "id": 6,
@@ -201,7 +216,10 @@
         "license": null,
         "checkedAt": null,
         "notes": "Review upstream code license and separate game-asset rights before redistribution."
-      }
+      },
+      "title": "The Simpsons: Hit & Run",
+      "system": "PlayStation 2",
+      "cover": null
     }
   ]
 }
