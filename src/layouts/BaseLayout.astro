@@ -38,7 +38,7 @@ const drawerCollections = [
 <div class="drawer-heading"><h2>The collection</h2><button class="drawer-close" type="button" data-drawer-close aria-label="Close collection menu">✕</button></div>
 <p class="drawer-intro">Browse this curated library by collection.</p>
 <a class="drawer-category" href="/games"><strong>All games</strong><p>See every curated listing.</p><b>{games.length}</b></a>
-{drawerCollections.map(c=><a class="drawer-category" href={'/games?q='+encodeURIComponent(c.title)}><strong>{c.title}</strong><p>{c.description}</p><b>{c.count}</b></a>)}
+{drawerCollections.map(c=><a class="drawer-category" href={'/#collection-'+c.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}><strong>{c.title}</strong><p>{c.description}</p><b>{c.count}</b></a>)}
 <a class="drawer-category" href="/about"><strong>About the project</strong><p>How this archive works.</p><b>↗</b></a>
 </aside>
 <main id="main"><slot/></main>
