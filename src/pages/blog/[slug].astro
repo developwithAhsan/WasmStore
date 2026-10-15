@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import posts from '../../data/blog.json';
+import { breadcrumbs } from '../../lib/seo';
+export function getStaticPaths(){return posts.map(post=>({params:{slug:post.slug},props:{post}}));}
+const {post}=Astro.props;
+const path=`/blog/${post.slug}`;
+---
+<BaseLayout title={post.keywords?.length ? post.keywords[0] : post.title} description={post.description} path={path} keywords={post.keywords || []} schema={breadcrumbs([{name:'Home',path:'/'},{name:'Blog',path:'/blog'},{name:post.title,path}])}>
+  <Breadcrumbs items={[{name:'Home',path:'/'},{name:'Blog',path:'/blog'},{name:post.title,path}]} />
+  <article class="article-page wrap"><header class="article-header"><div class="eyebrow">{post.category.toUpperCase()} · {post.readTime} MIN READ</div><h1>{post.title}</h1><p class="article-deck">{post.description}</p><div class="article-byline"><span class="byline-mark">W</span><span>WasmStore Editorial Desk<small>Practical notes for browser gamers</small></span></div></header>
+    <div class="article-body"><p class="article-intro">{post.description} This guide focuses on practical checks and clear expectations, rather than promising that every browser game or device behaves the same way.</p>{post.sections.map((section,index)=><section><h2>{index+1}. {section[0]}</h2><p>{section[1]}</p></section>)}<aside class="article-callout"><strong>Keep exploring</strong><p>Every port has its own requirements and terms. Check the listing and upstream project before you launch, download, or reuse any game files.</p><a class="text-link" href="/games">Explore the game catalog ↗</a></aside></div>
+  </article>
+  <section class="section wrap"><div class="section-heading"><div><div class="eyebrow">MORE FROM WASMSTORE</div><h2>Keep learning</h2></div><a class="text-link" href="/blog">All articles →</a></div><div class="article-grid">{posts.filter(p=>p.slug!==post.slug).slice(0,3).map(p=><article class="article-card"><span class="article-kicker">{p.category} · {p.readTime} MIN READ</span><h3><a href={`/blog/${p.slug}`}>{p.title}</a></h3><p>{p.description}</p><a class="text-link" href={`/blog/${p.slug}`}>Read article ↗</a></article>)}</div></section>
+</BaseLayout>
