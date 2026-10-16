@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GameCard from '../../components/GameCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ViceCityPlayer from '../../components/ViceCityPlayer.astro';
 import site from '../../data/site.json';
 import { games, relatedGames } from '../../lib/games';
 import { breadcrumbs } from '../../lib/seo';
@@ -19,6 +20,7 @@ const schema = [
   <Breadcrumbs items={crumbs} />
   <section class="game-detail wrap">
     <div class="game-detail-heading"><div><div class="eyebrow">{game.category.toUpperCase()} · COMMUNITY CATALOG</div><h1>{game.name}</h1><p>{game.description}</p><div class="tag-row">{game.tags.map(tag=><a class="tag-chip" href={`/tags/${encodeURIComponent(tag)}`}>#{tag}</a>)}</div></div><button class="button button-quiet favorite-large" data-favorite={game.slug} data-favorite-title={game.name} data-favorite-url={`/games/${game.slug}`} aria-pressed="false">♡ Save game</button></div>
+    {game.slug === 'gta-vice-city' ? <ViceCityPlayer /> : (
     <section class="player-panel" aria-label="Game player">
       <div class="player-toolbar"><span><i class:list={['status-dot',{good:hasDemo}]}></i>{hasDemo ? 'Browser player available' : 'No verified browser build'}</span><span class="player-toolbar-note">Player runs here when the provider allows embedding</span></div>
       <div class="player-stage" id="player-stage" data-demo-url={game.demoUrl || ''}>
@@ -26,6 +28,7 @@ const schema = [
       </div>
       <div class="player-footer"><span>Tip: click inside the player to focus keyboard input.</span><button type="button" id="fullscreen-game" class="text-button" disabled={!hasDemo}>⛶ Fullscreen</button></div>
     </section>
+    )}
     <div class="detail-columns">
       <article class="detail-main">
         <section class="content-panel"><div class="panel-heading"><span>01</span><h2>About this listing</h2></div><p>{game.description}</p><p>WasmStore keeps the game experience on this page where embedding is permitted. A linked demo is not a guarantee of availability, and it does not grant permission to copy game files.</p></section>
