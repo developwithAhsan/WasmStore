@@ -1,0 +1,81 @@
+---
+---
+<section class="player-panel vc-embedded-panel" aria-label="GTA Vice City browser player">
+  <div class="player-toolbar">
+    <span><i class="status-dot good"></i> Vice City runtime</span>
+    <span class="player-toolbar-note">First visit downloads game files into this browser's local storage</span>
+  </div>
+  <div class="vc-embedded-stage">
+    <iframe id="vc-game-frame" src="/vc-player.html?autostart=1&amp;embed=1" title="GTA Vice City game player" loading="eager" allow="fullscreen; autoplay; gamepad; clipboard-read; clipboard-write" referrerpolicy="same-origin"></iframe>
+  </div>
+  <div class="vc-player-controls" role="group" aria-label="Vice City player controls">
+    <button type="button" class="button button-primary" data-vc-action="fullscreen">⛶ Fullscreen</button>
+    <button type="button" class="button button-quiet" data-vc-action="mods">◆ Mod Manager</button>
+    <button type="button" class="button button-quiet" data-vc-action="saves">▣ Save Manager</button>
+    <button type="button" class="button button-quiet" data-vc-action="restart">↻ Restart</button>
+  </div>
+  <p class="vc-player-status" id="vc-player-status" role="status">Starting Vice City runtime…</p>
+  <p class="muted vc-player-note">Game files are downloaded from the configured asset endpoint and stored locally. A first-time setup can take several minutes and requires enough free browser storage.</p>
+</section>
+<script>
+  const vcFrame = document.querySelector('#vc-game-frame');
+  const vcStatus = document.querySelector('#vc-player-status');
+  function enhanceViceCityFrame() {
+    try {
+      const doc = vcFrame?.contentDocument;
+      if (!doc) return;
+      if (!doc.getElementById('wasmstore-embed-style')) {
+        const style = doc.createElement('style');
+        style.id = 'wasmstore-embed-style';
+        style.textContent = 'html,body{height:100%!important;overflow:hidden!important} .vc-header,.vc-content-grid,.vc-section,.vc-about-gallery,.developed-by,.disclaimer{display:none!important} .page-wrap,.vc-page{width:100%!important;max-width:none!important;margin:0!important;padding:0!important} .vc-game-card{margin:0!important;padding:8px!important;border-radius:0!important;box-shadow:none!important} .vc-game-card #save-manager-btn,.vc-game-card .vc-fps-row,.vc-game-card .vc-note,.vc-game-card .vc-action-row,.vc-game-card #reset-game-btn,.vc-game-card .play-wrap{display:none!important}';
+        doc.head.appendChild(style);
+      }
+      if (vcStatus) vcStatus.textContent = 'Runtime loaded. Preparing local game files or resuming your previous setup…';
+    } catch (error) {
+      if (vcStatus) vcStatus.textContent = 'Could not access the local player frame. Reload the page and try again.';
+    }
+  }
+  vcFrame?.addEventListener('load', enhanceViceCityFrame);
+  if (vcFrame?.contentDocument?.readyState === 'complete') enhanceViceCityFrame();
+  document.querySelectorAll('[data-vc-action]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const action = button.getAttribute('data-vc-action');
+      if (action === 'fullscreen') {
+        try {
+          if (document.fullscreenElement === vcFrame) await document.exitFullscreen();
+          else await vcFrame.requestFullscreen();
+        } catch {
+          if (vcStatus) vcStatus.textContent = 'Fullscreen was blocked by the browser. Use the browser menu or allow fullscreen for this site.';
+        }
+        return;
+      }
+      try {
+        const doc = vcFrame.contentDocument;
+        if (!doc) throw new Error('Player is not ready yet.');
+        if (action === 'saves') {
+          const target = doc.querySelector('#save-manager-btn, #vc-game-save-btn');
+          if (target) target.click();
+          else throw new Error('Save Manager is still initializing.');
+        } else if (action === 'mods') {
+          const target = doc.querySelector('#vc-game-mods-btn') || Array.from(doc.querySelectorAll('button')).find((item) => /mod manager/i.test(item.textContent || ''));
+          if (target) target.click();
+          else throw new Error('Mod Manager is still initializing.');
+        } else if (action === 'restart') {
+          vcFrame.contentWindow.location.reload();
+        }
+      } catch (error) {
+        if (vcStatus) vcStatus.textContent = error.message || 'The selected control is not available yet.';
+      }
+    });
+  });
+</script>
+<style>
+  .vc-embedded-panel{overflow:hidden}
+  .vc-embedded-stage{width:100%;height:clamp(360px,68vw,700px);background:#05050a;border:1px solid rgba(124,92,255,.35);border-radius:14px;overflow:hidden}
+  #vc-game-frame{display:block;width:100%;height:100%;border:0;background:#05050a}
+  .vc-player-controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .vc-player-controls .button{cursor:pointer}
+  .vc-player-status{margin:10px 0 0;color:#b7a9ff;font-size:.9rem}
+  .vc-player-note{margin-top:6px;font-size:.85rem}
+  @media(max-width:600px){.vc-embedded-stage{height:65vh;min-height:340px;border-radius:10px}.vc-player-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.vc-player-controls .button{width:100%;justify-content:center}}
+</style>
