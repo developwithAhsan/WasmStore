@@ -82,9 +82,9 @@
       syncToolPanelSize();
       doc.querySelectorAll('#vc-game-touch-btn, #touch-controls-toggle').forEach((touchButton) => {
         touchButton.addEventListener('click', () => {
-          const state = doc.body.dataset.isTouch === '1' ? 'ON' : 'AUTO / OFF';
+          const state = doc.defaultView?.localStorage.getItem('vcsky.touchControls') || 'auto';
           const hostTouch = document.querySelector('[data-vc-action="touch"]');
-          if (hostTouch) hostTouch.textContent = '☝ Touch Controls: ' + state;
+          if (hostTouch) hostTouch.textContent = '☝ Touch Controls: ' + state.toUpperCase();
         });
       });
     } catch {
