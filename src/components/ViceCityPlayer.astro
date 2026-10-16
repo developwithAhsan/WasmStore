@@ -33,10 +33,8 @@
       <button type="button" class="button button-quiet" data-vc-action="saves">▣ Save Manager</button>
       <button type="button" class="button button-quiet" data-vc-action="cheats">★ Cheats</button>
       <button type="button" class="button button-quiet" data-vc-action="more">🎮 More Games</button>
-      <button type="button" class="button button-quiet" data-vc-action="sensitivity">◫ Sensitivity</button>
-      <button type="button" class="button button-quiet" data-vc-action="touch">☝ Touch Controls</button>
+      <button type="button" class="button button-quiet" data-vc-action="touch">☝ Touch Controls: AUTO</button>
       <button type="button" class="button button-quiet" data-vc-action="restart">↻ Restart</button>
-      <button type="button" class="button button-danger" data-vc-action="exit">✕ Exit Game</button>
     </div>
     <p class="vc-control-feedback" id="vc-control-feedback">Select a tool. Some tools become available after the runtime has finished initializing.</p>
     <div class="vc-keyboard-guide">
@@ -63,6 +61,31 @@
         doc.head.appendChild(style);
       }
       if (vcStatus) vcStatus.textContent = 'Runtime connected. Preparing local game files or resuming your previous setup…';
+      const syncToolPanelSize = () => {
+        const body = doc.body;
+        const isOpen = body.classList.contains('vc-tool-open') ||
+          !!doc.querySelector('#vc-mod-manager:not(.hidden), .vc-game-tool-panel.is-open');
+        const stage = document.querySelector('.vc-embedded-stage');
+        if (stage) stage.classList.toggle('vc-tools-expanded', isOpen);
+        if (isOpen) {
+          const activePanel = doc.querySelector('#vc-mod-manager:not(.hidden) .vc-mm-panel, .vc-game-tool-panel.is-open');
+          if (activePanel) activePanel.scrollIntoView({ block: 'nearest' });
+        }
+      };
+      if (!doc.__wasmstoreToolObserver) {
+        const observer = new MutationObserver(syncToolPanelSize);
+        observer.observe(doc.body, { attributes: true, attributeFilter: ['class'] });
+        observer.observe(doc.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+        doc.__wasmstoreToolObserver = observer;
+      }
+      syncToolPanelSize();
+      doc.querySelectorAll('#vc-game-touch-btn, #touch-controls-toggle').forEach((touchButton) => {
+        touchButton.addEventListener('click', () => {
+          const state = doc.body.dataset.isTouch === '1' ? 'ON' : 'AUTO / OFF';
+          const hostTouch = document.querySelector('[data-vc-action="touch"]');
+          if (hostTouch) hostTouch.textContent = '☝ Touch Controls: ' + state;
+        });
+      });
     } catch {
       if (vcStatus) vcStatus.textContent = 'The player frame is not accessible. Reload the page and try again.';
     }
@@ -78,7 +101,6 @@
     more: '#vc-game-more-btn',
     sensitivity: '#vc-game-sensitivity-btn',
     touch: '#vc-game-touch-btn, #touch-controls-toggle',
-    exit: '#vc-game-exit-btn'
   };
 
   document.querySelectorAll<HTMLButtonElement>('[data-vc-action]').forEach((button) => {
@@ -148,5 +170,5 @@
   .vc-keyboard-guide div{display:grid;align-content:start;gap:6px;padding:12px;border-radius:9px;background:#191923}
   .vc-keyboard-guide strong{font-size:.86rem}.vc-keyboard-guide span{font-size:.8rem;line-height:1.55;color:var(--muted,#aaaab9)}
   .vc-player-note{margin-top:10px;font-size:.85rem}
-  @media(max-width:760px){.vc-play-layout{grid-template-columns:1fr}.vc-embedded-stage{height:56vw;min-height:300px;max-height:430px}.vc-keyboard-guide{grid-template-columns:1fr}.vc-controls-heading{align-items:flex-start;flex-direction:column}}
+  @media(max-width:760px){.vc-play-layout{grid-template-columns:1fr}.vc-embedded-stage{height:56vw;min-height:300px;max-height:430px}.vc-embedded-stage.vc-tools-expanded{height:82vh;min-height:560px;max-height:none}.vc-keyboard-guide{grid-template-columns:1fr}.vc-controls-heading{align-items:flex-start;flex-direction:column}}
 </style>
