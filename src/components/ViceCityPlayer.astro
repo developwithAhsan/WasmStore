@@ -1,25 +1,56 @@
 ---
 ---
 <section class="player-panel vc-embedded-panel" aria-label="GTA Vice City browser player">
-  <div class="player-toolbar">
-    <span><i class="status-dot good"></i> Vice City runtime</span>
-    <span class="player-toolbar-note">First visit downloads game files into this browser's local storage</span>
+  <div class="vc-play-layout">
+    <div class="vc-play-main">
+      <div class="player-toolbar">
+        <span><i class="status-dot good"></i> Vice City runtime</span>
+        <span class="player-toolbar-note">Browser-based · Local game-file cache</span>
+      </div>
+      <div class="vc-embedded-stage">
+        <iframe id="vc-game-frame" src="/vc-player?autostart=1&amp;embed=1" title="GTA Vice City game player" loading="eager" allow="fullscreen; autoplay; gamepad; clipboard-read; clipboard-write" referrerpolicy="same-origin"></iframe>
+      </div>
+      <p class="vc-player-status" id="vc-player-status" role="status" aria-live="polite">Starting Vice City runtime…</p>
+    </div>
+    <aside class="vc-about-card">
+      <span class="eyebrow">GAME OVERVIEW</span>
+      <h2>Grand Theft Auto: Vice City</h2>
+      <p>Explore a neon-soaked 1980s-inspired open world in this browser runtime. Your first visit may need time to prepare and cache the game files in this browser.</p>
+      <dl>
+        <div><dt>Genre</dt><dd>Open-world action</dd></div>
+        <div><dt>Platform</dt><dd>Desktop browser recommended</dd></div>
+        <div><dt>Setup</dt><dd>First-load download and local cache</dd></div>
+      </dl>
+      <p class="vc-about-note">Use only game files and assets you are authorized to access. Performance depends on your device and browser.</p>
+    </aside>
   </div>
-  <div class="vc-embedded-stage">
-    <iframe id="vc-game-frame" src="/vc-player?autostart=1&amp;embed=1" title="GTA Vice City game player" loading="eager" allow="fullscreen; autoplay; gamepad; clipboard-read; clipboard-write" referrerpolicy="same-origin"></iframe>
-  </div>
-  <div class="vc-player-controls" role="group" aria-label="Vice City player controls">
-    <button type="button" class="button button-primary" data-vc-action="fullscreen">⛶ Fullscreen</button>
-    <button type="button" class="button button-quiet" data-vc-action="mods">◆ Mod Manager</button>
-    <button type="button" class="button button-quiet" data-vc-action="saves">▣ Save Manager</button>
-    <button type="button" class="button button-quiet" data-vc-action="restart">↻ Restart</button>
-  </div>
-  <p class="vc-player-status" id="vc-player-status" role="status">Starting Vice City runtime…</p>
-  <p class="muted vc-player-note">Game files are downloaded from the configured asset endpoint and stored locally. A first-time setup can take several minutes and requires enough free browser storage.</p>
+
+  <section class="vc-controls-panel" aria-labelledby="vc-controls-title">
+    <div class="vc-controls-heading"><div><span class="eyebrow">PLAYER TOOLKIT</span><h2 id="vc-controls-title">Game controls</h2></div><span class="vc-controls-hint">Buttons open tools inside the game runtime</span></div>
+    <div class="vc-external-controls" role="group" aria-label="GTA Vice City game tools">
+      <button type="button" class="button button-primary" data-vc-action="fullscreen">⛶ Fullscreen</button>
+      <button type="button" class="button button-quiet" data-vc-action="mods">◆ Mod Manager</button>
+      <button type="button" class="button button-quiet" data-vc-action="saves">▣ Save Manager</button>
+      <button type="button" class="button button-quiet" data-vc-action="cheats">★ Cheats</button>
+      <button type="button" class="button button-quiet" data-vc-action="more">🎮 More Games</button>
+      <button type="button" class="button button-quiet" data-vc-action="sensitivity">◫ Sensitivity</button>
+      <button type="button" class="button button-quiet" data-vc-action="touch">☝ Touch Controls</button>
+      <button type="button" class="button button-quiet" data-vc-action="restart">↻ Restart</button>
+      <button type="button" class="button button-danger" data-vc-action="exit">✕ Exit Game</button>
+    </div>
+    <p class="vc-control-feedback" id="vc-control-feedback">Select a tool. Some tools become available after the runtime has finished initializing.</p>
+    <div class="vc-keyboard-guide">
+      <div><strong>Movement</strong><span>W / A / S / D or arrow keys, depending on the active control profile.</span></div>
+      <div><strong>Interact</strong><span>Use the game's on-screen prompts for vehicles, missions, and menus.</span></div>
+      <div><strong>Mouse & touch</strong><span>Click inside the game to focus it. Touch controls depend on device support.</span></div>
+    </div>
+  </section>
+  <p class="muted vc-player-note">First-time setup can take several minutes and requires enough free browser storage. Game progress and save availability depend on the runtime and browser storage.</p>
 </section>
 <script>
   const vcFrame = document.querySelector<HTMLIFrameElement>('#vc-game-frame');
   const vcStatus = document.querySelector<HTMLElement>('#vc-player-status');
+  const vcFeedback = document.querySelector<HTMLElement>('#vc-control-feedback');
 
   function enhanceViceCityFrame() {
     try {
@@ -28,67 +59,94 @@
       if (!doc.getElementById('wasmstore-embed-style')) {
         const style = doc.createElement('style');
         style.id = 'wasmstore-embed-style';
-        style.textContent = 'html,body{height:100%!important;overflow:hidden!important} .vc-header,.vc-content-grid,.vc-section,.vc-about-gallery,.developed-by,.disclaimer{display:none!important} .page-wrap,.vc-page{width:100%!important;max-width:none!important;margin:0!important;padding:0!important} .vc-game-card{margin:0!important;padding:8px!important;border-radius:0!important;box-shadow:none!important} .vc-game-card #save-manager-btn,.vc-game-card .vc-fps-row,.vc-game-card .vc-note,.vc-game-card .vc-action-row,.vc-game-card #reset-game-btn,.vc-game-card .play-wrap{display:none!important}';
+        style.textContent = 'html,body{height:100%!important;overflow:hidden!important} .vc-header,.vc-content-grid,.vc-about-gallery,.vc-section,.vc-footer,.developed-by,.disclaimer{display:none!important} .page-wrap,.vc-page{width:100%!important;max-width:none!important;margin:0!important;padding:0!important} .vc-game-card{margin:0!important;padding:8px!important;border-radius:0!important;box-shadow:none!important;background:#101019!important} .vc-game-card #save-manager-btn,.vc-game-card .vc-fps-row,.vc-game-card .vc-note,.vc-game-card .vc-action-row,.vc-game-card #reset-game-btn,.vc-game-card .play-wrap{display:none!important} .vc-game-toolbar{display:none!important}';
         doc.head.appendChild(style);
       }
-      if (vcStatus) vcStatus.textContent = 'Runtime loaded. Preparing local game files or resuming your previous setup…';
+      if (vcStatus) vcStatus.textContent = 'Runtime connected. Preparing local game files or resuming your previous setup…';
     } catch {
-      if (vcStatus) vcStatus.textContent = 'Could not access the local player frame. Reload the page and try again.';
+      if (vcStatus) vcStatus.textContent = 'The player frame is not accessible. Reload the page and try again.';
     }
   }
 
   vcFrame?.addEventListener('load', enhanceViceCityFrame);
   if (vcFrame?.contentDocument?.readyState === 'complete') enhanceViceCityFrame();
 
+  const selectors: Record<string, string> = {
+    mods: '#vc-game-mods-btn, #mod-manager-btn',
+    saves: '#vc-game-save-btn, #save-manager-btn',
+    cheats: '#vc-game-cheats-btn',
+    more: '#vc-game-more-btn',
+    sensitivity: '#vc-game-sensitivity-btn',
+    touch: '#vc-game-touch-btn, #touch-controls-toggle',
+    exit: '#vc-game-exit-btn'
+  };
+
   document.querySelectorAll<HTMLButtonElement>('[data-vc-action]').forEach((button) => {
     button.addEventListener('click', async () => {
-      const action = button.getAttribute('data-vc-action');
+      const action = button.dataset.vcAction;
+      const frame = vcFrame;
+      if (!frame) {
+        if (vcFeedback) vcFeedback.textContent = 'The game player is not available yet. Reload this page and try again.';
+        return;
+      }
       if (action === 'fullscreen') {
         try {
-          if (!vcFrame) throw new Error('Player frame is not available.');
-          if (document.fullscreenElement === vcFrame) await document.exitFullscreen();
-          else await vcFrame.requestFullscreen();
+          if (document.fullscreenElement === frame) await document.exitFullscreen();
+          else await frame.requestFullscreen();
+          if (vcFeedback) vcFeedback.textContent = 'Fullscreen toggled.';
         } catch {
-          if (vcStatus) vcStatus.textContent = 'Fullscreen was blocked by the browser. Use the browser menu or allow fullscreen for this site.';
+          if (vcFeedback) vcFeedback.textContent = 'Fullscreen was blocked by the browser. Use the browser menu or allow fullscreen for this site.';
         }
         return;
       }
-
+      if (action === 'restart') {
+        frame.contentWindow?.location.reload();
+        if (vcFeedback) vcFeedback.textContent = 'Reloading the game runtime…';
+        return;
+      }
       try {
-        const frame = vcFrame;
-        const doc = frame?.contentDocument;
-        if (!doc || !frame) throw new Error('Player is not ready yet.');
-
-        if (action === 'saves') {
-          const target = doc.querySelector<HTMLButtonElement>('#save-manager-btn, #vc-game-save-btn');
-          if (target) target.click();
-          else throw new Error('Save Manager is still initializing.');
-        } else if (action === 'mods') {
-          const target = doc.querySelector<HTMLButtonElement>('#vc-game-mods-btn')
-            || Array.from(doc.querySelectorAll<HTMLButtonElement>('button')).find((item) => /mod manager/i.test(item.textContent || ''));
-          if (target) target.click();
-          else throw new Error('Mod Manager is still initializing.');
-        } else if (action === 'restart') {
-          if (frame.contentWindow) frame.contentWindow.location.reload();
-          else throw new Error('Player frame is not available yet.');
+        const doc = frame.contentDocument;
+        if (!doc) throw new Error('The player is still loading. Try again in a moment.');
+        const selector = action ? selectors[action] : undefined;
+        const target = selector ? doc.querySelector<HTMLButtonElement>(selector) : null;
+        if (!target) {
+          const label = button.textContent?.trim() || 'This tool';
+          throw new Error(label + ' is not ready yet. Start the game and wait for the runtime toolbar to initialize.');
         }
+        target.click();
+        if (vcFeedback) vcFeedback.textContent = button.textContent?.trim() + ' opened in the game runtime.';
       } catch (error: unknown) {
-        if (vcStatus) {
-          vcStatus.textContent = error instanceof Error
-            ? error.message
-            : 'The selected control is not available yet.';
-        }
+        if (vcFeedback) vcFeedback.textContent = error instanceof Error ? error.message : 'The selected tool is not available yet.';
       }
     });
   });
 </script>
 <style>
   .vc-embedded-panel{overflow:hidden}
-  .vc-embedded-stage{width:100%;height:clamp(360px,68vw,700px);background:#05050a;border:1px solid rgba(124,92,255,.35);border-radius:14px;overflow:hidden}
+  .vc-play-layout{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(230px,.82fr);gap:16px;align-items:stretch}
+  .vc-play-main{min-width:0;border:1px solid rgba(124,92,255,.24);border-radius:14px;overflow:hidden;background:#08080e}
+  .vc-play-main .player-toolbar{padding:12px 14px}
+  .vc-embedded-stage{width:100%;height:clamp(300px,42vw,490px);background:#05050a;overflow:hidden}
   #vc-game-frame{display:block;width:100%;height:100%;border:0;background:#05050a}
-  .vc-player-controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
-  .vc-player-controls .button{cursor:pointer}
-  .vc-player-status{margin:10px 0 0;color:#b7a9ff;font-size:.9rem}
-  .vc-player-note{margin-top:6px;font-size:.85rem}
-  @media(max-width:600px){.vc-embedded-stage{height:65vh;min-height:340px;border-radius:10px}.vc-player-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.vc-player-controls .button{width:100%;justify-content:center}}
+  .vc-player-status{margin:0;padding:10px 13px;color:#b7a9ff;font-size:.85rem;background:#101019}
+  .vc-about-card{padding:20px;border:1px solid rgba(124,92,255,.24);border-radius:14px;background:linear-gradient(145deg,#171722,#101018)}
+  .vc-about-card h2,.vc-controls-heading h2{margin:7px 0 10px;font-size:1.25rem;line-height:1.25}
+  .vc-about-card p{font-size:.91rem;line-height:1.65;color:var(--muted,#aaaab9)}
+  .vc-about-card dl{display:grid;gap:0;margin:18px 0}
+  .vc-about-card dl div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+  .vc-about-card dt{color:var(--muted,#aaaab9);font-size:.84rem}.vc-about-card dd{margin:0;text-align:right;font-size:.84rem;font-weight:600}
+  .vc-about-card .vc-about-note{padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:.8rem}
+  .vc-controls-panel{margin-top:16px;padding:18px;border:1px solid rgba(124,92,255,.24);border-radius:14px;background:#12121a}
+  .vc-controls-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .vc-controls-heading h2{margin-bottom:0}
+  .vc-controls-hint{font-size:.8rem;color:var(--muted,#aaaab9)}
+  .vc-external-controls{display:flex;flex-wrap:wrap;gap:9px}
+  .vc-external-controls .button{cursor:pointer;min-height:40px}
+  .vc-external-controls .button-danger{background:#40202a;color:#ffdce2;border:1px solid #6e3543}
+  .vc-control-feedback{margin:12px 0 0;padding:10px 12px;border-radius:8px;background:#0b0b12;color:#b7a9ff;font-size:.85rem}
+  .vc-keyboard-guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+  .vc-keyboard-guide div{display:grid;align-content:start;gap:6px;padding:12px;border-radius:9px;background:#191923}
+  .vc-keyboard-guide strong{font-size:.86rem}.vc-keyboard-guide span{font-size:.8rem;line-height:1.55;color:var(--muted,#aaaab9)}
+  .vc-player-note{margin-top:10px;font-size:.85rem}
+  @media(max-width:760px){.vc-play-layout{grid-template-columns:1fr}.vc-embedded-stage{height:56vw;min-height:300px;max-height:430px}.vc-keyboard-guide{grid-template-columns:1fr}.vc-controls-heading{align-items:flex-start;flex-direction:column}}
 </style>
