@@ -18,8 +18,9 @@
   <p class="muted vc-player-note">Game files are downloaded from the configured asset endpoint and stored locally. A first-time setup can take several minutes and requires enough free browser storage.</p>
 </section>
 <script>
-  const vcFrame = document.querySelector('#vc-game-frame');
-  const vcStatus = document.querySelector('#vc-player-status');
+  const vcFrame = document.querySelector<HTMLIFrameElement>('#vc-game-frame');
+  const vcStatus = document.querySelector<HTMLElement>('#vc-player-status');
+
   function enhanceViceCityFrame() {
     try {
       const doc = vcFrame?.contentDocument;
@@ -31,17 +32,20 @@
         doc.head.appendChild(style);
       }
       if (vcStatus) vcStatus.textContent = 'Runtime loaded. Preparing local game files or resuming your previous setup…';
-    } catch (error) {
+    } catch {
       if (vcStatus) vcStatus.textContent = 'Could not access the local player frame. Reload the page and try again.';
     }
   }
+
   vcFrame?.addEventListener('load', enhanceViceCityFrame);
   if (vcFrame?.contentDocument?.readyState === 'complete') enhanceViceCityFrame();
-  document.querySelectorAll('[data-vc-action]').forEach((button) => {
+
+  document.querySelectorAll<HTMLButtonElement>('[data-vc-action]').forEach((button) => {
     button.addEventListener('click', async () => {
       const action = button.getAttribute('data-vc-action');
       if (action === 'fullscreen') {
         try {
+          if (!vcFrame) throw new Error('Player frame is not available.');
           if (document.fullscreenElement === vcFrame) await document.exitFullscreen();
           else await vcFrame.requestFullscreen();
         } catch {
@@ -49,22 +53,31 @@
         }
         return;
       }
+
       try {
-        const doc = vcFrame.contentDocument;
-        if (!doc) throw new Error('Player is not ready yet.');
+        const frame = vcFrame;
+        const doc = frame?.contentDocument;
+        if (!doc || !frame) throw new Error('Player is not ready yet.');
+
         if (action === 'saves') {
-          const target = doc.querySelector('#save-manager-btn, #vc-game-save-btn');
+          const target = doc.querySelector<HTMLButtonElement>('#save-manager-btn, #vc-game-save-btn');
           if (target) target.click();
           else throw new Error('Save Manager is still initializing.');
         } else if (action === 'mods') {
-          const target = doc.querySelector('#vc-game-mods-btn') || Array.from(doc.querySelectorAll('button')).find((item) => /mod manager/i.test(item.textContent || ''));
+          const target = doc.querySelector<HTMLButtonElement>('#vc-game-mods-btn')
+            || Array.from(doc.querySelectorAll<HTMLButtonElement>('button')).find((item) => /mod manager/i.test(item.textContent || ''));
           if (target) target.click();
           else throw new Error('Mod Manager is still initializing.');
         } else if (action === 'restart') {
-          vcFrame.contentWindow.location.reload();
+          if (frame.contentWindow) frame.contentWindow.location.reload();
+          else throw new Error('Player frame is not available yet.');
         }
-      } catch (error) {
-        if (vcStatus) vcStatus.textContent = error.message || 'The selected control is not available yet.';
+      } catch (error: unknown) {
+        if (vcStatus) {
+          vcStatus.textContent = error instanceof Error
+            ? error.message
+            : 'The selected control is not available yet.';
+        }
       }
     });
   });
