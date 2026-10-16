@@ -8,6 +8,6 @@ const cover = game.cover || game.thumbnailUrl;
 <a class="game-art" href={`/games/${game.slug}`} aria-label={`View ${game.name} game details`}>
 {cover ? <img class="game-thumbnail" data-skeleton src={cover} alt={`${game.name} cover art`} loading="lazy" decoding="async" width="600" height="800"/> : <><span class="art-orbit orbit-one"></span><span class="art-orbit orbit-two"></span><span class="art-initial" aria-hidden="true">{game.name.split(/\\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase()}</span></>}
 <span class="art-category">{game.system || game.category}</span>
-</a><div class="game-card-body"><div class="game-card-meta"><span>{game.system || game.category}</span><span class:list={['availability',{available:playable}]}>{playable?'Demo listed':'Coming soon'}</span></div>
+</a><div class="game-card-body"><div class="game-card-meta"><span>{game.system || game.category}</span><span class:list={['availability',{available:playable}]}>{game.status === 'integrated-browser-runtime' ? 'Playable here' : playable ? 'Demo listed' : 'Coming soon'}</span></div>
 <h3><a href={`/games/${game.slug}`}>{game.name}</a></h3><p>{game.description}</p>
 <div class="card-actions"><a class="button button-small button-primary" href={`/games/${game.slug}`}>{playable?'View & play':'View details'} <span>→</span></a><button class="icon-button" type="button" data-favorite={game.slug} data-favorite-title={game.name} data-favorite-url={`/games/${game.slug}`} aria-label={`Add ${game.name} to favorites`} aria-pressed="false" title="Save to favorites">♡</button></div></div></article>
