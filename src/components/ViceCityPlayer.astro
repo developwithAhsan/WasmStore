@@ -72,11 +72,12 @@
           if (activePanel) activePanel.scrollIntoView({ block: 'nearest' });
         }
       };
-      if (!doc.__wasmstoreToolObserver) {
+      const toolObserverDocument = doc as Document & { __wasmstoreToolObserver?: MutationObserver };
+      if (!toolObserverDocument.__wasmstoreToolObserver) {
         const observer = new MutationObserver(syncToolPanelSize);
         observer.observe(doc.body, { attributes: true, attributeFilter: ['class'] });
         observer.observe(doc.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
-        doc.__wasmstoreToolObserver = observer;
+        toolObserverDocument.__wasmstoreToolObserver = observer;
       }
       syncToolPanelSize();
       doc.querySelectorAll('#vc-game-touch-btn, #touch-controls-toggle').forEach((touchButton) => {
@@ -99,7 +100,6 @@
     saves: '#vc-game-save-btn, #save-manager-btn',
     cheats: '#vc-game-cheats-btn',
     more: '#vc-game-more-btn',
-    sensitivity: '#vc-game-sensitivity-btn',
     touch: '#vc-game-touch-btn, #touch-controls-toggle',
   };
 
