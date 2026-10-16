@@ -532,7 +532,7 @@ async function initSetupFlow() {
   if (ASSET_RELEASE_URL) {
     if (hasCustomUrl) {
       // Custom URL (e.g. Cloudflare Worker) — use it directly in all environments
-      downloadUrl = import.meta.env.VITE_ASSET_URL;
+      downloadUrl = ASSET_RELEASE_URL;
     } else if (false) {
       // Dev only: proxy archive.org through Vite to avoid CORS
       downloadUrl = `${BASE}proxy-game-download/game.tar.gz`;
