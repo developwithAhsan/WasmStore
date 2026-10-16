@@ -1,6 +1,6 @@
 {
   "generatedFrom": "WasmStore curated featured-games list",
-  "sourceUpdated": "2026-10-15",
+  "sourceUpdated": "2026-10-16",
   "total": 6,
   "licensePolicy": "Curated discovery entries only. External demo URLs are not a grant to redistribute game binaries or copyrighted assets. Verify upstream licenses before self-hosting.",
   "games": [
@@ -92,7 +92,7 @@
       "slug": "gta-vice-city",
       "name": "GTA Vice City",
       "category": "Adventure",
-      "demoUrl": "/vc-player.html?autostart=1",
+      "demoUrl": "/vc-player?autostart=1",
       "repositoryUrl": "https://github.com/developwithAhsan/vc-online",
       "status": "integrated-browser-runtime",
       "description": "GTA Vice City runs through WasmStore's integrated browser runtime, adapted from the existing read-only Vice City project. On first visit, the browser downloads the required runtime game files from the configured asset endpoint and stores them locally; the initial setup may take several minutes.",
