@@ -92,10 +92,10 @@
       "slug": "gta-vice-city",
       "name": "GTA Vice City",
       "category": "Adventure",
-      "demoUrl": "https://wasmarcade.com/vice-city",
-      "repositoryUrl": "https://github.com/Lolendor/reVCDOS",
-      "status": "external-demo-listed",
-      "description": "Play GTA Vice City in your browser through the external WASM Arcade page. The game and assets are hosted by the third-party provider; availability may change.",
+      "demoUrl": "/vc-player.html?autostart=1",
+      "repositoryUrl": "https://github.com/developwithAhsan/vc-online",
+      "status": "integrated-browser-runtime",
+      "description": "GTA Vice City runs through WasmStore's integrated browser runtime, adapted from the existing read-only Vice City project. On first visit, the browser downloads the required runtime game files from the configured asset endpoint and stores them locally; the initial setup may take several minutes.",
       "tags": [
         "gta",
         "grand-theft-auto",
@@ -107,18 +107,18 @@
         "desktop": "Check the upstream game page for title-specific controls.",
         "mobile": "Touch support varies by port and device."
       },
-      "license": "Unverified — review the upstream repository's LICENSE and asset terms before redistribution.",
+      "license": "Runtime integration adapted from the existing project. The original game assets are not bundled in this repository; asset hosting and distribution rights must be assessed separately.",
       "keywords": [
         "Play GTA Vice City in Browser",
         "GTA Vice City WebAssembly"
       ],
       "sourceCatalog": "https://github.com/Carter54git/Ultimate-Catalog-Of-Web-Game-Ports",
-      "attribution": "Upstream project: https://github.com/Lolendor/reVCDOS",
+      "attribution": "Runtime integration adapted from https://github.com/developwithAhsan/vc-online, which remains read-only. Game assets are fetched from the configured asset endpoint; third-party engine and game-asset rights remain subject to their respective terms.",
       "licenseAudit": {
-        "status": "not-yet-checked",
+        "status": "review-required",
         "license": null,
-        "checkedAt": null,
-        "notes": "Review upstream code license and separate game-asset rights before redistribution."
+        "checkedAt": "2026-10-16",
+        "notes": "The integration reuses the existing project's runtime and asset endpoint without editing the source repository. Verify the license for runtime code, engine modules, and separately hosted game assets before public redistribution."
       },
       "title": "GTA Vice City",
       "system": "PC",
