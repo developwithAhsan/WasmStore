@@ -417,11 +417,8 @@ export function initGameTools() {
   const modsBtn = makeButton("vc-game-mods-btn", "Mod Manager", "◆");
   const moreBtn = makeButton("vc-game-more-btn", "More Games", "🎮");
   const saveBtn = makeButton("vc-game-save-btn", "Save Manager", "▣");
-  const sensitivityBtn = makeButton("vc-game-sensitivity-btn", "Sensitivity", "◫");
   touchToolbarBtn = makeButton("vc-game-touch-btn", "Touch AUTO", "☝");
   const fullscreenBtn = makeButton("vc-game-fullscreen-btn", "Fullscreen", "⛶");
-  const exitBtn = makeButton("vc-game-exit-btn", "Exit Game", "✕");
-  exitBtn.classList.add("danger");
 
   left.appendChild(modsBtn);
   left.appendChild(saveBtn);
@@ -429,10 +426,8 @@ export function initGameTools() {
   center.appendChild(cheatsBtn);
   center.appendChild(moreBtn);
 
-  right.appendChild(sensitivityBtn);
   right.appendChild(touchToolbarBtn);
   right.appendChild(fullscreenBtn);
-  right.appendChild(exitBtn);
 
   toolbar.appendChild(left);
   toolbar.appendChild(center);
@@ -440,7 +435,6 @@ export function initGameTools() {
 
   document.body.appendChild(toolbar);
   document.body.appendChild(cheatPanel);
-  document.body.appendChild(sensitivityPanel);
   document.body.appendChild(morePanel);
 
   cheatsBtn.addEventListener("click", function(event) {
@@ -452,11 +446,6 @@ export function initGameTools() {
     event.preventDefault();
     event.stopPropagation();
     togglePanel(morePanel);
-  });
-  sensitivityBtn.addEventListener("click", function(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    togglePanel(sensitivityPanel);
   });
   touchToolbarBtn.addEventListener("click", function() {
     closePanels();
@@ -477,9 +466,6 @@ export function initGameTools() {
   });
 
   fullscreenBtn.addEventListener("click", function() { void toggleFullscreen(); });
-  exitBtn.addEventListener("click", function() {
-    if (confirm("Exit Vice City and return to the website?")) void exitGame();
-  });
 
   document.addEventListener("fullscreenchange", function() {
     const label = fullscreenBtn.querySelector(".vc-game-toolbar-label");
