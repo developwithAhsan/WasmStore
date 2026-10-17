@@ -36,7 +36,7 @@ export const categoryForGame = (game: Pick<Game, 'category' | 'slug' | 'name' | 
   return arcadeCategories[1];
 };
 export const gamesForCategory = (category: ArcadeCategory) =>
-  games.filter((game) => categoryForGame(game) === category);
+  games.filter((game) => categoryForGame(game).key === category.key);
 export const relatedGames = (game: Game, limit = 6) =>
   games.filter((candidate) => candidate.slug !== game.slug &&
     (candidate.category === game.category || candidate.tags.some((tag) => game.tags.includes(tag))))
