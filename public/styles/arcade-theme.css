@@ -96,3 +96,71 @@ body[data-category] .arcade-page{--arcade-purple:var(--accent)}body[data-categor
 .neo-footer-category-unit{font:700 8px/1.2 var(--font-pixel)!important}
 .neo-footer-legal a,.neo-footer-email{color:#fff!important}
 @media(max-width:620px){.arcade-home-hero h1#home-title{font-size:clamp(14px,4.6vw,22px)!important;letter-spacing:-.045em!important}.arcade-typewriter{gap:5px}.arcade-typewriter-label{font-size:8px}.arcade-typewriter-text{font-size:10px!important}}
+
+
+/* Header repair: preserve visible category buttons, black borders/shadows and readable hover states */
+.arcade-site-header{box-shadow:none!important}
+.arcade-site-header:hover{box-shadow:none!important}
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link{
+  display:inline-flex!important;align-items:center;justify-content:center;gap:7px;
+  min-height:40px;padding:9px 10px!important;
+  border:2px solid #0D0D12!important;border-radius:0!important;
+  background:#fff!important;color:#0D0D12!important;
+  box-shadow:3px 3px 0 #0D0D12!important;
+  text-shadow:none!important;
+  transform:translateY(0);
+  transition:transform .16s ease,box-shadow .16s ease!important;
+}
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link i{flex:0 0 9px;width:9px;height:9px;border:1px solid #0D0D12!important}
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link:after{display:none!important}
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link:hover,
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link:focus-visible{
+  background:#fff!important;color:#0D0D12!important;
+  border-color:#0D0D12!important;box-shadow:5px 5px 0 #0D0D12!important;
+  text-shadow:none!important;transform:translateY(-2px)!important;
+}
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link:active{transform:translateY(1px)!important;box-shadow:2px 2px 0 #0D0D12!important}
+.arcade-site-header .arcade-surprise-button{
+  border:2px solid #0D0D12!important;border-radius:0!important;
+  background:var(--yellow)!important;color:#0D0D12!important;
+  box-shadow:3px 3px 0 #0D0D12!important;
+  text-shadow:none!important;
+  transition:transform .16s ease,box-shadow .16s ease!important;
+}
+.arcade-site-header .arcade-surprise-button:hover,
+.arcade-site-header .arcade-surprise-button:focus-visible{
+  background:var(--yellow)!important;color:#0D0D12!important;
+  border-color:#0D0D12!important;box-shadow:5px 5px 0 #0D0D12!important;
+  text-shadow:none!important;transform:translateY(-2px)!important;
+}
+.arcade-site-header .arcade-surprise-button:active{transform:translateY(1px)!important;box-shadow:2px 2px 0 #0D0D12!important}
+.arcade-home-hero{margin:0 0 30px!important;padding:clamp(30px,5vw,64px) 0 0!important}
+.arcade-home-hero .arcade-typewriter{
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap!important;
+  gap:0;margin:0;max-width:100%;overflow:visible;white-space:normal;
+  min-height:clamp(110px,15vw,190px);padding:12px 0 20px;text-align:center;
+}
+.arcade-home-hero .arcade-typewriter-text{
+  display:inline-block;min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere;
+  font:700 clamp(25px,5.4vw,68px)/1.2 var(--font-pixel)!important;
+  letter-spacing:-.025em!important;color:#0D0D12!important;text-transform:uppercase;
+}
+.arcade-home-hero .arcade-typewriter-cursor{
+  flex:0 0 10px;width:10px;height:clamp(22px,3vw,48px);margin-left:7px;
+  background:#0D0D12;align-self:center;
+}
+.arcade-category-section{margin-top:0!important}
+.arcade-category-section>.arcade-section-title{display:none!important}
+@media(max-width:980px){
+  .arcade-site-header .arcade-primary-nav a.arcade-nav-link{width:100%;justify-content:flex-start}
+}
+@media(max-width:620px){
+  .arcade-home-hero{padding-top:24px!important;margin-bottom:20px!important}
+  .arcade-home-hero .arcade-typewriter{min-height:100px;padding:8px 0 14px}
+  .arcade-home-hero .arcade-typewriter-text{font-size:clamp(23px,7.2vw,38px)!important;line-height:1.25!important}
+  .arcade-home-hero .arcade-typewriter-cursor{height:25px;width:7px;flex-basis:7px;margin-left:4px}
+}
+@media(prefers-reduced-motion:reduce){
+  .arcade-site-header .arcade-primary-nav a.arcade-nav-link,
+  .arcade-site-header .arcade-surprise-button{transition:none!important}
+}
