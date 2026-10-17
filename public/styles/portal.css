@@ -265,3 +265,8 @@ body:has(.arcade-page) .site-footer h2,body:has(.arcade-page) .site-footer p,bod
 body:has(.arcade-page) .breadcrumbs{font:12px/1.6 var(--arcade-mono);letter-spacing:.04em;text-transform:uppercase}
 body:has(.arcade-page) .breadcrumbs a{text-decoration:underline;text-underline-offset:3px;color:var(--arcade-ink)}
 body:has(.arcade-page) .breadcrumbs [aria-current="page"]{color:var(--arcade-muted)}
+
+.arcade-play-button{box-shadow:4px 4px 0 #fff}
+.arcade-play-button:hover{box-shadow:2px 2px 0 #fff}
+.arcade-play-button:active{box-shadow:none}
+.arcade-faq-row:hover>summary{background:var(--arcade-yellow)}
