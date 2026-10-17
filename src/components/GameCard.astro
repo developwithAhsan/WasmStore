@@ -2,16 +2,17 @@
 import type { Game } from '../lib/games';
 const { game, compact = false } = Astro.props as { game: Game; compact?: boolean };
 const playable = Boolean(game.demoUrl);
+const displayName = game.name.replace(/\\s+\\(\\d+\\)$/, '');
 ---
 <article class:list={['game-card', { compact }]}>
-  <a class="game-art" href={`/games/${game.slug}`} aria-label={`View ${game.name} game details`}>
-    {game.thumbnailUrl ? <img class="game-thumbnail" src={game.thumbnailUrl} alt={`${game.name} game thumbnail`} loading="lazy" decoding="async" width="640" height="360" /> : <><span class="art-orbit orbit-one"></span><span class="art-orbit orbit-two"></span><span class="art-initial" aria-hidden="true">{game.name.slice(0, 1).toUpperCase()}</span></>}
+  <a class="game-art" href={`/games/${game.slug}`} aria-label={`View ${displayName} game details`}>
+    {game.thumbnailUrl ? <img class="game-thumbnail" src={game.thumbnailUrl} alt={`${displayName} game thumbnail`} loading="lazy" decoding="async" width="640" height="360" /> : <><span class="art-orbit orbit-one"></span><span class="art-orbit orbit-two"></span><span class="art-initial" aria-hidden="true">{displayName.slice(0, 1).toUpperCase()}</span></>}
     <span class="art-category">{game.category}</span>
   </a>
   <div class="game-card-body">
     <div class="game-card-meta"><span>{game.category}</span><span class:list={['availability', { 'available': playable }]}>{playable ? 'Demo listed' : 'Catalog entry'}</span></div>
-    <h3><a href={`/games/${game.slug}`}>{game.name}</a></h3>
+    <h3><a href={`/games/${game.slug}`}>{displayName}</a></h3>
     <p>{game.description}</p>
-    <div class="card-actions"><a class="button button-small button-primary" href={`/games/${game.slug}`}>{playable ? 'View & play' : 'View details'} <span>→</span></a><button class="icon-button" type="button" data-favorite={game.slug} data-favorite-title={game.name} data-favorite-url={`/games/${game.slug}`} aria-label={`Add ${game.name} to favorites`} aria-pressed="false" title="Save to favorites">♡</button></div>
+    <div class="card-actions"><a class="button button-small button-primary" href={`/games/${game.slug}`}>{playable ? 'View & play' : 'View details'} <span>→</span></a><button class="icon-button" type="button" data-favorite={game.slug} data-favorite-title={displayName} data-favorite-url={`/games/${game.slug}`} aria-label={`Add ${displayName} to favorites`} aria-pressed="false" title="Save to favorites">♡</button></div>
   </div>
 </article>
