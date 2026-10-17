@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import GameCard from '../components/GameCard.astro';
 import { games, categories } from '../lib/games';
 import site from '../data/site.json';
-const featuredSlugs = ['gta-3-3','gta-vice-city-2','gta-v','the-simpsons-hit-and-run-web-port','minecraft-1-8-8-eaglercraftx','the-simpsons-hit-and-run'];
+const featuredSlugs = ['gta-3-3','gta-vice-city-2','gta-v','the-simpsons-hit-and-run-web-port'];
 const featured = featuredSlugs.map((slug) => games.find((game) => game.slug === slug)).filter((game): game is NonNullable<typeof game> => Boolean(game));
 const searchText = (g: (typeof games)[number]) => [g.name,g.category,g.tags.join(' '),g.slug].join(' ').toLowerCase();
 ---
@@ -16,6 +16,12 @@ const searchText = (g: (typeof games)[number]) => [g.name,g.category,g.tags.join
     <section class="home-games" id="games" aria-labelledby="games-title">
       <div class="library-heading"><span class="pixel-kicker">THE ARCADE SHELF</span><h2 id="games-title">GAMES</h2><p>Choose a classic and open its game page.</p></div>
       <div class="game-grid home-game-grid">{featured.map((game) => <div data-library-game data-slug={game.slug} data-search={searchText(game)}><GameCard game={game} /></div>)}</div>
+      <div class="game-grid home-game-grid">
+        <article class="game-card">
+          <a class="game-art" href="/games/gta-chinatown-wars" aria-label="GTA Chinatown Wars coming soon"><span class="art-orbit orbit-one"></span><span class="art-orbit orbit-two"></span><span class="art-initial" aria-hidden="true">CTW</span><span class="art-category">Grand Theft Auto</span></a>
+          <div class="game-card-body"><div class="game-card-meta"><span>Action · Adventure</span><span class="availability">Coming soon</span></div><h3><a href="/games/gta-chinatown-wars">GTA: Chinatown Wars</a></h3><p>Catalog placeholder. A verified browser-playable version has not been confirmed yet.</p><div class="card-actions"><a class="button button-small button-primary" href="/games/gta-chinatown-wars">View status <span>→</span></a></div></div>
+        </article>
+      </div>
       <div class="home-more"><a class="button button-primary" href="/games">Browse all games <span>→</span></a></div>
     </section>
   </div>
