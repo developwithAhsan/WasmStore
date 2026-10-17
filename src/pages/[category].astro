@@ -1,11 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GameCard from '../components/GameCard.astro';
-import { arcadeCategories, gamesForCategory } from '../lib/games';
+import { arcadeCategories, gamesForCategory, categoryHref } from '../lib/games';
 import site from '../data/site.json';
 
 export function getStaticPaths() {
-  return arcadeCategories.map((category) => ({ params: { category: category.slug }, props: { category } }));
+  return arcadeCategories.filter((category) => category.key !== 'cat-5').map((category) => ({ params: { category: category.slug }, props: { category } }));
 }
 const { category } = Astro.props;
 const list = gamesForCategory(category);
@@ -30,6 +30,6 @@ const schema = [
       <p class="arcade-no-results" data-category-empty hidden>No games matched that search. Try another title or tag.</p>
       <button type="button" class="arcade-load-more" data-load-more hidden={list.length<=24}>LOAD MORE GAMES ↓</button>
     </section>
-    <nav class="arcade-other-categories" aria-label="Explore other categories">{arcadeCategories.filter((item) => item.slug !== category.slug).map((item) => <a href={'/' + item.slug} style={'--chip-color:' + item.color}>{item.name} ↗</a>)}</nav>
+    <nav class="arcade-other-categories" aria-label="Explore other categories">{arcadeCategories.filter((item) => item.slug !== category.slug).map((item) => <a href={categoryHref(item)} style={'--chip-color:' + item.color}>{item.name} ↗</a>)}</nav>
   </div>
 </BaseLayout>
