@@ -19,7 +19,7 @@ export const arcadeCategories = [
   { key: 'cat-2', name: 'Classic Games', shortName: 'Classics', slug: 'classic-games', color: '#EF4136', description: 'Memorable favourites and timeless browser-game discoveries.', sourceCategories: ['Adventure', 'Other'] },
   { key: 'cat-3', name: 'Arcade & Racing', shortName: 'Arcade & Racing', slug: 'arcade-racing', color: '#2EA8F0', description: 'Fast races, arcade action and high-score challenges.', sourceCategories: ['Arcade', 'Platformer', 'Racing', 'Sports'] },
   { key: 'cat-4', name: 'Flash Games', shortName: 'Flash Games', slug: 'flash-games', color: '#2ECC71', description: 'Flash-era favourites and games inspired by the classic web.', sourceCategories: [] },
-  { key: 'cat-5', name: 'Puzzle & Strategy', shortName: 'Puzzle & Strategy', slug: 'puzzle-strategy', color: '#FF6FB5', description: 'Solve puzzles, plan ahead and put your strategy to the test.', sourceCategories: ['Puzzle', 'Strategy'] }
+  { key: 'cat-5', name: 'GTA 5', shortName: 'GTA 5', slug: 'gta-5', color: '#FF6FB5', description: 'Open the GTA 5 game page directly, with its available browser demo and game information.', sourceCategories: [] }
 ] as const;
 export type ArcadeCategory = typeof arcadeCategories[number];
 const pcGameMatch = (game: Pick<Game, 'slug' | 'name'>) => {
@@ -28,15 +28,17 @@ const pcGameMatch = (game: Pick<Game, 'slug' | 'name'>) => {
 };
 const flashGameMatch = (game: Pick<Game, 'slug' | 'name' | 'tags'>) =>
   /flash/.test((game.slug + ' ' + game.name + ' ' + game.tags.join(' ')).toLowerCase());
+export const categoryHref = (category: ArcadeCategory) => category.key === 'cat-5' ? '/games/gta-v' : '/' + category.slug;
 export const categoryForGame = (game: Pick<Game, 'category' | 'slug' | 'name' | 'tags'>) => {
   if (pcGameMatch(game)) return arcadeCategories[0];
   if (flashGameMatch(game)) return arcadeCategories[3];
   if (['Arcade', 'Platformer', 'Racing', 'Sports'].includes(game.category)) return arcadeCategories[2];
-  if (['Puzzle', 'Strategy'].includes(game.category)) return arcadeCategories[4];
+  if (['Puzzle', 'Strategy'].includes(game.category)) return arcadeCategories[1];
   return arcadeCategories[1];
 };
-export const gamesForCategory = (category: ArcadeCategory) =>
-  games.filter((game) => categoryForGame(game).key === category.key);
+export const gamesForCategory = (category: ArcadeCategory) => category.key === 'cat-5'
+  ? games.filter((game) => game.slug === 'gta-v')
+  : games.filter((game) => categoryForGame(game).key === category.key);
 export const relatedGames = (game: Game, limit = 6) =>
   games.filter((candidate) => candidate.slug !== game.slug &&
     (candidate.category === game.category || candidate.tags.some((tag) => game.tags.includes(tag))))
