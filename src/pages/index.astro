@@ -1,40 +1,41 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GameCard from '../components/GameCard.astro';
-import { games, type Game } from '../lib/games';
+import { games, arcadeCategories, gamesForCategory, categoryForGame } from '../lib/games';
 import site from '../data/site.json';
 
-const bySlug = (slug: string) => games.find((game) => game.slug === slug);
-const classicGames = ['gta-3-3','gta-vice-city-2','gta-v','the-simpsons-hit-and-run-web-port'].map(bySlug).filter((game): game is Game => Boolean(game));
-const viceCityGames = ['gta-vice-city-2'].map(bySlug).filter((game): game is Game => Boolean(game));
-const arcadeGames = games.filter((game) => game.category === 'Arcade').slice(0, 3);
-const flashGames = games.filter((game) => game.category === 'Puzzle' || game.category === 'Platformer').slice(0, 3);
-const searchText = (g: (typeof games)[number]) => [g.name,g.category,g.tags.join(' '),g.slug].join(' ').toLowerCase();
+const categoryCards = arcadeCategories.map((category) => ({ ...category, games: gamesForCategory(category) }));
+const startGames = [...games].sort((a, b) => Number(Boolean(b.demoUrl)) - Number(Boolean(a.demoUrl))).slice(0, 14);
 const homeSchema = [
-  {'@context':'https://schema.org','@type':'WebSite',name:site.name,url:site.url,potentialAction:{'@type':'SearchAction',target:site.url+'/games?q={search_term_string}', 'query-input':'required name=search_term_string'}},
-  {'@context':'https://schema.org','@type':'ItemList',name:'Classic browser games',itemListElement:classicGames.map((g,index)=>({'@type':'ListItem',position:index+1,url:new URL('/games/'+g.slug,site.url).toString(),name:g.name.replace(/\s+\(\d+\)$/,'')}))}
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.url, potentialAction: { '@type': 'SearchAction', target: site.url + '/games?q={search_term_string}', 'query-input': 'required name=search_term_string' } },
+  { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Five browser game categories', itemListElement: categoryCards.map((category, index) => ({ '@type': 'ListItem', position: index + 1, name: category.name, url: new URL('/' + category.slug, site.url).toString() })) }
 ];
 ---
-<BaseLayout title="WasmStore — Classic, Arcade & Browser Games" description="Discover classic games, arcade favorites, Flash-style browser games and GTA Vice City community ports in the WasmStore game library." path="/" schema={homeSchema}>
-  <div class="home-library wrap">
-    <section class="home-games home-section section-classic" id="classic-games" aria-labelledby="classic-title">
-      <div class="library-heading"><span class="pixel-kicker">01 / THE CLASSICS</span><h1 id="classic-title">CLASSIC GAMES</h1><p>Legendary worlds and familiar favorites, collected in one place.</p></div>
-      <div class="game-grid home-game-grid">{classicGames.map((game) => <div data-library-game data-slug={game.slug} data-search={searchText(game)}><GameCard game={game} /></div>)}</div>
-      <div class="home-more"><a class="button button-primary" href="/games">Explore all games <span>→</span></a></div>
+<BaseLayout title="Play Free Browser Games Online | No Download" description={`Play ${games.length} free browser games online. Discover classics, action, arcade, racing and puzzle games — no install or account required.`} path="/" schema={homeSchema}>
+  <div class="arcade-home wrap">
+    <section class="arcade-home-hero" aria-labelledby="home-title">
+      <p class="arcade-kicker"><span></span> WASMSTORE / BROWSER ARCADE</p>
+      <h1 id="home-title">PLAY CLASSIC GAMES<br />IN YOUR BROWSER<span class="hero-period">.</span></h1>
+      <p class="arcade-hero-sub"><strong>{games.length} free games across five categories. No install, no account.</strong> <span>Pick a favorite and jump straight into the good stuff.</span> <a href="/about">About the project</a></p>
     </section>
-    <section class="home-games home-section section-arcade" id="arcade-games" aria-labelledby="arcade-title">
-      <div class="library-heading"><span class="pixel-kicker">02 / QUICK PLAY</span><h2 id="arcade-title">ARCADE GAMES</h2><p>Pick-up-and-play arcade classics and browser ports.</p></div>
-      <div class="game-grid home-game-grid">{arcadeGames.map((game) => <div data-library-game data-slug={game.slug} data-search={searchText(game)}><GameCard game={game} /></div>)}</div>
-      <div class="home-more"><a class="button button-quiet" href="/categories/arcade">Browse arcade games <span>→</span></a></div>
+    <section class="arcade-category-section" aria-labelledby="categories-title">
+      <div class="arcade-section-title"><div><span class="arcade-kicker">01 / FIND YOUR NEXT GAME</span><h2 id="categories-title">PICK A CATEGORY</h2></div><span class="arcade-count">05 CATEGORIES</span></div>
+      <div class="arcade-category-grid">
+        {categoryCards.map((category) => <a class="arcade-category-card" href={'/' + category.slug} data-category={category.key} style={'--accent:' + category.color} aria-label={'Browse ' + category.name + ', ' + category.games.length + ' games'}>
+          <span class="arcade-card-number">{category.key.toUpperCase()}</span><h3>{category.name}</h3><p>{category.description}</p>
+          <div class="arcade-category-bottom"><div class="arcade-mini-covers" aria-hidden="true">{category.games.slice(0,3).map((game) => game.thumbnailUrl ? <img src={game.thumbnailUrl} alt="" loading="lazy" width="42" height="28" /> : <span>{game.name.slice(0,1)}</span>)}</div><div class="arcade-category-count"><strong>{category.games.length}</strong><small>GAMES</small></div></div><span class="arcade-card-arrow" aria-hidden="true">↗</span>
+        </a>)}
+      </div>
     </section>
-    <section class="home-games home-section section-flash" id="flash-games" aria-labelledby="flash-title">
-      <div class="library-heading"><span class="pixel-kicker">03 / WEB-GAME NOSTALGIA</span><h2 id="flash-title">FLASH GAMES</h2><p>Classic browser-game nostalgia. This collection currently highlights lightweight puzzle and platform games while legacy Flash entries are being verified.</p></div>
-      <div class="game-grid home-game-grid">{flashGames.map((game) => <div data-library-game data-slug={game.slug} data-search={searchText(game)}><GameCard game={game} /></div>)}</div>
-      <div class="home-more"><a class="button button-quiet" href="/games">Find more browser games <span>→</span></a></div>
+    <section class="arcade-start-section" aria-labelledby="start-title">
+      <div class="arcade-section-title"><div><span class="arcade-kicker">02 / YOUR NEXT CLICK</span><h2 id="start-title" class="arcade-black-label">START HERE</h2></div><div class="arcade-carousel-controls"><button type="button" class="arcade-arrow" data-carousel-prev aria-label="Scroll games left" disabled>←</button><button type="button" class="arcade-arrow" data-carousel-next aria-label="Scroll games right">→</button></div></div>
+      <div class="arcade-game-carousel" data-game-carousel>
+        {startGames.map((game) => { const category = categoryForGame(game); return <div class="arcade-home-game" style={'--accent:' + category.color}><GameCard game={game} compact /></div>; })}
+      </div>
     </section>
-    <section class="home-games home-section section-vice-city" id="gta-vice-city" aria-labelledby="vice-city-title">
-      <div class="library-heading"><span class="pixel-kicker">04 / GRAND THEFT AUTO</span><h2 id="vice-city-title">GTA VICE CITY</h2><p>Explore the neon-lit Vice City browser-port listing and its availability details.</p></div>
-      <div class="game-grid home-game-grid">{viceCityGames.map((game) => <div data-library-game data-slug={game.slug} data-search={searchText(game)}><GameCard game={game} /></div>)}</div>
+    <section class="arcade-new-section" aria-labelledby="new-title">
+      <div class="arcade-section-title"><div><span class="arcade-kicker">03 / MORE TO EXPLORE</span><h2 id="new-title" class="arcade-black-label">READY TO PLAY</h2></div><a class="arcade-text-link" href="/games">Browse all games ↗</a></div>
+      <div class="arcade-feature-grid">{startGames.slice(0,4).map((game) => { const category = categoryForGame(game); return <div class="arcade-home-game" style={'--accent:' + category.color}><GameCard game={game} compact /></div>; })}</div>
     </section>
   </div>
 </BaseLayout>
