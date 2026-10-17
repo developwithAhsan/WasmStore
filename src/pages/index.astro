@@ -62,16 +62,16 @@ const homeSchema = [
       };
       const row = document.querySelector('[data-random-game-row]');
       if (row) {
-        const fixed = [...row.querySelectorAll('[data-pc-fixed]')];
-        const random = shuffle([...row.querySelectorAll('[data-random-game]')]).slice(0, 8);
-        row.querySelectorAll('[data-random-game]').forEach((card) => { card.hidden = true; });
+        const fixed = [...row.querySelectorAll<HTMLElement>('[data-pc-fixed]')];
+        const random = shuffle([...row.querySelectorAll<HTMLElement>('[data-random-game]')]).slice(0, 8);
+        row.querySelectorAll<HTMLElement>('[data-random-game]').forEach((card) => { card.hidden = true; });
         random.forEach((card) => { card.hidden = false; });
         [...fixed, ...random].forEach((card) => row.append(card));
       }
       const featureGrid = document.querySelector('[data-random-feature-grid]');
       if (featureGrid) {
-        const cards = shuffle([...featureGrid.querySelectorAll('[data-random-feature]')]).slice(0, 4);
-        featureGrid.querySelectorAll('[data-random-feature]').forEach((card) => { card.hidden = true; });
+        const cards = shuffle([...featureGrid.querySelectorAll<HTMLElement>('[data-random-feature]')]).slice(0, 4);
+        featureGrid.querySelectorAll<HTMLElement>('[data-random-feature]').forEach((card) => { card.hidden = true; });
         cards.forEach((card) => { card.hidden = false; featureGrid.append(card); });
       }
     })();
