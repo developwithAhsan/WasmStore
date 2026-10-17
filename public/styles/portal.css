@@ -146,7 +146,7 @@ body{background-color:#f1f2f4;background-image:radial-gradient(#fff 1.65px,trans
 
 
 /* Neo-brutalist retro arcade game-detail system */
-@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@700;800&family=Pixelify+Sans:wght@600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
 :root{
   --arcade-bg:#F0EEE9;
   --arcade-purple:#A78BFA;
@@ -256,3 +256,12 @@ body:has(.arcade-page) .site-footer h2,body:has(.arcade-page) .site-footer p,bod
 @media(max-width:700px){.arcade-page{width:calc(100% - 28px);padding-top:14px}.arcade-page .breadcrumbs{font-size:10px}.arcade-player-inner{display:flex;flex-direction:column-reverse;align-items:stretch;padding:18px;gap:20px}.arcade-cover-wrap{width:100%;max-width:none;box-shadow:4px 4px 0 var(--arcade-purple)}.arcade-cover{aspect-ratio:16/9}.arcade-pixel-label{font-size:42px}.arcade-promo p{font-size:14px}.arcade-play-button{width:100%;min-height:50px}.arcade-controlbar{align-items:stretch;flex-direction:column}.arcade-ticks{min-height:15px}.arcade-toolbar-actions{display:grid;grid-template-columns:1fr}.arcade-tool-button{width:100%;min-height:48px}.arcade-info-body h1{font-size:clamp(23px,8vw,34px)}.arcade-section-heading{align-items:flex-start;flex-direction:column;padding:15px}.arcade-section-heading>span{text-align:left}.arcade-faq-row summary{padding:14px;font-size:14px}.arcade-more-heading{align-items:stretch;flex-direction:column}.arcade-more-heading h2{text-align:center}.arcade-more-heading .arcade-outline-button{width:100%;min-height:48px}.arcade-more-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.arcade-more-grid .game-card-body{padding:10px!important}.arcade-more-grid .game-card h3,.arcade-more-grid .game-card h3 a{font-size:11px!important}.arcade-more-grid .game-card-body p{font-size:12px}.arcade-more-grid .card-actions{gap:8px}.arcade-more-grid .button{font-size:10px;padding:8px}}
 @media(max-width:420px){.arcade-more-grid{grid-template-columns:1fr}.arcade-more-grid .game-card h3,.arcade-more-grid .game-card h3 a{font-size:14px!important}.arcade-more-grid .game-card-body p{font-size:13px}.arcade-info-top,.arcade-topbar{padding:11px}.arcade-info-body{padding:17px}.arcade-specs>div{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.arcade-page *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+
+/* Keep every catalog, related-game and hero thumbnail landscape sitewide. */
+.game-art{aspect-ratio:16/9!important;height:auto!important;min-height:0!important;overflow:hidden}
+.game-art img,.game-art .game-thumbnail{display:block;width:100%!important;height:100%!important;aspect-ratio:16/9!important;object-fit:cover!important}
+.game-card .game-art{height:auto!important}
+body:has(.arcade-page) .breadcrumbs{font:12px/1.6 var(--arcade-mono);letter-spacing:.04em;text-transform:uppercase}
+body:has(.arcade-page) .breadcrumbs a{text-decoration:underline;text-underline-offset:3px;color:var(--arcade-ink)}
+body:has(.arcade-page) .breadcrumbs [aria-current="page"]{color:var(--arcade-muted)}
