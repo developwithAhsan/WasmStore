@@ -3,7 +3,7 @@ const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelecto
 const storage={get(k,fallback){try{return JSON.parse(localStorage.getItem('wasmstore:'+k))??fallback}catch{return fallback}},set(k,v){try{localStorage.setItem('wasmstore:'+k,JSON.stringify(v))}catch{}}};
 const menu=$('.nav-toggle'),nav=$('.primary-nav');
 if(menu&&nav)menu.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));menu.textContent=open?'✕':'☰'});
-$('[data-year]').forEach(el=>el.textContent=new Date().getFullYear());
+$$('[data-year]').forEach(el=>el.textContent=new Date().getFullYear());
 const surpriseButton=$('[data-surprise-game]');
 if(surpriseButton){
  const surpriseGames=[
