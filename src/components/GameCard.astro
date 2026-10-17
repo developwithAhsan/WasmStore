@@ -2,7 +2,7 @@
 import type { Game } from '../lib/games';
 const { game, compact = false } = Astro.props as { game: Game; compact?: boolean };
 const playable = Boolean(game.demoUrl);
-const displayName = game.name.replace(/\\s+\\(\\d+\\)$/, '');
+const displayName = game.name.replace(/\s+\(\d+\)$/, '');
 ---
 <article class:list={['game-card', { compact }]}>
   <a class="game-art" href={`/games/${game.slug}`} aria-label={`View ${displayName} game details`}>
