@@ -3,7 +3,23 @@ const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelecto
 const storage={get(k,fallback){try{return JSON.parse(localStorage.getItem('wasmstore:'+k))??fallback}catch{return fallback}},set(k,v){try{localStorage.setItem('wasmstore:'+k,JSON.stringify(v))}catch{}}};
 const menu=$('.nav-toggle'),nav=$('.primary-nav');
 if(menu&&nav)menu.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));menu.textContent=open?'✕':'☰'});
-$$('[data-year]').forEach(el=>el.textContent=new Date().getFullYear());
+$('[data-year]').forEach(el=>el.textContent=new Date().getFullYear());
+const surpriseButton=$('[data-surprise-game]');
+if(surpriseButton){
+ const surpriseGames=[
+  {slug:'gta-3-3',name:'GTA 3'},
+  {slug:'gta-vice-city-2',name:'GTA Vice City'},
+  {slug:'gta-v',name:'GTA 5'},
+  {slug:'the-simpsons-hit-and-run-web-port',name:'The Simpsons: Hit & Run'}
+ ];
+ let previousSurprise='';
+ surpriseButton.addEventListener('click',()=>{
+  const choices=surpriseGames.filter(game=>game.slug!==previousSurprise);
+  const selected=choices[Math.floor(Math.random()*choices.length)]||surpriseGames[0];
+  previousSurprise=selected.slug;
+  location.href='/games/'+selected.slug;
+ });
+}
 let toastTimer;function toast(message){let el=$('.toast');if(!el){el=document.createElement('div');el.className='toast';el.setAttribute('role','status');el.setAttribute('aria-live','polite');document.body.append(el)}el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),3200)}
 function updateFavorites(){const favs=storage.get('favorites',[]);$$('[data-favorite]').forEach(btn=>{const active=favs.some(x=>typeof x==='string'?x===btn.dataset.favorite:x.slug===btn.dataset.favorite);btn.setAttribute('aria-pressed',String(active));if(btn.classList.contains('favorite-large'))btn.textContent=active?'♥ Saved':'♡ Save game';else btn.textContent=active?'♥':'♡';btn.setAttribute('aria-label',active?'Remove from favorites':'Add to favorites')})}
 document.addEventListener('click',e=>{const btn=e.target.closest('[data-favorite]');if(!btn)return;const slug=btn.dataset.favorite;let favs=storage.get('favorites',[]);const exists=favs.some(x=>typeof x==='string'?x===slug:x.slug===slug);favs=exists?favs.filter(x=>(typeof x==='string'?x:x.slug)!==slug):[...favs,{slug,title:btn.dataset.favoriteTitle||slug,url:btn.dataset.favoriteUrl||('/games/'+slug)}];storage.set('favorites',favs);updateFavorites();toast(exists?'Removed from favorites.':'Saved to your favorites on this device.')});updateFavorites();
