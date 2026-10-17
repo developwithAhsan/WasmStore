@@ -348,3 +348,22 @@ body[data-category] .arcade-tags span{
  .arcade-search-suggestions{top:calc(100% + 8px);left:-2px;right:-2px;max-height:55vh}
  .arcade-mini-covers img,.arcade-mini-covers>span{width:48px!important;height:27px!important;flex-basis:48px}
 }
+
+/* Pixel-style headings for informational and legal pages; replace the old gradient treatment. */
+.page-hero h1,
+.page-hero h1 .gradient-text{
+  font-family:var(--font-pixel)!important;
+  font-weight:700;
+  letter-spacing:-.025em!important;
+  line-height:1.2;
+  text-transform:uppercase;
+}
+.page-hero h1{color:var(--ink)!important;text-shadow:3px 3px 0 rgba(13,13,18,.08)}
+.page-hero h1 .gradient-text{
+  color:var(--cat-3)!important;
+  background:none!important;
+  -webkit-background-clip:initial!important;
+  background-clip:initial!important;
+  text-shadow:3px 3px 0 var(--ink);
+}
+@media(max-width:640px){.page-hero h1{font-size:clamp(2rem,10vw,3.2rem)}}
