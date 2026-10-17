@@ -1,5 +1,31 @@
 (()=>{'use strict';
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const typewriter=$('[data-game-typewriter]');
+if(typewriter){
+ const featuredGames=['PLAY GTA 5','PLAY GTA 3','PLAY GTA VICE CITY','PLAY MINECRAFT','PLAY THE SIMPSONS','PLAY NEO GEO'];
+ const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ if(reduceMotion){typewriter.textContent=featuredGames[0]}
+ else{
+  let gameIndex=0,charIndex=featuredGames[0].length,deleting=true;
+  typewriter.textContent=featuredGames[0];
+  const tick=()=>{
+   const word=featuredGames[gameIndex];
+   if(deleting){
+    charIndex=Math.max(0,charIndex-1);
+    typewriter.textContent=word.slice(0,charIndex);
+    if(charIndex===0){deleting=false;gameIndex=(gameIndex+1)%featuredGames.length;window.setTimeout(tick,350);return}
+    window.setTimeout(tick,42);
+   }else{
+    const nextWord=featuredGames[gameIndex];
+    charIndex=Math.min(nextWord.length,charIndex+1);
+    typewriter.textContent=nextWord.slice(0,charIndex);
+    if(charIndex===nextWord.length){deleting=true;window.setTimeout(tick,1350);return}
+    window.setTimeout(tick,82);
+   }
+  };
+  window.setTimeout(tick,1350);
+ }
+}
 const search=$('#header-game-search');
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||'')){e.preventDefault();search?.focus()}});
 const carousel=$('[data-game-carousel]'),prev=$('[data-carousel-prev]'),next=$('[data-carousel-next]');
