@@ -1,28 +1,40 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GameCard from '../components/GameCard.astro';
-import { games, categories } from '../lib/games';
+import { games } from '../lib/games';
 import site from '../data/site.json';
-const featuredSlugs = ['gta-3-3','gta-vice-city-2','gta-v','the-simpsons-hit-and-run-web-port'];
-const featured = featuredSlugs.map((slug) => games.find((game) => game.slug === slug)).filter((game): game is NonNullable<typeof game> => Boolean(game));
+
+const bySlug = (slug: string) => games.find((game) => game.slug === slug);
+const classicGames = ['gta-3-3','gta-vice-city-2','gta-v','the-simpsons-hit-and-run-web-port'].map(bySlug).filter(Boolean);
+const viceCityGames = ['gta-vice-city-2'].map(bySlug).filter(Boolean);
+const arcadeGames = games.filter((game) => game.category === 'Arcade').slice(0, 3);
+const flashGames = games.filter((game) => game.category === 'Puzzle' || game.category === 'Platformer').slice(0, 3);
 const searchText = (g: (typeof games)[number]) => [g.name,g.category,g.tags.join(' '),g.slug].join(' ').toLowerCase();
+const homeSchema = [
+  {'@context':'https://schema.org','@type':'WebSite',name:site.name,url:site.url,potentialAction:{'@type':'SearchAction',target:site.url+'/games?q={search_term_string}', 'query-input':'required name=search_term_string'}},
+  {'@context':'https://schema.org','@type':'ItemList',name:'Classic browser games',itemListElement:classicGames.map((g,index)=>({'@type':'ListItem',position:index+1,url:new URL('/games/'+g.slug,site.url).toString(),name:g.name.replace(/\\s+\\(\\d+\\)$/,'')}))}
+];
 ---
-<BaseLayout title="WasmStore — Classic Games Library" description="Browse classic games, community browser ports, and game collections in WasmStore." path="/" schema={[{ '@context':'https://schema.org','@type':'WebSite',name:site.name,url:site.url,potentialAction:{'@type':'SearchAction',target:site.url+'/games?q={search_term_string}', 'query-input':'required name=search_term_string'}}]}>
+<BaseLayout title="WasmStore — Classic, Arcade & Browser Games" description="Discover classic games, arcade favorites, Flash-style browser games and GTA Vice City community ports in the WasmStore game library." path="/" schema={homeSchema}>
   <div class="home-library wrap">
-    <section class="home-categories" id="categories" aria-labelledby="category-title">
-      <div class="library-heading"><span class="pixel-kicker">PICK YOUR PLAYSTYLE</span><h1 id="category-title">CATEGORIES</h1></div>
-      <div class="category-grid">{categories.map((category, i) => <a class="category-tile" href={`/categories/${encodeURIComponent(category.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''))}`}><span class="category-number">{String(i+1).padStart(2,'0')}</span><strong>{category}</strong><span>{games.filter((g) => g.category === category).length} GAMES <b>↗</b></span></a>)}</div>
+    <section class="home-games home-section section-classic" id="classic-games" aria-labelledby="classic-title">
+      <div class="library-heading"><span class="pixel-kicker">01 / THE CLASSICS</span><h1 id="classic-title">CLASSIC GAMES</h1><p>Legendary worlds and familiar favorites, collected in one place.</p></div>
+      <div class="game-grid home-game-grid">{classicGames.map((game) => <div data-library-game data-slug={game.slug} data-search={searchText(game)}><GameCard game={game} /></div>)}</div>
+      <div class="home-more"><a class="button button-primary" href="/games">Explore all games <span>→</span></a></div>
     </section>
-    <section class="home-games" id="games" aria-labelledby="games-title">
-      <div class="library-heading"><span class="pixel-kicker">THE ARCADE SHELF</span><h2 id="games-title">GAMES</h2><p>Choose a classic and open its game page.</p></div>
-      <div class="game-grid home-game-grid">{featured.map((game) => <div data-library-game data-slug={game.slug} data-search={searchText(game)}><GameCard game={game} /></div>)}</div>
-      <div class="game-grid home-game-grid">
-        <article class="game-card">
-          <a class="game-art" href="/games/gta-chinatown-wars" aria-label="GTA Chinatown Wars coming soon"><span class="art-orbit orbit-one"></span><span class="art-orbit orbit-two"></span><span class="art-initial" aria-hidden="true">CTW</span><span class="art-category">Grand Theft Auto</span></a>
-          <div class="game-card-body"><div class="game-card-meta"><span>Action · Adventure</span><span class="availability">Coming soon</span></div><h3><a href="/games/gta-chinatown-wars">GTA: Chinatown Wars</a></h3><p>Catalog placeholder. A verified browser-playable version has not been confirmed yet.</p><div class="card-actions"><a class="button button-small button-primary" href="/games/gta-chinatown-wars">View status <span>→</span></a></div></div>
-        </article>
-      </div>
-      <div class="home-more"><a class="button button-primary" href="/games">Browse all games <span>→</span></a></div>
+    <section class="home-games home-section section-arcade" id="arcade-games" aria-labelledby="arcade-title">
+      <div class="library-heading"><span class="pixel-kicker">02 / QUICK PLAY</span><h2 id="arcade-title">ARCADE GAMES</h2><p>Pick-up-and-play arcade classics and browser ports.</p></div>
+      <div class="game-grid home-game-grid">{arcadeGames.map((game) => <div data-library-game data-slug={game.slug} data-search={searchText(game)}><GameCard game={game} /></div>)}</div>
+      <div class="home-more"><a class="button button-quiet" href="/categories/arcade">Browse arcade games <span>→</span></a></div>
+    </section>
+    <section class="home-games home-section section-flash" id="flash-games" aria-labelledby="flash-title">
+      <div class="library-heading"><span class="pixel-kicker">03 / WEB-GAME NOSTALGIA</span><h2 id="flash-title">FLASH GAMES</h2><p>Classic browser-game nostalgia. This collection currently highlights lightweight puzzle and platform games while legacy Flash entries are being verified.</p></div>
+      <div class="game-grid home-game-grid">{flashGames.map((game) => <div data-library-game data-slug={game.slug} data-search={searchText(game)}><GameCard game={game} /></div>)}</div>
+      <div class="home-more"><a class="button button-quiet" href="/games">Find more browser games <span>→</span></a></div>
+    </section>
+    <section class="home-games home-section section-vice-city" id="gta-vice-city" aria-labelledby="vice-city-title">
+      <div class="library-heading"><span class="pixel-kicker">04 / GRAND THEFT AUTO</span><h2 id="vice-city-title">GTA VICE CITY</h2><p>Explore the neon-lit Vice City browser-port listing and its availability details.</p></div>
+      <div class="game-grid home-game-grid">{viceCityGames.map((game) => <div data-library-game data-slug={game.slug} data-search={searchText(game)}><GameCard game={game} /></div>)}</div>
     </section>
   </div>
 </BaseLayout>
