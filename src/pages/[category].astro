@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GameCard from '../components/GameCard.astro';
+import { arcadeCategories, gamesForCategory } from '../lib/games';
+import site from '../data/site.json';
+
+export function getStaticPaths() {
+  return arcadeCategories.map((category) => ({ params: { category: category.slug }, props: { category } }));
+}
+const { category } = Astro.props;
+const list = gamesForCategory(category);
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Free ' + category.name + ' Games Online | No Download', description: category.description, url: new URL('/' + category.slug, site.url).toString(), mainEntity: { '@type': 'ItemList', numberOfItems: list.length, itemListElement: list.map((game, index) => ({ '@type': 'ListItem', position: index + 1, url: new URL('/games/' + game.slug, site.url).toString(), name: game.name })) } },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: site.url }, { '@type': 'ListItem', position: 2, name: category.name, item: new URL('/' + category.slug, site.url).toString() }] }
+];
+---
+<BaseLayout category={category.key} title={'Free ' + category.name + ' Games Online | No Download'} description={'Browse ' + list.length + ' free ' + category.name.toLowerCase() + ' browser games. No install or account required. Explore game covers, descriptions and play availability.'} path={'/' + category.slug} schema={schema}>
+  <div class="arcade-category-page wrap">
+    <nav class="arcade-breadcrumbs" aria-label="Breadcrumb"><a href="/">HOME</a> / <span aria-current="page">{category.name.toUpperCase()}</span></nav>
+    <section class="arcade-category-hero" aria-labelledby="category-title">
+      <p class="arcade-kicker">WASMSTORE / CATEGORY ARCHIVE</p><h1 id="category-title">{category.name}</h1>
+      <p>{category.description} Explore browser-ready classics and community game listings.</p>
+      <span class="arcade-category-total">{list.length} GAMES / READY WHEN YOU ARE</span>
+    </section>
+    <section aria-label={category.name + ' game catalog'}>
+      <div class="arcade-filter-bar"><label class="visually-hidden" for="category-search">Search this category</label><input id="category-search" data-category-search type="search" placeholder={'Search ' + category.shortName.toLowerCase() + ' games…'} /><div class="arcade-sort-buttons" aria-label="Sort games"><button type="button" data-category-sort="az" aria-pressed="false">A–Z</button><button type="button" data-category-sort="popular" aria-pressed="true">Popular</button><button type="button" data-category-sort="new" aria-pressed="false">New</button></div><span class="arcade-count"><b data-category-visible>{Math.min(24,list.length)}</b> / {list.length} SHOWN</span></div>
+      <div class="arcade-category-games" data-category-grid>
+        {list.map((game,index) => <div data-category-item data-name={game.name.toLowerCase()} data-tags={game.tags.join(' ').toLowerCase()} data-id={game.id} data-order={index} hidden={index>=24}><GameCard game={game}/></div>)}
+      </div>
+      <p class="arcade-no-results" data-category-empty hidden>No games matched that search. Try another title or tag.</p>
+      <button type="button" class="arcade-load-more" data-load-more hidden={list.length<=24}>LOAD MORE GAMES ↓</button>
+    </section>
+    <nav class="arcade-other-categories" aria-label="Explore other categories">{arcadeCategories.filter((item) => item.slug !== category.slug).map((item) => <a href={'/' + item.slug} style={'--chip-color:' + item.color}>{item.name} ↗</a>)}</nav>
+  </div>
+</BaseLayout>
