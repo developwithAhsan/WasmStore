@@ -7,7 +7,7 @@ import { games, relatedGames } from '../../lib/games';
 import { breadcrumbs } from '../../lib/seo';
 export function getStaticPaths() { return games.map((game) => ({ params: { slug: game.slug }, props: { game } })); }
 const { game } = Astro.props;
-const displayName = game.name.replace(/\\s+\\(\\d+\\)$/, '');
+const displayName = game.name.replace(/\s+\(\d+\)$/, '');
 const related = relatedGames(game, 4);
 const hasDemo = Boolean(game.demoUrl);
 const crumbs = [{name:'Home',path:'/'},{name:'Games',path:'/games'},{name:displayName,path:`/games/${game.slug}`}];
