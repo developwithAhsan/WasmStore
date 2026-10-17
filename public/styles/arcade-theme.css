@@ -172,3 +172,51 @@ body[data-category] .arcade-page{--arcade-purple:var(--accent)}body[data-categor
 .neo-footer-eyebrow{color:var(--yellow)!important}
 @media(max-width:1200px){.arcade-header-inner{gap:10px}.arcade-primary-nav{gap:6px}.arcade-site-header .arcade-primary-nav a.arcade-nav-link{padding:8px 7px!important;font-size:10px}}
 @media(max-width:980px){.arcade-site-header .arcade-primary-nav{display:none}.arcade-site-header .arcade-primary-nav.is-open{display:flex;flex-direction:column;align-items:stretch;position:absolute;top:100%;left:0;right:0;padding:14px 18px;background:var(--ink);border-bottom:3px solid var(--ink)}}
+
+
+/* Final header/category interaction pass */
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link{
+  --nav-accent:#A78BFA;background:#fff!important;color:#0D0D12!important;
+  border:2px solid #0D0D12!important;box-shadow:4px 4px 0 var(--nav-accent)!important;
+  text-shadow:none!important;transform:translate(0,0)!important;
+  transition:transform .14s ease,box-shadow .14s ease!important;
+}
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link:nth-child(1){--nav-accent:#A78BFA}
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link:nth-child(2){--nav-accent:#EF4136}
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link:nth-child(3){--nav-accent:#2EA8F0}
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link:nth-child(4){--nav-accent:#2ECC71}
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link:nth-child(5){--nav-accent:#FF6FB5}
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link:hover,
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link:focus-visible{
+  background:#fff!important;color:#0D0D12!important;box-shadow:5px 5px 0 var(--nav-accent)!important;transform:translate(-1px,-1px)!important;
+}
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link:active{
+  background:#fff!important;color:#0D0D12!important;box-shadow:1px 1px 0 var(--nav-accent)!important;transform:translate(3px,3px)!important;
+}
+.arcade-site-header .arcade-primary-nav a.arcade-nav-link i{background:var(--nav-accent)!important;border:1px solid #0D0D12!important}
+.arcade-site-header .arcade-header-search{
+  min-width:190px;gap:7px;padding:5px 6px 5px 10px!important;border:2px solid #fff!important;border-radius:0!important;
+  background:#080b12!important;box-shadow:3px 3px 0 #fff!important;
+}
+.arcade-site-header .arcade-header-search:focus-within{box-shadow:4px 4px 0 #fff!important}
+.arcade-site-header .arcade-header-search .arcade-search-icon{color:#fff!important;font-size:20px;line-height:1}
+.arcade-site-header .arcade-header-search input{min-width:35px;color:#fff!important;background:transparent!important;outline:none!important}
+.arcade-site-header .arcade-header-search input::placeholder{color:#e6e6ec!important;opacity:1}
+.arcade-site-header .arcade-header-search kbd{color:#fff!important;border:1px solid #bfc0c8!important;background:#15151b!important}
+.arcade-site-header .arcade-header-search .arcade-search-submit{
+ display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;min-height:30px;padding:5px 8px;
+ border:2px solid #0D0D12;border-radius:0;background:#fff;color:#0D0D12;font:700 9px/1 var(--font-mono);
+ cursor:pointer;box-shadow:2px 2px 0 #fff;transition:transform .14s ease,box-shadow .14s ease;
+}
+.arcade-site-header .arcade-header-search .arcade-search-submit:hover,
+.arcade-site-header .arcade-header-search .arcade-search-submit:focus-visible{background:#fff;color:#0D0D12;box-shadow:3px 3px 0 #fff;transform:translate(-1px,-1px)}
+.arcade-site-header .arcade-header-search .arcade-search-submit:active{transform:translate(2px,2px);box-shadow:0 0 0 #fff}
+.arcade-home-hero{padding-top:clamp(8px,1.5vw,18px)!important;margin-bottom:18px!important}
+.arcade-home-hero .arcade-typewriter{min-height:clamp(78px,10vw,128px)!important;padding:0 0 10px!important}
+@media(max-width:620px){
+ .arcade-home-hero{padding-top:8px!important;margin-bottom:14px!important}
+ .arcade-home-hero .arcade-typewriter{min-height:78px!important;padding:0 0 8px!important}
+ .arcade-site-header .arcade-header-search{min-width:0;max-width:100%;gap:5px}
+ .arcade-site-header .arcade-header-search .arcade-search-submit{font-size:8px;padding:5px 6px}
+}
+@media(prefers-reduced-motion:reduce){.arcade-site-header .arcade-primary-nav a.arcade-nav-link,.arcade-site-header .arcade-header-search .arcade-search-submit{transition:none!important}}
