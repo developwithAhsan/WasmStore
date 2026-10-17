@@ -5,7 +5,14 @@ import { games, arcadeCategories, gamesForCategory, categoryForGame, categoryHre
 import site from '../data/site.json';
 
 const categoryCards = arcadeCategories.map((category) => ({ ...category, games: gamesForCategory(category) }));
-const startGames = [...games].sort((a, b) => Number(Boolean(b.demoUrl)) - Number(Boolean(a.demoUrl))).slice(0, 14);
+const pcPriority = ['gta-v', 'gta-vice-city-2', 'gta-3-3', 'gta-chinatown-wars'];
+const pcGames = gamesForCategory(arcadeCategories[0]).slice().sort((a, b) => {
+  const ai = pcPriority.indexOf(a.slug);
+  const bi = pcPriority.indexOf(b.slug);
+  return (ai < 0 ? 999 : ai) - (bi < 0 ? 999 : bi) || a.name.localeCompare(b.name);
+}).slice(0, 6);
+const otherPool = games.filter((game) => !pcGames.some((pc) => pc.slug === game.slug))
+  .slice().sort((a, b) => Number(Boolean(b.demoUrl)) - Number(Boolean(a.demoUrl))).slice(0, 36);
 const homeSchema = [
   { '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.url, potentialAction: { '@type': 'SearchAction', target: site.url + '/games?q={search_term_string}', 'query-input': 'required name=search_term_string' } },
   { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Five browser game categories', itemListElement: categoryCards.map((category, index) => ({ '@type': 'ListItem', position: index + 1, name: category.name, url: new URL('/' + category.slug, site.url).toString() })) }
@@ -28,13 +35,42 @@ const homeSchema = [
     </section>
     <section class="arcade-start-section" aria-labelledby="start-title">
       <div class="arcade-section-title"><div><span class="arcade-kicker">02 / YOUR NEXT CLICK</span><h2 id="start-title" class="arcade-black-label">START HERE</h2></div><div class="arcade-carousel-controls"><button type="button" class="arcade-arrow" data-carousel-prev aria-label="Scroll games left" disabled>←</button><button type="button" class="arcade-arrow" data-carousel-next aria-label="Scroll games right">→</button></div></div>
-      <div class="arcade-game-carousel" data-game-carousel>
-        {startGames.map((game) => { const category = categoryForGame(game); return <div class="arcade-home-game" style={'--accent:' + category.color}><GameCard game={game} compact /></div>; })}
+      <div class="arcade-game-carousel" data-game-carousel data-random-game-row>
+        {pcGames.map((game) => { const category = categoryForGame(game); return <div class="arcade-home-game" data-pc-fixed style={'--accent:' + category.color}><GameCard game={game} compact /></div>; })}
+        {otherPool.map((game) => { const category = categoryForGame(game); return <div class="arcade-home-game" data-random-game hidden style={'--accent:' + category.color}><GameCard game={game} compact /></div>; })}
       </div>
     </section>
     <section class="arcade-new-section" aria-labelledby="new-title">
       <div class="arcade-section-title"><div><span class="arcade-kicker">03 / MORE TO EXPLORE</span><h2 id="new-title" class="arcade-black-label">READY TO PLAY</h2></div><a class="arcade-text-link" href="/games">Browse all games ↗</a></div>
-      <div class="arcade-feature-grid">{startGames.slice(0,4).map((game) => { const category = categoryForGame(game); return <div class="arcade-home-game" style={'--accent:' + category.color}><GameCard game={game} compact /></div>; })}</div>
+      <div class="arcade-feature-grid" data-random-feature-grid>
+        {otherPool.map((game) => { const category = categoryForGame(game); return <div class="arcade-home-game" data-random-feature hidden style={'--accent:' + category.color}><GameCard game={game} compact /></div>; })}
+      </div>
     </section>
   </div>
+  <script>
+    (() => {
+      const shuffle = (items) => {
+        const result = [...items];
+        for (let i = result.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [result[i], result[j]] = [result[j], result[i]];
+        }
+        return result;
+      };
+      const row = document.querySelector('[data-random-game-row]');
+      if (row) {
+        const fixed = [...row.querySelectorAll('[data-pc-fixed]')];
+        const random = shuffle([...row.querySelectorAll('[data-random-game]')]).slice(0, 8);
+        row.querySelectorAll('[data-random-game]').forEach((card) => { card.hidden = true; });
+        random.forEach((card) => { card.hidden = false; });
+        [...fixed, ...random].forEach((card) => row.append(card));
+      }
+      const featureGrid = document.querySelector('[data-random-feature-grid]');
+      if (featureGrid) {
+        const cards = shuffle([...featureGrid.querySelectorAll('[data-random-feature]')]).slice(0, 4);
+        featureGrid.querySelectorAll('[data-random-feature]').forEach((card) => { card.hidden = true; });
+        cards.forEach((card) => { card.hidden = false; featureGrid.append(card); });
+      }
+    })();
+  </script>
 </BaseLayout>
