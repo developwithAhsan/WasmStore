@@ -15,8 +15,13 @@ const homeSchema = [
   <div class="arcade-home wrap">
     <section class="arcade-home-hero" aria-labelledby="home-title">
       <p class="arcade-kicker"><span></span> WASMSTORE / BROWSER ARCADE</p>
-      <h1 id="home-title">PLAY CLASSIC GAMES<br />IN YOUR BROWSER<span class="hero-period">.</span></h1>
+      <h1 id="home-title">PLAY GAMES<br />IN YOUR BROWSER<span class="hero-period">.</span></h1>
       <p class="arcade-hero-sub"><strong>{games.length} free games across five categories. No install, no account.</strong> <span>Pick a favorite and jump straight into the good stuff.</span> <a href="/about">About the project</a></p>
+      <div class="arcade-typewriter" aria-label="Featured games">
+        <span class="arcade-typewriter-label">NOW PLAYING</span>
+        <span class="arcade-typewriter-prompt" aria-hidden="true">&gt;</span>
+        <span class="arcade-typewriter-text" data-game-typewriter aria-live="polite">PLAY GTA 5</span><span class="arcade-typewriter-cursor" aria-hidden="true"></span>
+      </div>
     </section>
     <section class="arcade-category-section" aria-labelledby="categories-title">
       <div class="arcade-section-title"><div><span class="arcade-kicker">01 / FIND YOUR NEXT GAME</span><h2 id="categories-title">PICK A CATEGORY</h2></div><span class="arcade-count">05 CATEGORIES</span></div>
