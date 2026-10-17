@@ -1,7 +1,8 @@
 ---
 import site from '../data/site.json';
 import { canonical, pageSchema } from '../lib/seo';
-const { title, description = site.description, path = Astro.url.pathname, keywords = [], image = site.defaultSocialImage, schema = null, noindex = false } = Astro.props;
+import { arcadeCategories } from '../lib/games';
+const { title, description = site.description, path = Astro.url.pathname, keywords = [], image = site.defaultSocialImage, schema = null, noindex = false, category = '' } = Astro.props;
 const canonicalUrl = canonical(path);
 const socialImage = new URL(image, site.url).toString();
 const defaultSchema = pageSchema(title, path, description);
@@ -36,28 +37,27 @@ const schemas = schema ? [defaultSchema, ...(Array.isArray(schema) ? schema : [s
     <link rel="stylesheet" href="/styles/portal.css" />
     <script is:inline src="/scripts/site.js" defer></script>
   </head>
-  <body data-disqus-shortname={site.disqusShortname}>
+  <body data-disqus-shortname={site.disqusShortname} data-category={category}>
     <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header">
-      <div class="header-inner">
-        <a class="brand" href="/" aria-label="WasmStore home"><span class="brand-icon">W</span><span class="brand-copy">Wasm<span>Store</span><small>PLAY · DISCOVER · REPEAT</small></span></a>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation">☰</button>
-        <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
-          <a class="pixel-nav" href="/categories">Categories</a><a class="pixel-nav" href="/games">All Games</a><a class="pixel-nav" href="/favorites">Saved Games</a>
+    <header class="site-header arcade-site-header">
+      <div class="header-inner arcade-header-inner">
+        <button class="nav-toggle arcade-menu-button" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation">☰</button>
+        <a class="brand arcade-brand" href="/" aria-label="WasmStore home"><span class="brand-icon" aria-hidden="true">✦</span><span class="brand-copy">WASM<span>STORE</span><small>PLAY / DISCOVER / REPEAT</small></span></a>
+        <nav id="primary-nav" class="primary-nav arcade-primary-nav" aria-label="Game categories">
+          {arcadeCategories.map((item) => <a href={'/' + item.slug} class="arcade-nav-link" style={'--nav-accent:' + item.color}><i aria-hidden="true"></i>{item.shortName}</a>)}
         </nav>
-        <form class="header-search" action="/games" method="get" role="search"><label class="visually-hidden" for="header-game-search">Search games</label><input id="header-game-search" type="search" name="q" placeholder="Search games…" autocomplete="off" /><button type="submit" aria-label="Search games">⌕</button></form>
-        <button class="surprise-button" type="button" data-surprise-game><span aria-hidden="true">✦</span> Surprise me!</button>
+        <form class="header-search arcade-header-search" action="/games" method="get" role="search"><label class="visually-hidden" for="header-game-search">Search games</label><span aria-hidden="true">⌕</span><input id="header-game-search" type="search" name="q" placeholder="Search games" autocomplete="off" /><kbd>/</kbd></form>
+        <button class="surprise-button arcade-surprise-button" type="button" data-surprise-game><span aria-hidden="true">⚄</span> SURPRISE ME</button>
       </div>
     </header>
     <main id="main"><slot /></main>
-    <footer class="site-footer">
+    <footer class="site-footer arcade-site-footer">
       <div class="footer-grid wrap">
-        <div class="footer-about"><a class="brand" href="/"><span class="brand-icon">W</span><span class="brand-copy">Wasm<span>Store</span><small>PLAY · DISCOVER · REPEAT</small></span></a><p>A discovery library for browser games, community ports, and practical gaming guides.</p></div>
-        <div><h2>Explore</h2><a href="/games">All games</a><a href="/categories">Categories</a><a href="/tags">Tags</a><a href="/blog">Blog</a><a href="/guides">Guides</a></div>
-        <div><h2>WasmStore</h2><a href="/about">About</a><a href="/contact">Contact</a><a href="/privacy">Privacy policy</a><a href="/terms">Terms of service</a><a href="/dmca">DMCA / takedowns</a></div>
-        <div><h2>Good to know</h2><p>Game names and trademarks belong to their respective owners. Listings link to third-party projects; availability and rights vary by title.</p></div>
+        <div class="footer-about"><a class="brand arcade-brand" href="/"><span class="brand-icon">✦</span><span class="brand-copy">WASM<span>STORE</span><small>PLAY / DISCOVER / REPEAT</small></span></a><p>Free browser games, classic ports and arcade nostalgia. Pick a game and get playing.</p></div>
+        <div><h2>PROJECT</h2><a href="/about">About</a><a href="/contact">Contact</a></div>
+        <div><h2>POLICIES</h2><a href="/privacy">Privacy</a><a href="/dmca">DMCA</a><a href="/terms">Terms</a></div>
       </div>
-      <div class="footer-bottom wrap"><span>© <span data-year></span> WasmStore</span><span>Independent game discovery · <a href="/sitemap-index.xml">Sitemap</a></span></div>
+      <div class="footer-bottom wrap"><span>© <span data-year></span> WasmStore</span><span>INDEPENDENT BROWSER ARCADE / <a href="/sitemap-index.xml">SITEMAP</a></span></div>
     </footer>
   </body>
 </html>
