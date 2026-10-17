@@ -12,11 +12,11 @@ if(surpriseButton){
   {slug:'gta-v',name:'GTA 5'},
   {slug:'the-simpsons-hit-and-run-web-port',name:'The Simpsons: Hit & Run'}
  ];
- let previousSurprise='';
  surpriseButton.addEventListener('click',()=>{
+  const previousSurprise=storage.get('surpriseLast','');
   const choices=surpriseGames.filter(game=>game.slug!==previousSurprise);
   const selected=choices[Math.floor(Math.random()*choices.length)]||surpriseGames[0];
-  previousSurprise=selected.slug;
+  storage.set('surpriseLast',selected.slug);
   location.href='/games/'+selected.slug;
  });
 }
