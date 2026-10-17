@@ -30,6 +30,9 @@ const schemas = schema ? [defaultSchema, ...(Array.isArray(schema) ? schema : [s
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
     {schemas.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@700;800&family=Pixelify+Sans:wght@600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles/portal.css" />
     <script is:inline src="/scripts/site.js" defer></script>
   </head>
