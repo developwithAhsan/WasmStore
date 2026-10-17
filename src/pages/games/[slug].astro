@@ -3,16 +3,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import GameCard from '../../components/GameCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import site from '../../data/site.json';
-import { games, relatedGames, categoryForGame } from '../../lib/games';
+import { games, categoryForGame, gamesForCategory } from '../../lib/games';
 import { breadcrumbs } from '../../lib/seo';
 
 export function getStaticPaths() {
   return games.map((game) => ({ params: { slug: game.slug }, props: { game } }));
 }
 const { game } = Astro.props;
-const arcadeCategory = categoryForGame(game);
 const displayName = game.name.replace(/\s+\(\d+\)$/, '');
-const related = relatedGames(game, 4);
+const arcadeCategory = categoryForGame(game);
+const related = gamesForCategory(arcadeCategory).filter((candidate) => candidate.slug !== game.slug).slice(0, 4);
 const hasDemo = Boolean(game.demoUrl);
 const titleText = displayName.toUpperCase();
 const crumbs = [{ name: 'Home', path: '/' }, { name: arcadeCategory.name, path: '/' + arcadeCategory.slug }, { name: displayName, path: '/games/' + game.slug }];
