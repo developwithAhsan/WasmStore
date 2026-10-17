@@ -48,7 +48,7 @@ const schemas = schema ? [defaultSchema, ...(Array.isArray(schema) ? schema : [s
         <nav id="primary-nav" class="primary-nav arcade-primary-nav" aria-label="Game categories">
           {arcadeCategories.map((item) => <a href={categoryHref(item)} class="arcade-nav-link" style={'--nav-accent:' + item.color}><i aria-hidden="true"></i>{item.shortName}</a>)}
         </nav>
-        <form class="header-search arcade-header-search" action="/games" method="get" role="search"><label class="visually-hidden" for="header-game-search">Search games</label><span class="arcade-search-icon" aria-hidden="true">⌕</span><input id="header-game-search" type="search" name="q" placeholder="Search games" autocomplete="off" /><kbd>/</kbd><button class="arcade-search-submit" type="submit" aria-label="Search games">SEARCH ↗</button></form>
+        <form class="header-search arcade-header-search" action="/games" method="get" role="search"><label class="visually-hidden" for="header-game-search">Search games</label><span class="arcade-search-icon" aria-hidden="true">⌕</span><input id="header-game-search" type="search" name="q" placeholder="Search games" autocomplete="off" aria-autocomplete="list" aria-controls="header-search-suggestions" aria-expanded="false" /><button class="arcade-search-submit" type="submit" aria-label="Search games">SEARCH</button><div id="header-search-suggestions" class="arcade-search-suggestions" data-search-suggestions role="listbox" hidden></div></form>
         <button class="surprise-button arcade-surprise-button" type="button" data-surprise-game><span aria-hidden="true">⚄</span> SURPRISE ME</button>
       </div>
     </header>
