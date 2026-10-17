@@ -164,3 +164,11 @@ body[data-category] .arcade-page{--arcade-purple:var(--accent)}body[data-categor
   .arcade-site-header .arcade-primary-nav a.arcade-nav-link,
   .arcade-site-header .arcade-surprise-button{transition:none!important}
 }
+
+
+/* Five refreshed category colours and brighter footer copy for contrast */
+:root{--cat-1:#A78BFA;--cat-2:#EF4136;--cat-3:#2EA8F0;--cat-4:#2ECC71;--cat-5:#FF6FB5;--footer-muted:#F0F0F4;--footer-text:#F5F5F7}
+.neo-footer-disclaimer,.neo-footer-bottom p,.neo-footer-brand>p{color:#F0F0F4!important}
+.neo-footer-eyebrow{color:var(--yellow)!important}
+@media(max-width:1200px){.arcade-header-inner{gap:10px}.arcade-primary-nav{gap:6px}.arcade-site-header .arcade-primary-nav a.arcade-nav-link{padding:8px 7px!important;font-size:10px}}
+@media(max-width:980px){.arcade-site-header .arcade-primary-nav{display:none}.arcade-site-header .arcade-primary-nav.is-open{display:flex;flex-direction:column;align-items:stretch;position:absolute;top:100%;left:0;right:0;padding:14px 18px;background:var(--ink);border-bottom:3px solid var(--ink)}}
