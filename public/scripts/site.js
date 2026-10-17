@@ -10,6 +10,7 @@ if(surpriseButton){
   {slug:'gta-3-3',name:'GTA 3'},
   {slug:'gta-vice-city-2',name:'GTA Vice City'},
   {slug:'gta-v',name:'GTA 5'},
+  {slug:'gta-chinatown-wars',name:'GTA: Chinatown Wars'},
   {slug:'the-simpsons-hit-and-run-web-port',name:'The Simpsons: Hit & Run'}
  ];
  surpriseButton.addEventListener('click',()=>{
