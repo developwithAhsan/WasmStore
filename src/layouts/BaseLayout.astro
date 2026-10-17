@@ -16,7 +16,7 @@ const schemas = schema ? [defaultSchema, ...(Array.isArray(schema) ? schema : [s
     <meta name="description" content={description} />
     <meta name="robots" content={noindex ? 'noindex,follow' : site.seo.defaultRobots} />
     {keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
-    <meta name="theme-color" content="#080b12" />
+    <meta name="theme-color" content="#ffd52e" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
@@ -40,9 +40,10 @@ const schemas = schema ? [defaultSchema, ...(Array.isArray(schema) ? schema : [s
         <a class="brand" href="/" aria-label="WasmStore home"><span class="brand-icon">W</span><span class="brand-copy">Wasm<span>Store</span><small>PLAY · DISCOVER · REPEAT</small></span></a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation">☰</button>
         <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
-          <a href="/games">Games</a><a href="/categories">Categories</a><a href="/favorites">Saved</a><a href="/blog">Blog</a><a href="/guides">Guides</a><a href="/about">About</a>
+          <a class="pixel-nav" href="/categories">Categories</a><a class="pixel-nav" href="/games">All Games</a><a class="pixel-nav" href="/favorites">Saved</a><a class="pixel-nav" href="/blog">Blog</a>
         </nav>
-        <a class="header-cta" href="/games">Explore library <span>↗</span></a>
+        <form class="header-search" action="/games" method="get" role="search"><label class="visually-hidden" for="header-game-search">Search games</label><input id="header-game-search" type="search" name="q" placeholder="Search games…" autocomplete="off" /><button type="submit" aria-label="Search games">⌕</button></form>
+        <button class="surprise-button" type="button" data-surprise-game><span aria-hidden="true">✦</span> Surprise me!</button>
       </div>
     </header>
     <main id="main"><slot /></main>
