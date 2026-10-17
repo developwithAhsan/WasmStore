@@ -1,7 +1,7 @@
 ---
 import site from '../data/site.json';
 import { canonical, pageSchema } from '../lib/seo';
-import { arcadeCategories } from '../lib/games';
+import { arcadeCategories, gamesForCategory } from '../lib/games';
 const { title, description = site.description, path = Astro.url.pathname, keywords = [], image = site.defaultSocialImage, schema = null, noindex = false, category = '' } = Astro.props;
 const canonicalUrl = canonical(path);
 const socialImage = new URL(image, site.url).toString();
@@ -53,13 +53,44 @@ const schemas = schema ? [defaultSchema, ...(Array.isArray(schema) ? schema : [s
       </div>
     </header>
     <main id="main"><slot /></main>
-    <footer class="site-footer arcade-site-footer">
-      <div class="footer-grid wrap">
-        <div class="footer-about"><a class="brand arcade-brand" href="/"><span class="brand-icon">✦</span><span class="brand-copy">WASM<span>STORE</span><small>PLAY / DISCOVER / REPEAT</small></span></a><p>Free browser games, classic ports and arcade nostalgia. Pick a game and get playing.</p></div>
-        <div><h2>PROJECT</h2><a href="/about">About</a><a href="/contact">Contact</a></div>
-        <div><h2>POLICIES</h2><a href="/privacy">Privacy</a><a href="/dmca">DMCA</a><a href="/terms">Terms</a></div>
+    <footer class="site-footer arcade-site-footer neo-footer" role="contentinfo">
+      <div class="neo-footer-pixel-edge" aria-hidden="true"><span class="neo-footer-mascot">✦</span></div>
+      <div class="neo-footer-inner">
+        <div class="neo-footer-main">
+          <section class="neo-footer-brand" aria-label="About WasmStore">
+            <a class="brand arcade-brand neo-footer-logo" href="/" aria-label="WasmStore home">
+              <span class="brand-icon" aria-hidden="true">✦</span>
+              <span class="brand-copy">WASM<span>STORE</span><small>PLAY / DISCOVER / REPEAT</small></span>
+            </a>
+            <p>A free, unofficial archive that keeps old games playable in a browser. We do not own them.</p>
+            {site.contactEmail && !site.contactEmail.startsWith('REPLACE_') ? <a class="neo-footer-email" href={'mailto:' + site.contactEmail}><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>{site.contactEmail}</span></a> : <a class="neo-footer-email" href="/contact"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>CONTACT THE TEAM</span></a>}
+          </section>
+          <section class="neo-footer-systems">
+            <h2 class="neo-footer-eyebrow">PICK A SYSTEM</h2>
+            <nav class="neo-footer-category-grid" aria-label="Browse systems">
+              {arcadeCategories.map((item) => <a class="neo-footer-category" href={'/' + item.slug} style={'--tile-accent:' + item.color} aria-label={item.name + ', ' + gamesForCategory(item).length + ' games'}>
+                <span class="neo-footer-category-name">{item.name}</span>
+                <span class="neo-footer-category-count">{gamesForCategory(item).length}</span>
+                <span class="neo-footer-category-unit">GAMES</span>
+              </a>)}
+            </nav>
+          </section>
+        </div>
+        <div class="neo-footer-divider" aria-hidden="true"></div>
+        <nav class="neo-footer-legal" aria-label="Legal">
+          <a href="/about">About the project</a>
+          <a href="/contact">Contact</a>
+          <a href="/copyright">Copyright and takedowns</a>
+          <a href="/privacy">Privacy policy</a>
+          <a href="/terms">Terms of service</a>
+          <a href="/non-affiliation">Non-affiliation notice</a>
+        </nav>
+        <p class="neo-footer-disclaimer">WasmStore does not own the games on this site and is not affiliated with, endorsed by, or sponsored by the developers, publishers, and brands associated with the games listed here. All game names and trademarks belong to their respective owners. Rights holders can request removal through our <a href="/copyright">copyright and takedown policy</a>.</p>
+        <div class="neo-footer-bottom">
+          <p>© <span data-year></span> WasmStore. Supported by advertising.</p>
+          <span class="neo-footer-hex" aria-hidden="true">00 61 73 6D</span>
+        </div>
       </div>
-      <div class="footer-bottom wrap"><span>© <span data-year></span> WasmStore</span><span>INDEPENDENT BROWSER ARCADE / <a href="/sitemap-index.xml">SITEMAP</a></span></div>
     </footer>
   </body>
 </html>
