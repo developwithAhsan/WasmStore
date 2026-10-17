@@ -2,7 +2,7 @@
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const typewriter=$('[data-game-typewriter]');
 if(typewriter){
- const featuredGames=['PLAY GTA 5','PLAY GTA 3','PLAY GTA VICE CITY','PLAY MINECRAFT','PLAY THE SIMPSONS','PLAY NEO GEO'];
+ const featuredGames=['PLAY GTA 5','PLAY GTA VICE CITY','PLAY MINECRAFT','PLAY GTA 3','PLAY STREET FIGHTER','PLAY ROAD RASH'];
  const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  if(reduceMotion){typewriter.textContent=featuredGames[0]}
  else{
