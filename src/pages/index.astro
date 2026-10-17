@@ -1,12 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GameCard from '../components/GameCard.astro';
-import { games } from '../lib/games';
+import { games, type Game } from '../lib/games';
 import site from '../data/site.json';
 
 const bySlug = (slug: string) => games.find((game) => game.slug === slug);
-const classicGames = ['gta-3-3','gta-vice-city-2','gta-v','the-simpsons-hit-and-run-web-port'].map(bySlug).filter(Boolean);
-const viceCityGames = ['gta-vice-city-2'].map(bySlug).filter(Boolean);
+const classicGames = ['gta-3-3','gta-vice-city-2','gta-v','the-simpsons-hit-and-run-web-port'].map(bySlug).filter((game): game is Game => Boolean(game));
+const viceCityGames = ['gta-vice-city-2'].map(bySlug).filter((game): game is Game => Boolean(game));
 const arcadeGames = games.filter((game) => game.category === 'Arcade').slice(0, 3);
 const flashGames = games.filter((game) => game.category === 'Puzzle' || game.category === 'Platformer').slice(0, 3);
 const searchText = (g: (typeof games)[number]) => [g.name,g.category,g.tags.join(' '),g.slug].join(' ').toLowerCase();
