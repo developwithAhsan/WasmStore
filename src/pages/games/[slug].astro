@@ -3,18 +3,19 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import GameCard from '../../components/GameCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import site from '../../data/site.json';
-import { games, relatedGames } from '../../lib/games';
+import { games, relatedGames, categoryForGame } from '../../lib/games';
 import { breadcrumbs } from '../../lib/seo';
 
 export function getStaticPaths() {
   return games.map((game) => ({ params: { slug: game.slug }, props: { game } }));
 }
 const { game } = Astro.props;
+const arcadeCategory = categoryForGame(game);
 const displayName = game.name.replace(/\s+\(\d+\)$/, '');
 const related = relatedGames(game, 4);
 const hasDemo = Boolean(game.demoUrl);
 const titleText = displayName.toUpperCase();
-const crumbs = [{ name: 'Home', path: '/' }, { name: 'PC games', path: '/games' }, { name: displayName, path: '/games/' + game.slug }];
+const crumbs = [{ name: 'Home', path: '/' }, { name: arcadeCategory.name, path: '/' + arcadeCategory.slug }, { name: displayName, path: '/games/' + game.slug }];
 const pageUrl = new URL('/games/' + game.slug, site.url).toString();
 const cover = game.thumbnailUrl || site.defaultSocialImage;
 const faqItems = [
@@ -33,7 +34,7 @@ const schema = [
 const shortTitle = 'Play ' + displayName + ' Online Free in Browser | No Download';
 const description = 'Play or explore ' + displayName + ' in your browser. Check demo availability, controls, game details, FAQs and related PC games on WasmStore.';
 ---
-<BaseLayout title={shortTitle} description={description} path={'/games/' + game.slug} image={cover} keywords={[displayName.toLowerCase() + ' online', 'play ' + displayName.toLowerCase() + ' in browser', displayName.toLowerCase() + ' browser game', 'free browser games', ...(game.keywords || [])]} schema={schema}>
+<BaseLayout category={arcadeCategory.key} title={shortTitle} description={description} path={'/games/' + game.slug} image={cover} keywords={[displayName.toLowerCase() + ' online', 'play ' + displayName.toLowerCase() + ' in browser', displayName.toLowerCase() + ' browser game', 'free browser games', ...(game.keywords || [])]} schema={schema}>
   <Breadcrumbs items={crumbs} />
   <div class="arcade-page wrap">
     <section class="arcade-hero-grid" aria-label={displayName + ' game and information'}>
@@ -53,10 +54,10 @@ const description = 'Play or explore ' + displayName + ' in your browser. Check 
         <div class="arcade-controlbar"><div class="arcade-ticks" aria-hidden="true">{Array.from({ length: 24 }, (_, i) => <i class:list={{ active: i < (hasDemo ? 18 : 5) }} />)}</div><div class="arcade-toolbar-actions"><a href="#game-details" class="arcade-tool-button">▣ SAVES</a><button type="button" class="arcade-tool-button muted-tool" disabled>ϟ CHEATS</button><button type="button" id="fullscreen-game" class="arcade-tool-button yellow-tool" disabled={!hasDemo}>⛶ FULLSCREEN</button></div></div>
       </div>
       <aside class="arcade-info-card" id="game-details">
-        <div class="arcade-info-top"><span>PC GAME</span><strong>WEB</strong></div>
+        <div class="arcade-info-top"><span>{arcadeCategory.name.toUpperCase()}</span><strong>WEB</strong></div>
         <div class="arcade-info-body">
           <h1>{titleText}</h1>
-          <div class="arcade-tags"><span>{game.category.toUpperCase()}</span><span>OPEN-WORLD ACTION</span></div>
+          <div class="arcade-tags"><span>{arcadeCategory.name.toUpperCase()}</span><span>{game.category.toUpperCase()}</span></div>
           <div class="arcade-mono-heading">ABOUT THE ORIGINAL</div>
           <p class="arcade-description">{game.description}</p>
           <div class="arcade-specs">
