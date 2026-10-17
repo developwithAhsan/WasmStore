@@ -55,3 +55,23 @@ body[data-category] .arcade-page{--arcade-purple:var(--accent)}body[data-categor
 @media(max-width:999px){.neo-footer-main{grid-template-columns:minmax(0,1fr);gap:34px}.neo-footer-brand>p{max-width:440px}.neo-footer-category-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:700px){.neo-footer{padding:0 16px!important}.neo-footer-category-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.neo-footer-category{min-height:68px;padding:10px;box-shadow:3px 3px 0 rgba(255,255,255,.35)}.neo-footer-category:hover{box-shadow:4px 4px 0 rgba(255,255,255,.35)}.neo-footer-category:last-child:nth-child(odd){grid-column:1/-1}.neo-footer-legal{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px}.neo-footer-legal a{min-height:44px;font-size:13px}.neo-footer-divider{margin:32px 0 20px}.neo-footer-bottom{align-items:flex-start;flex-direction:column;gap:10px;margin-top:22px}.neo-footer-bottom p{font-size:13px}.neo-footer-hex{align-self:flex-start}.neo-footer-inner{padding-top:36px}}
 @media(prefers-reduced-motion:reduce){.neo-footer-category{transition:none}}
+
+
+/* Header shadow: white by default, crisp white on hover */
+.arcade-site-header{box-shadow:0 4px 0 rgba(255,255,255,.42);transition:box-shadow .16s ease}
+.arcade-site-header:hover{box-shadow:0 4px 0 #fff}
+.arcade-site-header .arcade-brand .brand-icon{box-shadow:3px 3px 0 rgba(255,255,255,.42);transition:box-shadow .16s ease,transform .16s ease}
+.arcade-site-header .arcade-brand:hover .brand-icon{box-shadow:4px 4px 0 #fff;transform:translate(-1px,-1px)}
+.arcade-site-header .arcade-nav-link:after{background:#fff;box-shadow:0 2px 0 rgba(255,255,255,.35)}
+.arcade-site-header .arcade-nav-link:hover:after,.arcade-site-header .arcade-nav-link:focus-visible:after{background:#fff;box-shadow:0 2px 0 #fff}
+.arcade-site-header .arcade-header-search:focus-within{box-shadow:4px 4px 0 rgba(255,255,255,.65)}
+.arcade-site-header .arcade-surprise-button{box-shadow:4px 4px 0 rgba(255,255,255,.55);transition:transform .13s,box-shadow .13s,background .13s}
+.arcade-site-header .arcade-surprise-button:hover{transform:translate(2px,2px);background:#fff;box-shadow:6px 6px 0 #fff}
+.arcade-site-header .arcade-surprise-button:active{transform:translate(4px,4px);box-shadow:2px 2px 0 #fff}
+.arcade-typewriter{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:24px;color:var(--ink)}
+.arcade-typewriter-label{font:700 10px/1.5 var(--font-mono);letter-spacing:.12em;color:#333}
+.arcade-typewriter-prompt{font:700 10px/1 var(--font-pixel);color:var(--ink)}
+.arcade-typewriter-text{display:inline-block;min-height:1.5em;font:700 clamp(11px,1.35vw,14px)/1.5 var(--font-pixel);letter-spacing:.025em;color:#000;text-transform:uppercase}
+.arcade-typewriter-cursor{display:inline-block;width:6px;height:10px;margin-left:-3px;background:#000;image-rendering:pixelated;animation:arcade-pixel-cursor .72s steps(1,end) infinite}
+@keyframes arcade-pixel-cursor{0%,48%{opacity:1}49%,100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.arcade-site-header,.arcade-site-header .arcade-brand .brand-icon,.arcade-site-header .arcade-surprise-button{transition:none}.arcade-typewriter-cursor{animation:none;opacity:1}}
