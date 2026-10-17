@@ -43,7 +43,7 @@ const description = 'Play or explore ' + displayName + ' in your browser. Check 
           <div class="arcade-promo">
             <div class="arcade-pixel-label">FREE PLAY</div>
             <p>The original browser-game experience. Explore the listing, check controls, and launch the available community demo.</p>
-            <a class="arcade-play-button" href="#actual-game" aria-label={'Go to ' + displayName + ' game player'}><span aria-hidden="true">▶</span> PLAY {titleText}</a>
+            <button class="arcade-play-button" type="button" data-launch-game aria-label={'Launch ' + displayName + ' browser game'}><span aria-hidden="true">▶</span> PLAY {titleText}</button>
             <div class="arcade-tiny-note">{hasDemo ? 'BROWSER DEMO LISTED · EXTERNAL HOST' : 'DEMO NOT CURRENTLY LISTED'}</div>
           </div>
           <div class="arcade-cover-wrap">
@@ -72,7 +72,7 @@ const description = 'Play or explore ' + displayName + ' in your browser. Check 
       </aside>
     </section>
 
-    <section class="arcade-live-player" id="actual-game" aria-label={displayName + ' browser player'}>
+    <section class="arcade-live-player" id="actual-game" aria-label={displayName + ' browser player'} hidden>
       <div class="arcade-section-heading"><h2>PLAY {titleText}</h2><span>{hasDemo ? 'EXTERNAL DEMO' : 'NOT AVAILABLE'}</span></div>
       <div class="arcade-frame-shell" id="player-stage" data-demo-url={game.demoUrl || ''}>
         {hasDemo ? <iframe class="game-frame" title={displayName + ' browser game'} src={game.demoUrl} loading="eager" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen; autoplay; gamepad; clipboard-read; clipboard-write" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-downloads allow-presentation"></iframe> : <div class="arcade-unavailable"><b>DEMO NOT LISTED</b><p>This catalog entry does not currently include a playable browser URL. Check the upstream project for instructions.</p>{game.repositoryUrl && <a class="arcade-outline-button" href={game.repositoryUrl} target="_blank" rel="noopener noreferrer">OPEN SOURCE PROJECT ↗</a>}</div>}
