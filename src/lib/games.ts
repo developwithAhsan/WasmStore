@@ -15,17 +15,28 @@ export const playableGames = games.filter((game) => game.demoUrl);
 export const bySlug = (slug: string) => games.find((game) => game.slug === slug);
 
 export const arcadeCategories = [
-  { key: 'cat-1', name: 'Classic Games', shortName: 'Classics', slug: 'classic-games', color: '#A78BFA', description: 'Legendary games and iconic browser ports.', sourceCategories: ['Other'] },
-  { key: 'cat-2', name: 'Action & Adventure', shortName: 'Action', slug: 'action-adventure-games', color: '#EF4136', description: 'Big missions, brave heroes and worlds to explore.', sourceCategories: ['Action', 'Adventure'] },
-  { key: 'cat-3', name: 'Arcade & Platform', shortName: 'Arcade', slug: 'arcade-platform-games', color: '#2EA8F0', description: 'Quick rounds, sharp jumps and high-score runs.', sourceCategories: ['Arcade', 'Platformer'] },
-  { key: 'cat-4', name: 'Racing & Sports', shortName: 'Racing', slug: 'racing-sports-games', color: '#2ECC71', description: 'Race, compete and chase the next win.', sourceCategories: ['Racing', 'Sports'] },
-  { key: 'cat-5', name: 'Puzzle & Strategy', shortName: 'Puzzle', slug: 'puzzle-strategy-games', color: '#FF6FB5', description: 'Think ahead, solve patterns and master every move.', sourceCategories: ['Puzzle', 'Strategy'] }
+  { key: 'cat-1', name: 'PC Games', shortName: 'PC Games', slug: 'pc-games', color: '#A78BFA', description: 'Big-screen favourites, open worlds and PC-style game ports.', sourceCategories: [] },
+  { key: 'cat-2', name: 'Classic Games', shortName: 'Classics', slug: 'classic-games', color: '#EF4136', description: 'Memorable favourites and timeless browser-game discoveries.', sourceCategories: ['Adventure', 'Other'] },
+  { key: 'cat-3', name: 'Arcade & Racing', shortName: 'Arcade & Racing', slug: 'arcade-racing', color: '#2EA8F0', description: 'Fast races, arcade action and high-score challenges.', sourceCategories: ['Arcade', 'Platformer', 'Racing', 'Sports'] },
+  { key: 'cat-4', name: 'Flash Games', shortName: 'Flash Games', slug: 'flash-games', color: '#2ECC71', description: 'Flash-era favourites and games inspired by the classic web.', sourceCategories: [] },
+  { key: 'cat-5', name: 'Puzzle & Strategy', shortName: 'Puzzle & Strategy', slug: 'puzzle-strategy', color: '#FF6FB5', description: 'Solve puzzles, plan ahead and put your strategy to the test.', sourceCategories: ['Puzzle', 'Strategy'] }
 ] as const;
 export type ArcadeCategory = typeof arcadeCategories[number];
-export const categoryForGame = (game: Pick<Game, 'category'>) =>
-  arcadeCategories.find((category) => (category.sourceCategories as readonly string[]).includes(game.category)) ?? arcadeCategories[0];
+const pcGameMatch = (game: Pick<Game, 'slug' | 'name'>) => {
+  const title = (game.slug + ' ' + game.name).toLowerCase();
+  return /gta-vice-city|gta-v\b|gta-3\b|chinatown|the-sims|\bsims\b|stardew-valley|minecraft/.test(title);
+};
+const flashGameMatch = (game: Pick<Game, 'slug' | 'name' | 'tags'>) =>
+  /flash/.test((game.slug + ' ' + game.name + ' ' + game.tags.join(' ')).toLowerCase());
+export const categoryForGame = (game: Pick<Game, 'category' | 'slug' | 'name' | 'tags'>) => {
+  if (pcGameMatch(game)) return arcadeCategories[0];
+  if (flashGameMatch(game)) return arcadeCategories[3];
+  if (['Arcade', 'Platformer', 'Racing', 'Sports'].includes(game.category)) return arcadeCategories[2];
+  if (['Puzzle', 'Strategy'].includes(game.category)) return arcadeCategories[4];
+  return arcadeCategories[1];
+};
 export const gamesForCategory = (category: ArcadeCategory) =>
-  games.filter((game) => (category.sourceCategories as readonly string[]).includes(game.category));
+  games.filter((game) => categoryForGame(game) === category);
 export const relatedGames = (game: Game, limit = 6) =>
   games.filter((candidate) => candidate.slug !== game.slug &&
     (candidate.category === game.category || candidate.tags.some((tag) => game.tags.includes(tag))))
