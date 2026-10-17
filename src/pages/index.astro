@@ -12,7 +12,7 @@ const flashGames = games.filter((game) => game.category === 'Puzzle' || game.cat
 const searchText = (g: (typeof games)[number]) => [g.name,g.category,g.tags.join(' '),g.slug].join(' ').toLowerCase();
 const homeSchema = [
   {'@context':'https://schema.org','@type':'WebSite',name:site.name,url:site.url,potentialAction:{'@type':'SearchAction',target:site.url+'/games?q={search_term_string}', 'query-input':'required name=search_term_string'}},
-  {'@context':'https://schema.org','@type':'ItemList',name:'Classic browser games',itemListElement:classicGames.map((g,index)=>({'@type':'ListItem',position:index+1,url:new URL('/games/'+g.slug,site.url).toString(),name:g.name.replace(/\\s+\\(\\d+\\)$/,'')}))}
+  {'@context':'https://schema.org','@type':'ItemList',name:'Classic browser games',itemListElement:classicGames.map((g,index)=>({'@type':'ListItem',position:index+1,url:new URL('/games/'+g.slug,site.url).toString(),name:g.name.replace(/\s+\(\d+\)$/,'')}))}
 ];
 ---
 <BaseLayout title="WasmStore — Classic, Arcade & Browser Games" description="Discover classic games, arcade favorites, Flash-style browser games and GTA Vice City community ports in the WasmStore game library." path="/" schema={homeSchema}>
