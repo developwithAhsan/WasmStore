@@ -9,6 +9,8 @@ export type Game = {
 
 export const games = raw.games as Game[];
 export const tags = [...new Set(games.flatMap((game) => game.tags))].sort();
+// Retain the source-catalog categories used by the existing /games and /categories archive routes.
+export const categories: string[] = [...new Set(games.map((game) => game.category))].sort();
 export const playableGames = games.filter((game) => game.demoUrl);
 export const bySlug = (slug: string) => games.find((game) => game.slug === slug);
 
