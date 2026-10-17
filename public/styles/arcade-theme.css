@@ -224,3 +224,78 @@ body[data-category] .arcade-page{--arcade-purple:var(--accent)}body[data-categor
 /* Keep the animated headline close to the sticky header */
 .arcade-home{padding-top:clamp(10px,1.5vw,18px)!important}
 @media(max-width:620px){.arcade-home{padding-top:8px!important}}
+
+
+/* Small polish pass: keep the shared header/footer markup untouched */
+.arcade-site-header .arcade-surprise-button{
+  background:var(--yellow)!important;
+  color:var(--ink)!important;
+  box-shadow:4px 4px 0 #fff!important;
+  transition:transform .16s ease,box-shadow .16s ease!important;
+}
+.arcade-site-header .arcade-surprise-button:hover,
+.arcade-site-header .arcade-surprise-button:focus-visible{
+  background:var(--yellow)!important;
+  color:var(--ink)!important;
+  box-shadow:5px 5px 0 #fff!important;
+  transform:translate(-1px,-1px)!important;
+}
+.arcade-site-header .arcade-surprise-button:active{
+  background:var(--yellow)!important;
+  color:var(--ink)!important;
+  box-shadow:1px 1px 0 #fff!important;
+  transform:translate(3px,3px)!important;
+}
+
+/* Pixel-style headings for content blocks and game/detail pages */
+.arcade-section-title h2,
+.arcade-category-card h3,
+.arcade-category-hero h1,
+.arcade-info-top h1,
+.arcade-info-top h2,
+.arcade-info-bottom h2,
+.arcade-section-heading,
+.arcade-more-heading h2,
+.arcade-faq-title,
+.arcade-page-title,
+.page-title,
+main > section > h1{
+  font-family:var(--font-pixel)!important;
+  letter-spacing:-.025em!important;
+  text-transform:uppercase;
+}
+.arcade-section-title h2{font-size:clamp(17px,2.1vw,25px)!important;line-height:1.15!important}
+.arcade-category-card h3{line-height:1.08!important}
+.arcade-category-hero h1{line-height:1.05!important}
+
+/* Remove the purple heading slab; retain the site's warm paper/ink palette */
+body[data-category] .arcade-info-top,
+body[data-category] .arcade-info-bottom,
+body[data-category] .arcade-section-heading,
+body[data-category] .arcade-more-heading h2{
+  background:var(--bg)!important;
+  color:var(--ink)!important;
+  border-color:var(--ink)!important;
+  box-shadow:4px 4px 0 var(--ink)!important;
+  font-family:var(--font-pixel)!important;
+}
+body[data-category] .arcade-info-top *,
+body[data-category] .arcade-info-bottom *,
+body[data-category] .arcade-section-heading *,
+body[data-category] .arcade-more-heading h2 *{
+  color:var(--ink)!important;
+}
+body[data-category] .arcade-info-top,
+body[data-category] .arcade-info-bottom,
+body[data-category] .arcade-hero-card,
+body[data-category] .arcade-cover-wrap,
+body[data-category] .arcade-section-heading,
+body[data-category] .arcade-more-heading h2,
+body[data-category] .arcade-faq-row,
+body[data-category] .arcade-tags span{
+  border-color:var(--ink)!important;
+}
+@media(max-width:620px){
+  .arcade-section-title h2{font-size:16px!important}
+  .arcade-category-hero h1{font-size:clamp(28px,8vw,42px)!important}
+}
