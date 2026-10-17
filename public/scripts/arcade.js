@@ -32,7 +32,7 @@ const carousel=$('[data-game-carousel]'),prev=$('[data-carousel-prev]'),next=$('
 if(carousel){const sync=()=>{const max=carousel.scrollWidth-carousel.clientWidth;if(prev)prev.disabled=carousel.scrollLeft<4;if(next)next.disabled=carousel.scrollLeft>=max-4};prev?.addEventListener('click',()=>carousel.scrollBy({left:-carousel.clientWidth*.8,behavior:'smooth'}));next?.addEventListener('click',()=>carousel.scrollBy({left:carousel.clientWidth*.8,behavior:'smooth'}));carousel.addEventListener('scroll',sync,{passive:true});window.addEventListener('resize',sync);sync()}
 const input=$('[data-category-search]'),grid=$('[data-category-grid]'),count=$('[data-category-visible]'),more=$('[data-load-more]'),sorters=$$('[data-category-sort]');
 if(grid){let limit=24,mode='popular';const all=()=>$$('[data-category-item]',grid);const update=()=>{const q=(input?.value||'').trim().toLowerCase();const items=all();items.sort((a,b)=>mode==='az'?a.dataset.name.localeCompare(b.dataset.name):mode==='new'?Number(b.dataset.id)-Number(a.dataset.id):Number(a.dataset.order)-Number(b.dataset.order));items.forEach((item,i)=>{grid.append(item);item.hidden=(!!q&&!((item.dataset.name+' '+item.dataset.tags).includes(q)))||i>=limit});const matched=items.filter(item=>!q||((item.dataset.name+' '+item.dataset.tags).includes(q))).length;if(count)count.textContent=String(Math.min(matched,limit));if(more)more.hidden=matched<=limit;const empty=$('[data-category-empty]');if(empty)empty.hidden=matched!==0};input?.addEventListener('input',()=>{limit=24;update()});sorters.forEach(btn=>btn.addEventListener('click',()=>{mode=btn.dataset.categorySort;sorters.forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));limit=24;update()}));more?.addEventListener('click',()=>{limit+=24;update()});update()}
-})();
+
 
 /* Live search suggestions use the full catalog search index, then keep normal form submission available. */
 const searchForm=search?.closest('form');
@@ -43,18 +43,23 @@ const closeSuggestions=()=>{if(suggestionBox){suggestionBox.hidden=true;suggesti
 const renderSuggestions=async()=>{
  if(!search||!suggestionBox)return;
  const query=search.value.trim().toLocaleLowerCase();
- if(query.length<1){closeSuggestions();return}
  suggestionBox.hidden=false;suggestionBox.replaceChildren();
- const loading=document.createElement('div');loading.className='arcade-search-suggestion-empty';loading.textContent='Searching games…';suggestionBox.append(loading);
+ const loading=document.createElement('div');loading.className='arcade-search-suggestion-empty';loading.textContent=query?'Searching games…':'Popular games';suggestionBox.append(loading);
  search.setAttribute('aria-expanded','true');
  const index=await getSearchIndex();
  if(search.value.trim().toLocaleLowerCase()!==query)return;
  const matches=index.map(game=>{
-  const haystack=[game.name,game.category,...(game.tags||[]),...(game.keywords||[])].join(' ').toLocaleLowerCase();
-  const name=game.name.toLocaleLowerCase();
-  const score=name.startsWith(query)?0:name.includes(query)?1:2;
-  return {game,haystack,score};
- }).filter(item=>item.haystack.includes(query)).sort((a,b)=>a.score-b.score||a.game.name.localeCompare(b.game.name)).slice(0,8);
+  const fields=[game.name,game.category,...(game.tags||[]),...(game.keywords||[])].map(value=>String(value||'').toLocaleLowerCase());
+  const name=String(game.name||'').toLocaleLowerCase();
+  const words=name.split(/[^a-z0-9]+/).filter(Boolean);
+  let score=0;
+  if(!query)score=0;
+  else if(name.startsWith(query))score=0;
+  else if(words.some(word=>word.startsWith(query)))score=1;
+  else if(name.includes(query))score=2;
+  else score=3;
+  return {game,fields,score};
+ }).filter(item=>!query||item.fields.some(field=>field.includes(query))).sort((a,b)=>a.score-b.score||String(a.game.name).localeCompare(String(b.game.name))).slice(0,8);
  suggestionBox.replaceChildren();
  if(!matches.length){const empty=document.createElement('div');empty.className='arcade-search-suggestion-empty';empty.textContent='No matching games. Try another title or keyword.';suggestionBox.append(empty);return}
  for(const {game} of matches){
@@ -71,6 +76,9 @@ search?.setAttribute('autocomplete','off');
 search?.setAttribute('aria-autocomplete','list');
 search?.setAttribute('aria-expanded','false');
 search?.addEventListener('input',()=>{void renderSuggestions()});
-search?.addEventListener('focus',()=>{if(search.value.trim())void renderSuggestions()});
+search?.addEventListener('focus',()=>{void renderSuggestions()});
+search?.addEventListener('click',()=>{void renderSuggestions()});
 search?.addEventListener('keydown',e=>{if(e.key==='Escape')closeSuggestions();if(e.key==='ArrowDown'){const first=suggestionBox?.querySelector('a');if(first){e.preventDefault();first.focus()}}});
+searchForm?.addEventListener('submit',e=>{if(!search?.value.trim()){e.preventDefault();void renderSuggestions()}});
 document.addEventListener('click',e=>{if(searchForm&&!searchForm.contains(e.target))closeSuggestions()});
+})();
