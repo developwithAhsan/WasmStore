@@ -70,3 +70,76 @@ h1,h2,h3{letter-spacing:0}
 @media(max-width:900px){.header-inner{gap:12px}.primary-nav{gap:6px}.primary-nav a{font-size:7px!important;padding:10px 8px}.header-search{max-width:240px}.surprise-button{font-size:7px;padding:9px}.home-game-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.header-inner{width:calc(100% - 28px);min-height:72px}.brand-copy{font-size:10px}.brand-copy small{font-size:5px}.nav-toggle{display:block;order:2}.primary-nav{display:none;order:5;width:100%;margin:8px 0 0;flex-wrap:wrap}.primary-nav.open{display:flex}.primary-nav a{flex:1;text-align:center}.header-search{order:3;max-width:none;min-width:0;flex:1 1 60%;margin-left:0}.surprise-button{order:4;flex:1 1 100%;min-height:40px}.home-library{padding-top:24px}.home-game-grid{grid-template-columns:1fr}.category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.category-tile{padding:12px;min-height:125px}.category-tile strong{font-size:8px}.library-heading h1,.library-heading h2{font-size:18px}.site-footer .footer-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:390px){.category-grid{grid-template-columns:1fr}.primary-nav a{font-size:6px!important}.header-search{flex-basis:100%}}
+
+/* Global WasmStore pixel-box refresh: shared by every route */
+:root{color-scheme:light;--bg:#f1f2f4;--panel:#fff;--panel-2:#fff;--line:#c92f3a;--text:#20242b;--muted:#626a75;--purple:#6552bc;--cyan:#167c86;--green:#287b4c;--amber:#a76700;--radius:0;--max:1240px}
+body{background-color:#f1f2f4;background-image:radial-gradient(#fff 1.65px,transparent 1.65px);background-size:17px 17px;color:#20242b}
+.site-header{background-color:#ffd52e;background-image:radial-gradient(#fff 1.65px,transparent 1.65px);background-size:17px 17px;border-bottom:3px solid #c92f3a;box-shadow:0 5px 0 #c92f3a2a}
+.brand-icon,.primary-nav a,.pixel-nav,.header-search,.header-search button,.surprise-button,.nav-toggle{border-radius:0!important}
+.primary-nav a,.pixel-nav{border:2px solid #c92f3a!important;box-shadow:3px 3px 0 #c92f3a!important;background:#fff!important;color:#20242b!important}
+.primary-nav a:hover{background:#c92f3a!important;color:#fff!important}
+.header-search{border:2px solid #c92f3a!important;box-shadow:3px 3px 0 #c92f3a!important}
+.header-search button{border-left:2px solid #c92f3a!important}
+.surprise-button{border:2px solid #c92f3a!important;box-shadow:3px 3px 0 #c92f3a!important}
+.surprise-button:hover{background:#c92f3a!important;color:#fff!important}
+.game-card,.category-tile,.content-panel,.player-panel,.contact-form,.contact-layout>*,.prose,.guide-card,.blog-card,.article-card,.filter-panel,.catalog-toolbar,.comments-box,.tag-chip,.button,.icon-button,.control-icon,.panel-heading>span,.game-art,.game-facts,.player-side>*{border-radius:0!important}
+.game-card,.category-tile,.content-panel,.player-panel,.contact-form,.blog-card,.article-card,.filter-panel,.catalog-toolbar,.guide-card{border:2px solid #c92f3a!important;background:#fff!important;color:#20242b!important;box-shadow:4px 4px 0 #c92f3a!important}
+.game-card:hover,.category-tile:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 #c92f3a!important}
+.game-card h3,.game-card h3 a,.content-panel h2,.content-panel h3,.section-heading h2,.library-heading h1,.library-heading h2,.prose h1,.prose h2,.prose h3{color:#20242b}
+.game-card-body>p,.content-panel p,.content-panel li,.prose p,.prose li,.contact-copy p{color:#535b66}
+.game-card-meta,.game-facts dt,.game-facts dd{color:#525a65}
+.game-art{border-bottom:2px solid #c92f3a!important;background-color:#f7f7f8!important;background-image:radial-gradient(#e5e5e7 1px,transparent 1px)!important;background-size:13px 13px!important}
+.art-category,.tag-chip,.panel-heading>span,.control-icon{border:2px solid #c92f3a!important;border-radius:0!important;background:#fff!important;color:#20242b!important}
+.button,.icon-button{border:2px solid #c92f3a!important;box-shadow:3px 3px 0 #c92f3a!important}
+.button-primary{background:#ffd52e!important;color:#20242b!important}
+.button-quiet,.icon-button{background:#fff!important;color:#20242b!important}
+.button:hover,.icon-button:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 #c92f3a!important}
+.player-panel{overflow:hidden!important}
+.player-toolbar,.player-footer{background:#fff!important;color:#525a65!important;border-color:#efb0b4!important}
+.player-stage{background:#f7f7f8!important;background-image:radial-gradient(#e5e5e7 1px,transparent 1px)!important;background-size:13px 13px!important}
+.player-placeholder h2,.player-placeholder p:not(.player-status){color:#20242b!important}
+.player-mark{border:2px solid #c92f3a!important;border-radius:0!important;background:#fff!important;color:#c92f3a!important}
+.player-status{color:#287b4c!important}
+.text-button,.text-link{color:#b51f2b!important}
+.site-footer{background-color:#ffd52e!important;background-image:radial-gradient(#fff 1.65px,transparent 1.65px)!important;background-size:17px 17px!important;border-top:3px solid #c92f3a!important;color:#20242b!important}
+.site-footer p,.site-footer a,.site-footer .footer-bottom{color:#383d45!important}
+.site-footer h2{font-family:'Press Start 2P',monospace!important;color:#20242b!important}
+.home-library{padding-top:25px;padding-bottom:65px}
+.home-section{padding:10px 0 38px;margin-bottom:20px}
+.home-section .library-heading{border-left:7px solid #c92f3a;padding:4px 0 4px 15px;margin-bottom:22px}
+.section-classic .library-heading{border-left-color:#c92f3a}
+.section-arcade .library-heading{border-left-color:#6552bc}
+.section-flash .library-heading{border-left-color:#167c86}
+.section-vice-city .library-heading{border-left-color:#287b4c}
+.pixel-kicker{font:9px/1.7 'Press Start 2P',monospace;color:#6552bc}
+.library-heading h1,.library-heading h2{font:clamp(17px,2.5vw,25px)/1.65 'Press Start 2P',monospace;text-transform:uppercase}
+.home-game-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+.home-game-grid .game-card{min-width:0}
+.game-play-layout{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(230px,.72fr);gap:16px;align-items:start;margin-top:16px}
+.game-play-layout .player-panel{min-width:0}
+.game-stage-compact{aspect-ratio:16/9;min-height:0;max-height:490px}
+.game-stage-compact .game-frame{min-height:0;height:100%;aspect-ratio:16/9}
+.player-side{display:flex;flex-direction:column;gap:13px;min-width:0}
+.player-side .content-panel{padding:15px}
+.compact-controls .panel-heading{margin-bottom:9px}
+.compact-controls .panel-heading h2,.quick-facts .panel-heading h2{font-size:13px}
+.compact-controls .control-row{gap:9px;padding:10px 0}
+.compact-controls .control-icon{width:30px;height:30px;font-size:14px}
+.compact-controls .control-row h3{font-size:11px}
+.compact-controls .control-row p,.quick-facts p{font-size:11px;line-height:1.65}
+.quick-facts .panel-heading{margin-bottom:8px}
+.quick-facts p{margin:7px 0}
+.detail-columns-reworked{grid-template-columns:minmax(0,1fr);margin-top:17px}
+.detail-columns-reworked .detail-main{gap:13px}
+.detail-columns-reworked .detail-sidebar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+.detail-columns-reworked .content-panel{padding:19px}
+.detail-columns-reworked .panel-heading{margin-bottom:13px}
+.seo-article p{font-size:13px!important;line-height:1.9!important}
+.game-detail-heading h1{font-family:'Press Start 2P',monospace;font-size:clamp(18px,3vw,28px);line-height:1.7}
+.game-detail-heading p{color:#535b66}
+.tag-row{gap:7px}
+.player-footer{gap:10px;flex-wrap:wrap}
+.player-source-link{color:#b51f2b!important;font-weight:700}
+.related-section{padding-top:20px;padding-bottom:60px}
+@media(max-width:900px){.home-game-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.game-play-layout{grid-template-columns:minmax(0,1.45fr) minmax(210px,.8fr)}}
+@media(max-width:700px){.home-game-grid{grid-template-columns:1fr}.game-play-layout{grid-template-columns:1fr}.game-stage-compact{min-height:0;max-height:none}.game-stage-compact .game-frame{min-height:0}.player-side{display:grid;grid-template-columns:1fr}.detail-columns-reworked .detail-sidebar{grid-template-columns:1fr}.game-detail-heading{align-items:flex-start;flex-direction:column}.game-detail-heading h1{font-size:16px}.home-section{margin-bottom:10px}.home-library{padding-top:18px}.player-toolbar-note{display:none}}
