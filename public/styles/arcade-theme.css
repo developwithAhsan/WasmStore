@@ -220,3 +220,7 @@ body[data-category] .arcade-page{--arcade-purple:var(--accent)}body[data-categor
  .arcade-site-header .arcade-header-search .arcade-search-submit{font-size:8px;padding:5px 6px}
 }
 @media(prefers-reduced-motion:reduce){.arcade-site-header .arcade-primary-nav a.arcade-nav-link,.arcade-site-header .arcade-header-search .arcade-search-submit{transition:none!important}}
+
+/* Keep the animated headline close to the sticky header */
+.arcade-home{padding-top:clamp(10px,1.5vw,18px)!important}
+@media(max-width:620px){.arcade-home{padding-top:8px!important}}
